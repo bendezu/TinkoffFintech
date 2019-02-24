@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
-        android:id="@+id/firstName"
+        android:id="@+id/firstNameTextView"
         style="@style/ProfileText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -63,10 +63,10 @@
         android:layout_marginTop="16dp"
         android:text="@string/second_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstName" />
+        app:layout_constraintTop_toBottomOf="@+id/firstNameTextView" />
 
     <TextView
-        android:id="@+id/secondName"
+        android:id="@+id/secondNameTextView"
         style="@style/ProfileText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -87,10 +87,10 @@
         android:layout_marginTop="16dp"
         android:text="@string/patronymic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondName" />
+        app:layout_constraintTop_toBottomOf="@+id/secondNameTextView" />
 
     <TextView
-        android:id="@+id/patronymic"
+        android:id="@+id/patronymicTextView"
         style="@style/ProfileText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -25,7 +25,6 @@
         android:layout_marginEnd="32dp"
         android:text="@string/save"
         android:textColor="@color/colorPrimaryDark"
-        android:background="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView" />
@@ -35,9 +34,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:background="@color/colorPrimaryLight"
+        android:backgroundTint="@color/colorPrimaryLight"
         android:text="@string/cancel"
-        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="@+id/saveButton"
         app:layout_constraintEnd_toStartOf="@+id/saveButton"
         app:layout_constraintTop_toTopOf="@+id/saveButton" />
@@ -54,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
-        android:id="@+id/firstName"
+        android:id="@+id/firstNameEditText"
         style="@style/ProfileText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -75,10 +73,10 @@
         android:layout_marginTop="16dp"
         android:text="@string/second_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstName" />
+        app:layout_constraintTop_toBottomOf="@+id/firstNameEditText" />
 
     <EditText
-        android:id="@+id/secondName"
+        android:id="@+id/secondNameEditText"
         style="@style/ProfileText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -99,10 +97,10 @@
         android:layout_marginTop="16dp"
         android:text="@string/patronymic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondName" />
+        app:layout_constraintTop_toBottomOf="@+id/secondNameEditText" />
 
     <EditText
-        android:id="@+id/patronymic"
+        android:id="@+id/patronymicEditText"
         style="@style/ProfileText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

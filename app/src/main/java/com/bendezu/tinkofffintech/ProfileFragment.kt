@@ -15,7 +15,7 @@ class ProfileFragment: Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (activity !is ProfileTabListener) {
-            throw ClassCastException(context.toString() + " must implement OnMenuClickListener")
+            throw ClassCastException(context.toString() + " must implement ProfileTabListener")
         }
         listener = activity as ProfileTabListener
     }
@@ -25,8 +25,20 @@ class ProfileFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val preferences = activity?.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        val firstName = preferences?.getString(PREF_FIRST_NAME, "") ?: ""
+        val secondName = preferences?.getString(PREF_SECOND_NAME, "") ?: ""
+        val patronymic = preferences?.getString(PREF_PATRONYMIC, "") ?: ""
+
+        firstNameTextView.text = firstName
+        secondNameTextView.text = secondName
+        patronymicTextView.text = patronymic
+
         editButton.setOnClickListener {
-            listener.onEditButtonClicked()
+            listener.onEditButtonClicked(
+                firstNameTextView.text.toString(),
+                secondNameTextView.text.toString(),
+                patronymicTextView.text.toString())
         }
     }
 }

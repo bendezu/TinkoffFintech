@@ -41,13 +41,22 @@ class MainActivity : AppCompatActivity(), ProfileTabListener {
             toolbar.title = savedInstanceState.getString(STATE_TITLE)
     }
 
-    override fun onEditButtonClicked() {
+    override fun onEditButtonClicked(firstName: String, secondName: String, patronymic: String) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, EditProfileFragment())
+            .replace(R.id.container, EditProfileFragment.newInstance(firstName, secondName, patronymic))
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
     }
+
+    override fun onSaveButtonClicked() {
+        supportFragmentManager.popBackStack()
+    }
+
+    override fun onCancelButtonClicked() {
+        supportFragmentManager.popBackStack()
+    }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(STATE_TITLE, toolbar.title.toString())
