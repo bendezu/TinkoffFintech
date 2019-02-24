@@ -2,11 +2,10 @@ package com.bendezu.tinkofffintech
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.fragment.app.FragmentTransaction
 import kotlinx.android.synthetic.main.activity_main.*
 
-private const val STATE_SELECTED_ITEM = "selected_item"
+private const val STATE_TITLE = "title"
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,9 +15,18 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
             val fragment = when (it.itemId) {
-                R.id.action_events -> EventsFragment()
-                R.id.action_courses -> CoursesFragment()
-                R.id.action_profile -> ProfileFragment()
+                R.id.action_events -> {
+                    toolbar.setTitle(R.string.events)
+                    EventsFragment()
+                }
+                R.id.action_courses -> {
+                    toolbar.setTitle(R.string.courses)
+                    CoursesFragment()
+                }
+                R.id.action_profile -> {
+                    toolbar.setTitle(R.string.profile)
+                    ProfileFragment()
+                }
                 else -> throw IllegalArgumentException("Unknown item selected: $it")
             }
             supportFragmentManager.beginTransaction()
@@ -27,12 +35,14 @@ class MainActivity : AppCompatActivity() {
                 .commit()
             true
         }
-        val selectedItem = savedInstanceState?.getInt(STATE_SELECTED_ITEM) ?: R.id.action_events
-        bottomNavigationView.selectedItemId = selectedItem
+        if (savedInstanceState == null)
+            bottomNavigationView.selectedItemId = R.id.action_events
+        else
+            toolbar.title = savedInstanceState.getString(STATE_TITLE)
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle?) {
-        outState.putInt(STATE_SELECTED_ITEM, bottomNavigationView.selectedItemId)
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(STATE_TITLE, toolbar.title.toString())
+        super.onSaveInstanceState(outState)
     }
 }
