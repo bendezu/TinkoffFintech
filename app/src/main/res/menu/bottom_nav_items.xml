@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/action_events"
+        android:title="@string/events"
+        android:icon="@drawable/ic_event" />
+    <item android:id="@+id/action_courses"
+        android:title="@string/courses"
+        android:icon="@drawable/ic_courses" />
+    <item android:id="@+id/action_profile"
+        android:title="@string/profile"
+        android:icon="@drawable/ic_account_circle" />
+
+</menu>
