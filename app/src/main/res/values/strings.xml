@@ -3,4 +3,11 @@
     <string name="events">Events</string>
     <string name="courses">Courses</string>
     <string name="profile">Profile</string>
+    <string name="edit">Edit</string>
+    <string name="first_name">First name</string>
+    <string name="empty">-</string>
+    <string name="second_name">Second name</string>
+    <string name="patronymic">Patronymic</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

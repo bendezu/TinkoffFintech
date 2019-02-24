@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 private const val STATE_TITLE = "title"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ProfileTabListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +39,14 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.selectedItemId = R.id.action_events
         else
             toolbar.title = savedInstanceState.getString(STATE_TITLE)
+    }
+
+    override fun onEditButtonClicked() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, EditProfileFragment())
+            .addToBackStack(null)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commit()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
