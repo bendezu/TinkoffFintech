@@ -1,7 +1,10 @@
 package com.bendezu.tinkofffintech
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +15,10 @@ import kotlinx.android.synthetic.main.fragment_edit_profile.*
 private const val ARG_FIRST_NAME = "first_name"
 private const val ARG_SECOND_NAME = "second_name"
 private const val ARG_PATRONYMIC = "patronymic"
+
+interface ProfileTabListener {
+    fun onEditButtonClicked(firstName: String, secondName: String, patronymic: String)
+}
 
 class EditProfileFragment : Fragment() {
 
@@ -49,13 +56,27 @@ class EditProfileFragment : Fragment() {
                     putString(PREF_SECOND_NAME, secondNameEditText.text.toString())
                     putString(PREF_PATRONYMIC, patronymicEditText.text.toString())
                 }
-            listener.onSaveButtonClicked()
+            fragmentManager?.popBackStack()
         }
         cancelButton.setOnClickListener {
-            listener.onCancelButtonClicked()
+            ConfirmationDialog().show(childFragmentManager, null)
         }
         firstNameEditText.setText(arguments?.getString(ARG_FIRST_NAME))
         secondNameEditText.setText(arguments?.getString(ARG_SECOND_NAME))
         patronymicEditText.setText(arguments?.getString(ARG_PATRONYMIC))
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            DIALOG_RESULT -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        // leave without saving
+                        fragmentManager?.popBackStack()
+                    }
+                    Activity.RESULT_CANCELED -> { /* stay and do nothing */ }
+                }
+            }
+        }
     }
 }

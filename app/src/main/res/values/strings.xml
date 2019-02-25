@@ -1,13 +1,21 @@
 <resources>
     <string name="app_name">Tinkoff Fintech</string>
+
     <string name="events">Events</string>
     <string name="courses">Courses</string>
     <string name="profile">Profile</string>
+
     <string name="edit">Edit</string>
-    <string name="first_name">First name</string>
     <string name="empty">-</string>
+
+    <string name="first_name">First name</string>
     <string name="second_name">Second name</string>
     <string name="patronymic">Patronymic</string>
+
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+
+    <string name="dialog_confirmation_message">If you leave the editing screen, changes will not be saved. Leave?</string>
+    <string name="stay">Stay</string>
+    <string name="leave">Leave</string>
 </resources>

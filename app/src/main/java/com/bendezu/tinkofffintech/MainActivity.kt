@@ -1,7 +1,10 @@
 package com.bendezu.tinkofffintech
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.FragmentTransaction
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -48,15 +51,6 @@ class MainActivity : AppCompatActivity(), ProfileTabListener {
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
     }
-
-    override fun onSaveButtonClicked() {
-        supportFragmentManager.popBackStack()
-    }
-
-    override fun onCancelButtonClicked() {
-        supportFragmentManager.popBackStack()
-    }
-
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(STATE_TITLE, toolbar.title.toString())
