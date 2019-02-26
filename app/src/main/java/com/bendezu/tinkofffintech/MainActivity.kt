@@ -32,6 +32,10 @@ class MainActivity : AppCompatActivity(), ProfileTabListener {
                 }
                 else -> throw IllegalArgumentException("Unknown item selected: $it")
             }
+            //clear back stack
+            for (i in 0 until supportFragmentManager.backStackEntryCount) {
+                supportFragmentManager.popBackStackImmediate()
+            }
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
