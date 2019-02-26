@@ -35,6 +35,9 @@ class EditProfileFragment : Fragment() {
     }
 
     private lateinit var listener: ProfileTabListener
+    private lateinit var initialFirstName: String
+    private lateinit var initialSecondName: String
+    private lateinit var initialPatronymic: String
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -49,9 +52,17 @@ class EditProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initialFirstName = arguments?.getString(ARG_FIRST_NAME).orEmpty()
+        initialSecondName = arguments?.getString(ARG_SECOND_NAME).orEmpty()
+        initialPatronymic = arguments?.getString(ARG_PATRONYMIC).orEmpty()
+
+        firstNameEditText.setText(initialFirstName)
+        secondNameEditText.setText(initialSecondName)
+        patronymicEditText.setText(initialPatronymic)
+
         saveButton.setOnClickListener {
             activity?.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-                ?.edit {
+                ?.edit(true){
                     putString(PREF_FIRST_NAME, firstNameEditText.text.toString())
                     putString(PREF_SECOND_NAME, secondNameEditText.text.toString())
                     putString(PREF_PATRONYMIC, patronymicEditText.text.toString())
@@ -59,11 +70,14 @@ class EditProfileFragment : Fragment() {
             fragmentManager?.popBackStack()
         }
         cancelButton.setOnClickListener {
-            ConfirmationDialog().show(childFragmentManager, null)
+            if (firstNameEditText.text.toString() != initialFirstName ||
+                secondNameEditText.text.toString() != initialSecondName ||
+                patronymicEditText.text.toString() != initialPatronymic) {
+                ConfirmationDialog().show(childFragmentManager, null)
+            } else {
+                fragmentManager?.popBackStack()
+            }
         }
-        firstNameEditText.setText(arguments?.getString(ARG_FIRST_NAME))
-        secondNameEditText.setText(arguments?.getString(ARG_SECOND_NAME))
-        patronymicEditText.setText(arguments?.getString(ARG_PATRONYMIC))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
