@@ -8,7 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.edit
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 
@@ -83,6 +85,7 @@ class EditProfileFragment : Fragment(), BackButtonListener {
             DIALOG_RESULT -> {
                 when (resultCode) {
                     Activity.RESULT_OK -> {
+                        hideSoftKeyboard()
                         // leave without saving
                         fragmentManager?.popBackStack()
                     }
@@ -90,6 +93,12 @@ class EditProfileFragment : Fragment(), BackButtonListener {
                 }
             }
         }
+    }
+
+    private fun hideSoftKeyboard() {
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        val view: View? = activity?.findViewById(R.id.container)
+        imm?.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     override fun onBackPressed() {

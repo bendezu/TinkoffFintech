@@ -26,9 +26,9 @@ class ProfileFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val preferences = activity?.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-        val firstName = preferences?.getString(PREF_FIRST_NAME, "") ?: ""
-        val secondName = preferences?.getString(PREF_SECOND_NAME, "") ?: ""
-        val patronymic = preferences?.getString(PREF_PATRONYMIC, "") ?: ""
+        val firstName = preferences?.getString(PREF_FIRST_NAME, "").orEmpty()
+        val secondName = preferences?.getString(PREF_SECOND_NAME, "").orEmpty()
+        val patronymic = preferences?.getString(PREF_PATRONYMIC, "").orEmpty()
 
         firstNameTextView.text = firstName
         secondNameTextView.text = secondName

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Тинькофф Финтех</string>
+
+    <string name="events">Мероприятия</string>
+    <string name="courses">Курсы</string>
+    <string name="profile">Профиль</string>
+
+    <string name="edit">Редактировать</string>
+
+    <string name="first_name">Имя</string>
+    <string name="second_name">Фамилия</string>
+    <string name="patronymic">Отчество</string>
+
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отменить</string>
+
+    <string name="dialog_confirmation_message">Если уйти с экрана редактирования, изменения не сохраняться. Уйти?</string>
+    <string name="stay">Остаться</string>
+    <string name="leave">Уйти</string>
+</resources>
