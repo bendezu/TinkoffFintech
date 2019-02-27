@@ -56,6 +56,10 @@ class EditProfileFragment : Fragment() {
         initialSecondName = arguments?.getString(ARG_SECOND_NAME).orEmpty()
         initialPatronymic = arguments?.getString(ARG_PATRONYMIC).orEmpty()
 
+        firstNameEditText.addTextChangedListener(TextValidator(firstNameInputLayout, saveButton))
+        secondNameEditText.addTextChangedListener(TextValidator(secondNameInputLayout, saveButton))
+        patronymicEditText.addTextChangedListener(TextValidator(patronymicInputLayout, saveButton))
+
         firstNameEditText.setText(initialFirstName)
         secondNameEditText.setText(initialSecondName)
         patronymicEditText.setText(initialPatronymic)
