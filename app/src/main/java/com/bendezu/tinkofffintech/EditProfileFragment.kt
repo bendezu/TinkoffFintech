@@ -20,7 +20,7 @@ interface ProfileTabListener {
     fun onEditButtonClicked(firstName: String, secondName: String, patronymic: String)
 }
 
-class EditProfileFragment : Fragment() {
+class EditProfileFragment : Fragment(), BackButtonListener {
 
     companion object {
         fun newInstance(firstName: String, secondName: String, patronymic: String): EditProfileFragment {
@@ -74,13 +74,7 @@ class EditProfileFragment : Fragment() {
             fragmentManager?.popBackStack()
         }
         cancelButton.setOnClickListener {
-            if (firstNameEditText.text.toString() != initialFirstName ||
-                secondNameEditText.text.toString() != initialSecondName ||
-                patronymicEditText.text.toString() != initialPatronymic) {
-                ConfirmationDialog().show(childFragmentManager, null)
-            } else {
-                fragmentManager?.popBackStack()
-            }
+            onBackPressed()
         }
     }
 
@@ -95,6 +89,16 @@ class EditProfileFragment : Fragment() {
                     Activity.RESULT_CANCELED -> { /* stay and do nothing */ }
                 }
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        if (firstNameEditText.text.toString() != initialFirstName ||
+            secondNameEditText.text.toString() != initialSecondName ||
+            patronymicEditText.text.toString() != initialPatronymic) {
+            ConfirmationDialog().show(childFragmentManager, null)
+        } else {
+            fragmentManager?.popBackStack()
         }
     }
 }

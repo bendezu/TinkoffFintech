@@ -1,7 +1,5 @@
 package com.bendezu.tinkofffintech
 
-import android.app.Activity
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +7,11 @@ import androidx.fragment.app.FragmentTransaction
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val STATE_TITLE = "title"
+private const val EDIT_PROFILE_FRAGMENT_TAG = "edit_profile_fragment"
+
+interface BackButtonListener {
+    fun onBackPressed()
+}
 
 class MainActivity : AppCompatActivity(), ProfileTabListener {
 
@@ -50,7 +53,7 @@ class MainActivity : AppCompatActivity(), ProfileTabListener {
 
     override fun onEditButtonClicked(firstName: String, secondName: String, patronymic: String) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, EditProfileFragment.newInstance(firstName, secondName, patronymic))
+            .replace(R.id.container, EditProfileFragment.newInstance(firstName, secondName, patronymic), EDIT_PROFILE_FRAGMENT_TAG)
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
@@ -59,5 +62,14 @@ class MainActivity : AppCompatActivity(), ProfileTabListener {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(STATE_TITLE, toolbar.title.toString())
         super.onSaveInstanceState(outState)
+    }
+
+    override fun onBackPressed() {
+        val editFragment = supportFragmentManager.findFragmentByTag(EDIT_PROFILE_FRAGMENT_TAG) as? BackButtonListener
+        if (editFragment != null) {
+            editFragment.onBackPressed()
+        } else {
+            super.onBackPressed()
+        }
     }
 }
