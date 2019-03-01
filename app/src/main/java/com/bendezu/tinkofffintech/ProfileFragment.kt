@@ -6,19 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import kotlinx.android.synthetic.main.fragment_profile.*
 
+private const val EDIT_PROFILE_FRAGMENT_TAG = "edit_profile_fragment"
+
 class ProfileFragment: Fragment() {
-
-    private lateinit var listener: ProfileTabListener
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (activity !is ProfileTabListener) {
-            throw ClassCastException(context.toString() + " must implement ProfileTabListener")
-        }
-        listener = activity as ProfileTabListener
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_profile, container, false)
@@ -35,10 +28,16 @@ class ProfileFragment: Fragment() {
         patronymicTextView.text = patronymic
 
         editButton.setOnClickListener {
-            listener.onEditButtonClicked(
+            val editFragment = EditProfileFragment.newInstance(
                 firstNameTextView.text.toString(),
                 secondNameTextView.text.toString(),
-                patronymicTextView.text.toString())
+                patronymicTextView.text.toString()
+            )
+            fragmentManager?.beginTransaction()
+                ?.replace(R.id.container, editFragment, EDIT_PROFILE_FRAGMENT_TAG)
+                ?.addToBackStack(null)
+                ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                ?.commit()
         }
     }
 }

@@ -1,25 +1,26 @@
 package com.bendezu.tinkofffintech
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val STATE_TITLE = "title"
-private const val EDIT_PROFILE_FRAGMENT_TAG = "edit_profile_fragment"
 
 interface BackButtonListener {
     fun onBackPressed()
 }
 
-class MainActivity : AppCompatActivity(), ProfileTabListener {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
+            if (bottomNavigationView.selectedItemId == it.itemId)
+                return@setOnNavigationItemSelectedListener true
+
             val fragment = when (it.itemId) {
                 R.id.action_events -> {
                     toolbar.setTitle(R.string.events)
@@ -46,17 +47,11 @@ class MainActivity : AppCompatActivity(), ProfileTabListener {
             true
         }
         if (savedInstanceState == null)
-            bottomNavigationView.selectedItemId = R.id.action_events
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, EventsFragment())
+                .commit()
         else
             toolbar.title = savedInstanceState.getString(STATE_TITLE)
-    }
-
-    override fun onEditButtonClicked(firstName: String, secondName: String, patronymic: String) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, EditProfileFragment.newInstance(firstName, secondName, patronymic), EDIT_PROFILE_FRAGMENT_TAG)
-            .addToBackStack(null)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .commit()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -65,11 +60,10 @@ class MainActivity : AppCompatActivity(), ProfileTabListener {
     }
 
     override fun onBackPressed() {
-        val editFragment = supportFragmentManager.findFragmentByTag(EDIT_PROFILE_FRAGMENT_TAG) as? BackButtonListener
-        if (editFragment != null) {
-            editFragment.onBackPressed()
-        } else {
+        val visibleFragment = supportFragmentManager.findFragmentById(R.id.container)
+        if (visibleFragment is BackButtonListener)
+            visibleFragment.onBackPressed()
+        else
             super.onBackPressed()
-        }
     }
 }

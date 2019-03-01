@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="@color/colorPrimaryLight"
+        app:backgroundTint="@color/colorPrimaryLight"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="@+id/saveButton"
         app:layout_constraintEnd_toStartOf="@+id/saveButton"
@@ -60,7 +60,6 @@
             style="@style/ProfileText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             tools:text="Steven" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -85,7 +84,6 @@
             style="@style/ProfileText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             tools:text="Jobs" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -111,7 +109,6 @@
             android:imeOptions="actionDone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             tools:text="Paul" />
 
     </com.google.android.material.textfield.TextInputLayout>

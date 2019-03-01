@@ -1,16 +1,14 @@
 package com.bendezu.tinkofffintech
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.edit
-import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 
@@ -18,11 +16,7 @@ private const val ARG_FIRST_NAME = "first_name"
 private const val ARG_SECOND_NAME = "second_name"
 private const val ARG_PATRONYMIC = "patronymic"
 
-interface ProfileTabListener {
-    fun onEditButtonClicked(firstName: String, secondName: String, patronymic: String)
-}
-
-class EditProfileFragment : Fragment(), BackButtonListener {
+class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener {
 
     companion object {
         fun newInstance(firstName: String, secondName: String, patronymic: String): EditProfileFragment {
@@ -36,17 +30,18 @@ class EditProfileFragment : Fragment(), BackButtonListener {
         }
     }
 
-    private lateinit var listener: ProfileTabListener
     private lateinit var initialFirstName: String
     private lateinit var initialSecondName: String
     private lateinit var initialPatronymic: String
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (activity !is ProfileTabListener) {
-            throw ClassCastException(context.toString() + " must implement ProfileTabListener")
+    private val saveButtonTextWatcher = object :TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            saveButton.isEnabled = firstNameInputLayout.error.isNullOrEmpty() &&
+                    secondNameInputLayout.error.isNullOrEmpty() &&
+                    patronymicInputLayout.error.isNullOrEmpty()
         }
-        listener = activity as ProfileTabListener
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,9 +53,13 @@ class EditProfileFragment : Fragment(), BackButtonListener {
         initialSecondName = arguments?.getString(ARG_SECOND_NAME).orEmpty()
         initialPatronymic = arguments?.getString(ARG_PATRONYMIC).orEmpty()
 
-        firstNameEditText.addTextChangedListener(TextValidator(firstNameInputLayout, saveButton))
-        secondNameEditText.addTextChangedListener(TextValidator(secondNameInputLayout, saveButton))
-        patronymicEditText.addTextChangedListener(TextValidator(patronymicInputLayout, saveButton))
+        firstNameEditText.addTextChangedListener(TextValidator(firstNameInputLayout, requireContext()))
+        secondNameEditText.addTextChangedListener(TextValidator(secondNameInputLayout, requireContext()))
+        patronymicEditText.addTextChangedListener(TextValidator(patronymicInputLayout, requireContext()))
+
+        firstNameEditText.addTextChangedListener(saveButtonTextWatcher)
+        secondNameEditText.addTextChangedListener(saveButtonTextWatcher)
+        patronymicEditText.addTextChangedListener(saveButtonTextWatcher)
 
         firstNameEditText.setText(initialFirstName)
         secondNameEditText.setText(initialSecondName)
@@ -80,19 +79,14 @@ class EditProfileFragment : Fragment(), BackButtonListener {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            DIALOG_RESULT -> {
-                when (resultCode) {
-                    Activity.RESULT_OK -> {
-                        hideSoftKeyboard()
-                        // leave without saving
-                        fragmentManager?.popBackStack()
-                    }
-                    Activity.RESULT_CANCELED -> { /* stay and do nothing */ }
-                }
-            }
-        }
+    override fun onConfirm() {
+        hideSoftKeyboard()
+        // leave without saving
+        fragmentManager?.popBackStack()
+    }
+
+    override fun onCancel() {
+        /* stay and do nothing */
     }
 
     private fun hideSoftKeyboard() {

@@ -1,26 +1,23 @@
 package com.bendezu.tinkofffintech
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import com.google.android.material.textfield.TextInputLayout
 
-class TextValidator(private val inputLayout: TextInputLayout, private val toggleView: View): TextWatcher {
+class TextValidator(private val inputLayout: TextInputLayout, private val context: Context): TextWatcher {
 
     override fun afterTextChanged(s: Editable?) {
         val text = s?.toString().orEmpty()
         when {
             text.isEmpty() -> {
-                inputLayout.error = "Should not be empty"
-                toggleView.isEnabled = false
+                inputLayout.error = context.getString(R.string.empty_error_message)
             }
-            text.first().isLowerCase() -> {
-                inputLayout.error = "Should start with capital letter"
-                toggleView.isEnabled = false
+            text.first().isLowerCase() || text.first().isDigit() -> {
+                inputLayout.error = context.getString(R.string.lowercase_error_message)
             }
             else -> {
                 inputLayout.error = null
-                toggleView.isEnabled = true
             }
         }
     }
