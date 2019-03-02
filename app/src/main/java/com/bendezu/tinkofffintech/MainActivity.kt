@@ -3,6 +3,9 @@ package com.bendezu.tinkofffintech
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
+import com.bendezu.tinkofffintech.courses.CoursesFragment
+import com.bendezu.tinkofffintech.events.EventsFragment
+import com.bendezu.tinkofffintech.profile.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val STATE_TITLE = "title"

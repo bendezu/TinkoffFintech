@@ -1,4 +1,4 @@
-package com.bendezu.tinkofffintech
+package com.bendezu.tinkofffintech.profile
 
 import android.app.Dialog
 import android.content.Context
@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.bendezu.tinkofffintech.R
 
 const val DIALOG_RESULT = 102
 

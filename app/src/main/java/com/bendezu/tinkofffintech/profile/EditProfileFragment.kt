@@ -1,4 +1,4 @@
-package com.bendezu.tinkofffintech
+package com.bendezu.tinkofffintech.profile
 
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
+import com.bendezu.tinkofffintech.*
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 
 private const val ARG_FIRST_NAME = "first_name"
@@ -53,9 +54,24 @@ class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener
         initialSecondName = arguments?.getString(ARG_SECOND_NAME).orEmpty()
         initialPatronymic = arguments?.getString(ARG_PATRONYMIC).orEmpty()
 
-        firstNameEditText.addTextChangedListener(TextValidator(firstNameInputLayout, requireContext()))
-        secondNameEditText.addTextChangedListener(TextValidator(secondNameInputLayout, requireContext()))
-        patronymicEditText.addTextChangedListener(TextValidator(patronymicInputLayout, requireContext()))
+        firstNameEditText.addTextChangedListener(
+            TextValidator(
+                firstNameInputLayout,
+                requireContext()
+            )
+        )
+        secondNameEditText.addTextChangedListener(
+            TextValidator(
+                secondNameInputLayout,
+                requireContext()
+            )
+        )
+        patronymicEditText.addTextChangedListener(
+            TextValidator(
+                patronymicInputLayout,
+                requireContext()
+            )
+        )
 
         firstNameEditText.addTextChangedListener(saveButtonTextWatcher)
         secondNameEditText.addTextChangedListener(saveButtonTextWatcher)

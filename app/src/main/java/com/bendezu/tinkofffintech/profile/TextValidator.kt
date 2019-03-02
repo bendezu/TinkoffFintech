@@ -1,8 +1,9 @@
-package com.bendezu.tinkofffintech
+package com.bendezu.tinkofffintech.profile
 
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import com.bendezu.tinkofffintech.R
 import com.google.android.material.textfield.TextInputLayout
 
 class TextValidator(private val inputLayout: TextInputLayout, private val context: Context): TextWatcher {
