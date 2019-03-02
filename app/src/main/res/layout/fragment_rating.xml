@@ -1,14 +1,237 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="rating"/>
+        android:orientation="vertical">
 
-</FrameLayout>
+        <FrameLayout
+            android:id="@+id/detailsButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/ripple_details">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="16dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Рейтинг"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                android:text="Детали"
+                android:textAllCaps="true"
+                android:textColor="@color/colorSecondAccent"
+                android:textSize="16sp" />
+
+        </FrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+
+            <TextView
+                android:id="@+id/points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="182"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/colorPrimaryDark"
+                app:layout_constraintBottom_toTopOf="@+id/pointsLabel"
+                app:layout_constraintEnd_toStartOf="@+id/hwsCompletedLabel"
+                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/totalRatingLabel"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/pointsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="балла"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimaryLight"
+                app:layout_constraintBottom_toBottomOf="@+id/hwsCompletedLabel"
+                app:layout_constraintEnd_toEndOf="@+id/points"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/points"
+                app:layout_constraintTop_toBottomOf="@+id/points" />
+
+            <TextView
+                android:id="@+id/totalRatingLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Общий рейтинг 🏆"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/totalRating"
+                app:layout_constraintStart_toStartOf="@+id/testsCompletedLabel" />
+
+            <TextView
+                android:id="@+id/testsCompletedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Пройдено тестов"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/testsCompleted"
+                app:layout_constraintStart_toStartOf="@+id/hwsCompletedLabel" />
+
+            <TextView
+                android:id="@+id/hwsCompletedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Выполнено домашек"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/hwsCompleted"
+                app:layout_constraintEnd_toStartOf="@+id/barrier" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="left"
+                app:constraint_referenced_ids="testsCompleted,hwsCompleted,totalRating" />
+
+            <TextView
+                android:id="@+id/totalRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="sans-serif-medium"
+                android:text="2/30"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/testsCompleted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="sans-serif-medium"
+                android:text="15/18"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/totalRating" />
+
+            <TextView
+                android:id="@+id/hwsCompleted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="sans-serif-medium"
+                android:text="12/18"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/testsCompleted" />
+
+            <TextView
+                android:id="@+id/totalLessons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="20 занятий"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hwsCompletedLabel" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:progressDrawable="@drawable/progress_bar_layer_list"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/totalLessons"
+                android:progress="50" />
+
+            <TextView
+                android:id="@+id/lessonsPassedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimaryLight"
+                android:text="Прошло"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+            <TextView
+                android:id="@+id/lessonsLeftLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimaryLight"
+                android:text="Осталось"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+            <TextView
+                android:id="@+id/lessonsPassed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="10 занятий"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lessonsPassedLabel" />
+
+            <TextView
+                android:id="@+id/lessonsLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="10 занятий"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lessonsLeftLabel" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
