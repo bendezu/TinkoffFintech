@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_courses"
-        android:tint="@color/colorPrimary"
-        android:layout_gravity="center"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <fragment
+            android:id="@+id/performance"
+            android:name="com.bendezu.tinkofffintech.courses.PerformanceFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_performance"/>
+
+        <fragment
+            android:id="@+id/rating"
+            android:name="com.bendezu.tinkofffintech.courses.RatingFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_rating"/>
+
+        <fragment
+            android:id="@+id/completedCourses"
+            android:name="com.bendezu.tinkofffintech.courses.CompletedCoursesFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_completed_courses"/>
+
+    </LinearLayout>
+
+</ScrollView>
