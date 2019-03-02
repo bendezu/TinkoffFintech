@@ -7,4 +7,6 @@
     <color name="colorPrimaryLight">#b2b5bc</color>
     <color name="colorSecondAccent">#458BF6</color>
     <color name="colorBackground">#EAECEE</color>
+    <color name="colorPassed">#6CD6A2</color>
+    <color name="colorDivider">#E2E3E5</color>
 </resources>
