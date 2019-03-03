@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,54 +20,54 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@color/colorPrimaryDark"
                 android:layout_gravity="start|center_vertical"
-                android:text="Успеваемость"/>
+                android:layout_marginStart="16dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Успеваемость"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:textSize="16sp"
-                android:textColor="@color/colorSecondAccent"
-                android:textAllCaps="true"
                 android:layout_gravity="end|center_vertical"
-                android:text="Детали"/>
+                android:layout_marginEnd="16dp"
+                android:text="Детали"
+                android:textAllCaps="true"
+                android:textColor="@color/colorSecondAccent"
+                android:textSize="16sp" />
 
         </FrameLayout>
 
         <LinearLayout
+            android:id="@+id/accountsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp">
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="32dp"
+            android:orientation="horizontal">
 
             <com.bendezu.tinkofffintech.courses.AccountBadgeView
-                app:name="Andrew"
-                app:points="123"
-                app:avatar="@color/colorPrimaryDark"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <com.bendezu.tinkofffintech.courses.AccountBadgeView
-                app:name="Andrew"
-                app:points="123"
-                app:avatar="@color/colorPrimaryDark"
-                app:highlighted="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <com.bendezu.tinkofffintech.courses.AccountBadgeView
-                app:name="Andrew"
-                app:points="123"
-                app:avatar="@color/colorPrimaryDark"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
+
+            <com.bendezu.tinkofffintech.courses.AccountBadgeView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.bendezu.tinkofffintech.courses.AccountBadgeView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

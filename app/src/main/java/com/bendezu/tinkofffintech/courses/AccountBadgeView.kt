@@ -34,10 +34,10 @@ class AccountBadgeView @JvmOverloads constructor(context: Context,
         set(value) {
             field = value
             if (value) {
-                nameTextView.setTypeface(nameTextView.typeface, Typeface.BOLD)
+                nameTextView.setTypeface(null, Typeface.BOLD)
                 avatarImageView.highlightColor = ContextCompat.getColor(context, R.color.colorAccent)
             } else {
-                nameTextView.setTypeface(nameTextView.typeface, Typeface.NORMAL)
+                nameTextView.setTypeface(null, Typeface.NORMAL)
                 avatarImageView.highlightColor = Color.TRANSPARENT
             }
         }
