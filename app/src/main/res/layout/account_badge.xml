@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.bendezu.tinkofffintech.courses.CircleImageView
+                android:id="@+id/avatarImageView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"
+                app:highlightWidth="2dp"
+                tools:src="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/pointsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@drawable/badge_background"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:minWidth="20dp"
+                android:gravity="center"
+                android:paddingBottom="1dp"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                tools:text="272" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"
+            tools:text="Андрей" />
+
+    </LinearLayout>
+
+</merge>

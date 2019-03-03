@@ -81,7 +81,7 @@ class CircleImageView @JvmOverloads constructor(context: Context,
         if (!initialized) return
         if (drawable is ColorDrawable) {
             imagePaint.color = (drawable as ColorDrawable).color
-        } else {
+        } else if (drawable != null) {
             image = getBitmapFromDrawable(drawable)
             imageShader = BitmapShader(image, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
             imagePaint.shader = imageShader
@@ -112,7 +112,7 @@ class CircleImageView @JvmOverloads constructor(context: Context,
 
     override fun onDraw(canvas: Canvas) {
         canvas.drawOval(imageRectF, imagePaint)
-        if (highlightPaint.strokeWidth > 0)
+        if (highlightPaint.strokeWidth > 0 && highlightPaint.color != Color.TRANSPARENT)
             canvas.drawOval(highlightRectF, highlightPaint)
     }
 

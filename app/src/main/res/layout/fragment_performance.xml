@@ -48,31 +48,27 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp">
 
-            <com.bendezu.tinkofffintech.courses.CircleImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="8dp"
-                android:src="@color/colorPrimaryLight"/>
+            <com.bendezu.tinkofffintech.courses.AccountBadgeView
+                app:name="Andrew"
+                app:points="123"
+                app:avatar="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-            <com.bendezu.tinkofffintech.courses.CircleImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="8dp"
-                android:src="@color/colorPrimary"
-                app:highlightColor="@color/colorAccent"
-                app:highlightWidth="4dp"/>
+            <com.bendezu.tinkofffintech.courses.AccountBadgeView
+                app:name="Andrew"
+                app:points="123"
+                app:avatar="@color/colorPrimaryDark"
+                app:highlighted="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-            <com.bendezu.tinkofffintech.courses.CircleImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="8dp"
-                android:src="@color/colorSecondAccent"/>
-
-            <com.bendezu.tinkofffintech.courses.CircleImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="8dp"
-                android:src="@color/colorPassed"/>
+            <com.bendezu.tinkofffintech.courses.AccountBadgeView
+                app:name="Andrew"
+                app:points="123"
+                app:avatar="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
