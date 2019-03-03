@@ -43,8 +43,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
-
+            android:layout_marginBottom="24dp">
 
             <TextView
                 android:id="@+id/points"
@@ -52,11 +51,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="182"
-                android:textSize="24sp"
+                android:layout_marginEnd="32dp"
                 android:fontFamily="sans-serif-medium"
+                android:text="182"
                 android:textColor="@color/colorPrimaryDark"
+                android:textSize="24sp"
                 app:layout_constraintBottom_toTopOf="@+id/pointsLabel"
                 app:layout_constraintEnd_toStartOf="@+id/hwsCompletedLabel"
                 app:layout_constraintHorizontal_bias="0.3"
@@ -70,11 +69,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="балла"
-                android:textSize="14sp"
                 android:textColor="@color/colorPrimaryLight"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/hwsCompletedLabel"
                 app:layout_constraintEnd_toEndOf="@+id/points"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/points"
                 app:layout_constraintTop_toBottomOf="@+id/points" />
 
@@ -82,7 +80,9 @@
                 android:id="@+id/totalRatingLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Общий рейтинг 🏆"
+                android:drawableEnd="@drawable/ic_stars"
+                android:drawablePadding="4dp"
+                android:text="Общий рейтинг"
                 android:textColor="@color/colorPrimaryLight"
                 android:textSize="14sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/totalRating"
@@ -121,11 +121,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:textSize="16sp"
-                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="2/30"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -134,11 +134,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:textSize="16sp"
-                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="15/18"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/totalRating" />
 
@@ -147,11 +147,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:textSize="16sp"
-                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="12/18"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/testsCompleted" />
 
@@ -174,13 +174,13 @@
                 android:layout_width="0dp"
                 android:layout_height="8dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
+                android:progress="50"
                 android:progressDrawable="@drawable/progress_bar_layer_list"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/totalLessons"
-                android:progress="50" />
+                app:layout_constraintTop_toBottomOf="@+id/totalLessons" />
 
             <TextView
                 android:id="@+id/lessonsPassedLabel"
@@ -188,9 +188,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:textSize="14sp"
-                android:textColor="@color/colorPrimaryLight"
                 android:text="Прошло"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
@@ -200,9 +200,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:textSize="14sp"
-                android:textColor="@color/colorPrimaryLight"
                 android:text="Осталось"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
@@ -211,10 +211,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:textSize="14sp"
-                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="sans-serif-medium"
                 android:text="10 занятий"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lessonsPassedLabel" />
 
@@ -222,11 +222,11 @@
                 android:id="@+id/lessonsLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:textSize="14sp"
-                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="sans-serif-medium"
                 android:text="10 занятий"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lessonsLeftLabel" />
 
