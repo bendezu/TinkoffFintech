@@ -6,18 +6,27 @@
     <string name="profile">Profile</string>
 
     <string name="edit">Edit</string>
-
     <string name="first_name">First name</string>
     <string name="second_name">Second name</string>
     <string name="patronymic">Patronymic</string>
-
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
-
     <string name="empty_error_message">Should not be empty</string>
     <string name="lowercase_error_message">Should start with capital letter</string>
-
     <string name="dialog_confirmation_message">If you leave the editing screen, changes will not be saved. Leave?</string>
     <string name="stay">Stay</string>
     <string name="leave">Leave</string>
+    
+    <string name="academic_performance">Academic performance</string>
+    <string name="details">Details</string>
+    <string name="rating">Rating</string>
+    <string name="points">points</string>
+    <string name="total_rating">Total rating</string>
+    <string name="tests_passed">Tests passed</string>
+    <string name="homeworks_completed">Homeworks completed</string>
+    <string name="passed_lessons">Passed</string>
+    <string name="left_lessons">Left</string>
+    <string name="completed_courses">Completed courses</string>
+    <string name="passed">Passed</string>
+    <string name="failed">Failed</string>
 </resources>

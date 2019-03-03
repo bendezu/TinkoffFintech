@@ -23,7 +23,7 @@
                 android:layout_gravity="start|center_vertical"
                 android:layout_marginStart="16dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Успеваемость"
+                android:text="@string/academic_performance"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16sp" />
 
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="16dp"
-                android:text="Детали"
+                android:text="@string/details"
                 android:textAllCaps="true"
                 android:textColor="@color/colorSecondAccent"
                 android:textSize="16sp" />
