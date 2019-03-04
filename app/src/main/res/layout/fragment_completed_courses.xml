@@ -9,136 +9,136 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp">
+        android:paddingBottom="@dimen/marginMedium">
 
         <TextView
             android:id="@+id/courseStatus"
+            style="@style/textWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/passed_background"
-            android:fontFamily="sans-serif-medium"
             android:paddingStart="8dp"
             android:paddingTop="4dp"
             android:paddingEnd="8dp"
             android:paddingBottom="4dp"
             android:text="@string/passed"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/courseDate"
+            style="@style/textLabel.CAPS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:text="Дек 2017 г."
-            android:textAllCaps="true"
-            android:textColor="@color/colorPrimaryLight"
-            android:textSize="14sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/courseStatus"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline" />
 
         <TextView
             android:id="@+id/courseName"
+            style="@style/textRegular.Body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:ellipsize="end"
-            android:maxLines="2"
             android:text="Курс №1. iOS-разработка"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
             app:layout_constraintTop_toBottomOf="@+id/courseDate" />
 
         <TextView
             android:id="@+id/coursePoints"
+            style="@style/textValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:fontFamily="sans-serif-medium"
             android:text="315 баллов"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
             app:layout_constraintTop_toBottomOf="@+id/courseName" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/leftGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/marginMedium" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rightGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/marginMedium" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/marginMedium"
         android:background="@color/colorDivider" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp">
+        android:paddingBottom="@dimen/marginMedium">
 
         <TextView
             android:id="@+id/courseStatus2"
+            style="@style/textWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/failed_background"
-            android:fontFamily="sans-serif-medium"
             android:paddingStart="8dp"
             android:paddingTop="4dp"
             android:paddingEnd="8dp"
             android:paddingBottom="4dp"
             android:text="@string/failed"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuideline2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/courseDate2"
+            style="@style/textLabel.CAPS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:text="Мар 2017 г."
-            android:textAllCaps="true"
-            android:textColor="@color/colorPrimaryLight"
-            android:textSize="14sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/courseStatus2"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline2" />
 
         <TextView
             android:id="@+id/courseName2"
+            style="@style/textRegular.Body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:ellipsize="end"
-            android:maxLines="2"
             android:text="Курс №1. iOS-разработка"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuideline2"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline2"
             app:layout_constraintTop_toBottomOf="@+id/courseDate2" />
 
         <TextView
             android:id="@+id/coursePoints2"
+            style="@style/textValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:fontFamily="sans-serif-medium"
             android:text="26 баллов"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline2"
             app:layout_constraintTop_toBottomOf="@+id/courseName2" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/leftGuideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/marginMedium" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rightGuideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/marginMedium" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

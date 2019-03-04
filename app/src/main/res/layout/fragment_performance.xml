@@ -18,33 +18,29 @@
             android:background="@drawable/ripple_details">
 
             <TextView
+                style="@style/textHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
-                android:layout_marginStart="16dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/academic_performance"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp" />
+                android:layout_marginStart="@dimen/marginMedium"
+                android:text="@string/academic_performance" />
 
             <TextView
+                style="@style/textDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="16dp"
-                android:text="@string/details"
-                android:textAllCaps="true"
-                android:textColor="@color/colorSecondAccent"
-                android:textSize="16sp" />
+                android:layout_marginEnd="@dimen/marginMedium"
+                android:text="@string/details" />
 
         </FrameLayout>
 
         <LinearLayout
             android:id="@+id/accountsLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/marginMedium"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="32dp"
             android:orientation="horizontal">
