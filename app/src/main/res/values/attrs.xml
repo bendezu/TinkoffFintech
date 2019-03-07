@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleImageView">
+        <attr name="highlightColor" format="color"/>
+        <attr name="highlightWidth" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="AccountBadgeView">
+        <attr name="points" format="string"/>
+        <attr name="avatar" format="reference"/>
+        <attr name="name" format="string"/>
+        <attr name="highlighted" format="boolean"/>
+    </declare-styleable>
+</resources>

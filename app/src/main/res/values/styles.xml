@@ -30,5 +30,57 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
+    
+    <style name="textHeader">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="textDetails">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorSecondAccent</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="textWhite">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="textLabel">
+        <item name="android:textColor">@color/colorPrimaryLight</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="textLabel.Caps">
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="textValue">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="textValue.Small">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="textValue.Large">
+        <item name="android:textSize">24sp</item>
+    </style>
+    <style name="textHuge">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="textRegular">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="textRegular.Body">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">2</item>
+    </style>
 
 </resources>

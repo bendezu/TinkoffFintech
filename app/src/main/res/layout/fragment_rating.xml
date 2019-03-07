@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/detailsButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/ripple_details">
+
+            <TextView
+                style="@style/textHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="@dimen/marginMedium"
+                android:text="@string/rating" />
+
+            <TextView
+                style="@style/textDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="@dimen/marginMedium"
+                android:text="@string/details" />
+
+        </FrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:id="@+id/points"
+                style="@style/textValue.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="182"
+                app:layout_constraintBottom_toTopOf="@+id/pointsLabel"
+                app:layout_constraintEnd_toStartOf="@+id/hwsCompletedLabel"
+                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toTopOf="@+id/totalRatingLabel"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/pointsLabel"
+                style="@style/textLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/points"
+                app:layout_constraintBottom_toBottomOf="@+id/hwsCompletedLabel"
+                app:layout_constraintEnd_toEndOf="@+id/points"
+                app:layout_constraintStart_toStartOf="@+id/points"
+                app:layout_constraintTop_toBottomOf="@+id/points" />
+
+            <TextView
+                android:id="@+id/totalRatingLabel"
+                style="@style/textLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_stars"
+                android:drawablePadding="4dp"
+                android:text="@string/total_rating"
+                app:layout_constraintBaseline_toBaselineOf="@+id/totalRating"
+                app:layout_constraintStart_toStartOf="@+id/testsCompletedLabel" />
+
+            <TextView
+                android:id="@+id/testsCompletedLabel"
+                style="@style/textLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tests_passed"
+                app:layout_constraintBaseline_toBaselineOf="@+id/testsCompleted"
+                app:layout_constraintStart_toStartOf="@+id/hwsCompletedLabel" />
+
+            <TextView
+                android:id="@+id/hwsCompletedLabel"
+                style="@style/textLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/homeworks_completed"
+                app:layout_constraintBaseline_toBaselineOf="@+id/hwsCompleted"
+                app:layout_constraintEnd_toStartOf="@+id/barrier" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="left"
+                app:constraint_referenced_ids="testsCompleted,hwsCompleted,totalRating" />
+
+            <TextView
+                android:id="@+id/totalRating"
+                style="@style/textValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/marginMedium"
+                android:text="2/30"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/testsCompleted"
+                style="@style/textValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="15/18"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/totalRating" />
+
+            <TextView
+                android:id="@+id/hwsCompleted"
+                style="@style/textValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="12/18"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/testsCompleted" />
+
+            <TextView
+                android:id="@+id/totalLessons"
+                style="@style/textHuge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="20 занятий"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/hwsCompletedLabel" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="8dp"
+                android:layout_marginTop="8dp"
+                android:progress="50"
+                android:progressDrawable="@drawable/progress_bar_layer_list"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/totalLessons" />
+
+            <TextView
+                android:id="@+id/lessonsPassedLabel"
+                style="@style/textLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/passed_lessons"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+            <TextView
+                android:id="@+id/lessonsLeftLabel"
+                style="@style/textLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/left_lessons"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+            <TextView
+                android:id="@+id/lessonsPassed"
+                style="@style/textValue.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 занятий"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/lessonsPassedLabel" />
+
+            <TextView
+                android:id="@+id/lessonsLeft"
+                style="@style/textValue.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 занятий"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/lessonsLeftLabel" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/leftGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/marginMedium" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/rightGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/marginMedium" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
