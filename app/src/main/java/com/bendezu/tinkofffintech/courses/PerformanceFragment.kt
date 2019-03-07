@@ -39,7 +39,7 @@ class PerformanceFragment: Fragment() {
             child.points = data.points.toString()
             child.avatarRes = data.colorRes
             child.highlighted = data.highlighted
-            child.visibility = if (data.points == 0) View.GONE else View.VISIBLE
+            child.bagdeVisibility = if (data.points == 0) View.GONE else View.VISIBLE
         }
     }
 

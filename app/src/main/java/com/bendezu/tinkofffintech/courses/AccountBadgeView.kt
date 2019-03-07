@@ -41,6 +41,11 @@ class AccountBadgeView @JvmOverloads constructor(context: Context,
                 avatarImageView.highlightColor = Color.TRANSPARENT
             }
         }
+    var bagdeVisibility: Int
+        get() = pointsTextView.visibility
+        set(value) {
+            pointsTextView.visibility = value
+        }
 
     init {
 

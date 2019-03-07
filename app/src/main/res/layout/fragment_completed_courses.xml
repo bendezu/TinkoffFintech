@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/courseDate"
-            style="@style/textLabel.CAPS"
+            style="@style/textLabel.Caps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Дек 2017 г."
@@ -99,7 +99,7 @@
 
         <TextView
             android:id="@+id/courseDate2"
-            style="@style/textLabel.CAPS"
+            style="@style/textLabel.Caps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Мар 2017 г."

@@ -53,7 +53,7 @@
         <item name="android:textColor">@color/colorPrimaryLight</item>
         <item name="android:textSize">14sp</item>
     </style>
-    <style name="textLabel.CAPS">
+    <style name="textLabel.Caps">
         <item name="android:textAllCaps">true</item>
     </style>
 
