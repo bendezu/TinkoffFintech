@@ -1,11 +1,13 @@
 package com.bendezu.tinkofffintech.courses
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorRes
 import androidx.fragment.app.Fragment
+import com.bendezu.tinkofffintech.PerformanceDetailActivity
 import com.bendezu.tinkofffintech.R
 import kotlinx.android.synthetic.main.fragment_performance.*
 import kotlin.random.Random
@@ -26,7 +28,9 @@ class PerformanceFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        detailsButton.setOnClickListener {  }
+        detailsButton.setOnClickListener {
+            startActivity(Intent(context, PerformanceDetailActivity::class.java))
+        }
         setupAccounts()
     }
 
