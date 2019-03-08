@@ -49,11 +49,12 @@ class MainActivity : AppCompatActivity() {
                 .commit()
             true
         }
-        if (savedInstanceState == null)
+        if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, EventsFragment())
                 .commit()
-        else
+            toolbar.setTitle(R.string.events)
+        } else
             toolbar.title = savedInstanceState.getString(STATE_TITLE)
     }
 
