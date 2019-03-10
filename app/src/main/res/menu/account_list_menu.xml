@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/switch_view"
+        android:icon="@drawable/ic_view_list"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        android:title="Switch view" />
+
+    <item
+        android:id="@+id/add_account_action"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Add account" />
+
+    <item
+        android:id="@+id/remove_account_action"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Remove account" />
+
+    <item
+        android:id="@+id/shuffle_accounts_action"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Shuffle accounts" />
+</menu>

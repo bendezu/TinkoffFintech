@@ -15,22 +15,23 @@ import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.bendezu.fintech.basiccomponents.AccountsAdapter
+import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
 private const val REQUEST_CONTACT_PERMISSION = 213
+private var index = 1
 
 class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
-    private val accountsAdapter = AccountsAdapter()
+    private lateinit var accountsAdapter: AccountsAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_account_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recycler.layoutManager = LinearLayoutManager(context)
+        accountsAdapter = AccountsAdapter(GridLayoutManager(context, 1))
+        recycler.layoutManager = accountsAdapter.layoutManager
         recycler.adapter = accountsAdapter
         checkAndRequestPermission()
     }
@@ -100,5 +101,26 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             }
         }
         accountsAdapter.data = names
+    }
+
+    fun switchView() {
+        accountsAdapter.layoutManager.apply { spanCount = if (spanCount == 1) 3 else 1 }
+        accountsAdapter.notifyItemRangeChanged(0, accountsAdapter.itemCount)
+    }
+
+    fun addAccount() {
+        accountsAdapter.data.add("New Account ${index++}")
+        accountsAdapter.notifyItemInserted(accountsAdapter.data.size)
+    }
+
+    fun removeAccount() {
+        val index = accountsAdapter.data.lastIndex
+        accountsAdapter.data.removeAt(index)
+        accountsAdapter.notifyItemRemoved(index)
+    }
+
+    fun shuffleAccounts() {
+        val shuffled = accountsAdapter.data.toMutableList().apply { shuffle() }
+        accountsAdapter.data = shuffled
     }
 }
