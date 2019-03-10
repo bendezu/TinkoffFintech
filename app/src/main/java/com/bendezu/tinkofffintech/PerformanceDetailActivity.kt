@@ -2,7 +2,6 @@ package com.bendezu.tinkofffintech
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.bendezu.tinkofffintech.courses.AccountListFragment
 import kotlinx.android.synthetic.main.activity_performance_detail.*
 
 class PerformanceDetailActivity : AppCompatActivity() {
