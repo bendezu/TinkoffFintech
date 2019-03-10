@@ -116,6 +116,11 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             }
         }
         accountsAdapter?.data = names
+        checkTransactionsCount()
+    }
+
+    private fun checkTransactionsCount() {
+        emptyList.visibility = if (accountsAdapter?.itemCount == 0) View.VISIBLE else View.GONE
     }
 
     fun switchView() {
@@ -130,14 +135,17 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             data.add("New Account ${index++}")
             notifyItemInserted(data.size)
         }
+        checkTransactionsCount()
     }
 
     fun removeAccount() {
+        if (accountsAdapter?.itemCount == 0) return
         accountsAdapter?.apply {
             val index = data.lastIndex
             data.removeAt(index)
             notifyItemRemoved(index)
         }
+        checkTransactionsCount()
     }
 
     fun shuffleAccounts() {

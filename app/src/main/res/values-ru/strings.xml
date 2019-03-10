@@ -33,4 +33,5 @@
     <string name="failed">Не сдан</string>
     <string name="passed_lessons">Прошло</string>
     <string name="left_lessons">Осталось</string>
+    <string name="no_contacts_found">Контакты не найдены\n¯\\_(ツ)_/¯</string>
 </resources>
