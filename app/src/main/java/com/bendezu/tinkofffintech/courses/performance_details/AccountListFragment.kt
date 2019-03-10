@@ -26,16 +26,25 @@ private var index = 1
 
 class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
-    private lateinit var accountsAdapter: AccountsAdapter
+    private var accountsAdapter: AccountsAdapter? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_account_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        accountsAdapter = AccountsAdapter(GridLayoutManager(context, 1))
+        if (accountsAdapter == null) {
+            accountsAdapter = AccountsAdapter(GridLayoutManager(context, 1))
+        } else {
+            accountsAdapter?.layoutManager = GridLayoutManager(context, accountsAdapter?.layoutManager?.spanCount ?: 1)
+        }
         recycler.apply {
-            layoutManager = accountsAdapter.layoutManager
+            layoutManager = accountsAdapter?.layoutManager
             adapter = accountsAdapter
             addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
             addItemDecoration(DividerItemDecoration(context, LinearLayout.HORIZONTAL))
@@ -106,27 +115,35 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 names.add(name)
             }
         }
-        accountsAdapter.data = names
+        accountsAdapter?.data = names
     }
 
     fun switchView() {
-        accountsAdapter.layoutManager.apply { spanCount = if (spanCount == 1) 3 else 1 }
-        accountsAdapter.notifyItemRangeChanged(0, accountsAdapter.itemCount)
+        accountsAdapter?.apply {
+            layoutManager.spanCount = if (layoutManager.spanCount == 1) 3 else 1
+            notifyItemRangeChanged(0, itemCount)
+        }
     }
 
     fun addAccount() {
-        accountsAdapter.data.add("New Account ${index++}")
-        accountsAdapter.notifyItemInserted(accountsAdapter.data.size)
+        accountsAdapter?.apply {
+            data.add("New Account ${index++}")
+            notifyItemInserted(data.size)
+        }
     }
 
     fun removeAccount() {
-        val index = accountsAdapter.data.lastIndex
-        accountsAdapter.data.removeAt(index)
-        accountsAdapter.notifyItemRemoved(index)
+        accountsAdapter?.apply {
+            val index = data.lastIndex
+            data.removeAt(index)
+            notifyItemRemoved(index)
+        }
     }
 
     fun shuffleAccounts() {
-        val shuffled = accountsAdapter.data.toMutableList().apply { shuffle() }
-        accountsAdapter.data = shuffled
+        accountsAdapter?.apply {
+            val shuffled = data.toMutableList().apply { shuffle() }
+            data = shuffled
+        }
     }
 }

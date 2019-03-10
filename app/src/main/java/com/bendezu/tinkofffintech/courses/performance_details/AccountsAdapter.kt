@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_account_list.view.*
 private const val LIST_ITEM_TYPE = 0
 private const val GRID_ITEM_TYPE = 1
 
-class AccountsAdapter(val layoutManager: GridLayoutManager): RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>() {
+class AccountsAdapter(var layoutManager: GridLayoutManager): RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>() {
 
     var data = mutableListOf<String>()
         set(value) {
