@@ -7,14 +7,14 @@
     android:orientation="horizontal"
     android:padding="@dimen/marginMedium">
 
-    <com.bendezu.tinkofffintech.courses.CircleImageView
+    <com.bendezu.tinkofffintech.InitialsCircleView
         android:id="@+id/avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@color/colorAccent" />
 
     <TextView
         android:id="@+id/name"

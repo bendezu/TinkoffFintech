@@ -78,11 +78,21 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     )
 
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
+        val int = 0
+        updateAdapter(data)
+    }
+
+    override fun onLoaderReset(loader: Loader<Cursor>) {
+        updateAdapter(null)
+    }
+
+    private fun updateAdapter(cursor: Cursor?) {
         val names = mutableListOf<String>()
-        data?.use {
-            while (data.moveToNext()) {
-                val name = data.getString(
-                    data.getColumnIndex(
+        cursor?.let {
+            for (i in 0 until cursor.count) {
+                cursor.moveToPosition(i)
+                val name = cursor.getString(
+                    cursor.getColumnIndex(
                         ContactsContract.Contacts.DISPLAY_NAME_PRIMARY
                     )
                 )
@@ -90,9 +100,5 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             }
         }
         accountsAdapter.data = names
-    }
-
-    override fun onLoaderReset(loader: Loader<Cursor>) {
-
     }
 }
