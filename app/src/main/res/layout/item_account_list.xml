@@ -20,11 +20,12 @@
     <TextView
         android:id="@+id/name"
         style="@style/textRegular.Body"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="@dimen/marginMedium"
         app:layout_constraintBottom_toBottomOf="@+id/avatar"
+        app:layout_constraintEnd_toStartOf="@+id/points"
         app:layout_constraintStart_toEndOf="@+id/avatar"
         app:layout_constraintTop_toTopOf="@+id/avatar"
         tools:text="Andrew Smith" />

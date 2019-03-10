@@ -9,12 +9,14 @@ import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
@@ -33,6 +35,8 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         accountsAdapter = AccountsAdapter(GridLayoutManager(context, 1))
         recycler.layoutManager = accountsAdapter.layoutManager
         recycler.adapter = accountsAdapter
+        recycler.addItemDecoration(DividerItemDecoration(context, LinearLayout.HORIZONTAL))
+        recycler.addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
         checkAndRequestPermission()
     }
 
@@ -79,7 +83,6 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     )
 
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
-        val int = 0
         updateAdapter(data)
     }
 
