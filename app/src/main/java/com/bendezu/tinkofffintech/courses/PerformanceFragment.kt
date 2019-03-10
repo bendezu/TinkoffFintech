@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorRes
 import androidx.fragment.app.Fragment
-import com.bendezu.tinkofffintech.PerformanceDetailActivity
 import com.bendezu.tinkofffintech.R
+import com.bendezu.tinkofffintech.courses.performance_details.PerformanceDetailActivity
 import kotlinx.android.synthetic.main.fragment_performance.*
 import kotlin.random.Random
 

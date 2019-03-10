@@ -1,14 +1,13 @@
-package com.bendezu.tinkofffintech
+package com.bendezu.tinkofffintech.courses.performance_details
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.bendezu.tinkofffintech.R
 import kotlinx.android.synthetic.main.activity_performance_detail.*
 
 class PerformanceDetailActivity : AppCompatActivity() {
-
-    val accountsFragment = AccountListFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +18,7 @@ class PerformanceDetailActivity : AppCompatActivity() {
 
         if (savedInstanceState == null)
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, accountsFragment)
+                .replace(R.id.container, AccountListFragment())
                 .commit()
     }
 
@@ -34,6 +33,7 @@ class PerformanceDetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val accountsFragment = supportFragmentManager.findFragmentById(R.id.container) as AccountListFragment
         when (item?.itemId) {
             R.id.switch_view -> {
                 accountsFragment.switchView()

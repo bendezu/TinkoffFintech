@@ -8,7 +8,7 @@
     android:orientation="horizontal"
     android:padding="@dimen/marginMedium">
 
-    <com.bendezu.tinkofffintech.InitialsCircleView
+    <com.bendezu.tinkofffintech.courses.performance_details.InitialsCircleView
         android:id="@+id/avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"

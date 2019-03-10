@@ -6,7 +6,7 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <com.bendezu.tinkofffintech.InitialsCircleView
+    <com.bendezu.tinkofffintech.courses.performance_details.InitialsCircleView
         android:id="@+id/avatar"
         android:layout_width="100dp"
         android:layout_height="100dp"

@@ -1,4 +1,4 @@
-package com.bendezu.tinkofffintech
+package com.bendezu.tinkofffintech.courses.performance_details
 
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bendezu.tinkofffintech.R
+import com.bendezu.tinkofffintech.avatarColors
 import kotlinx.android.synthetic.main.item_account_list.view.*
 
 private const val LIST_ITEM_TYPE = 0
@@ -25,8 +27,10 @@ class AccountsAdapter(val layoutManager: GridLayoutManager): RecyclerView.Adapte
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder {
         val view = when (viewType) {
-            LIST_ITEM_TYPE -> { LayoutInflater.from(parent.context).inflate(R.layout.item_account_list, parent, false) }
-            GRID_ITEM_TYPE -> { LayoutInflater.from(parent.context).inflate(R.layout.item_account_grid, parent, false) }
+            LIST_ITEM_TYPE -> { LayoutInflater.from(parent.context).inflate(
+                R.layout.item_account_list, parent, false) }
+            GRID_ITEM_TYPE -> { LayoutInflater.from(parent.context).inflate(
+                R.layout.item_account_grid, parent, false) }
             else -> throw IllegalArgumentException("unknown item ViewType")
         }
         return AccountViewHolder(view, viewType)
@@ -51,7 +55,8 @@ class AccountsAdapter(val layoutManager: GridLayoutManager): RecyclerView.Adapte
             itemView.avatar.initials = initials
             itemView.name.text = contact
             when(viewType) {
-                LIST_ITEM_TYPE -> {itemView.points.text = itemView.context.resources.getQuantityString(R.plurals.points, points, points)}
+                LIST_ITEM_TYPE -> {itemView.points.text = itemView.context.resources.getQuantityString(
+                    R.plurals.points, points, points)}
                 GRID_ITEM_TYPE -> {itemView.points.text = points.toString()}
             }
         }

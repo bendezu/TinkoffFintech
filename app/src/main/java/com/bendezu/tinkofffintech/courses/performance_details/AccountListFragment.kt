@@ -1,4 +1,4 @@
-package com.bendezu.tinkofffintech
+package com.bendezu.tinkofffintech.courses.performance_details
 
 import android.Manifest
 import android.content.pm.ActivityInfo
@@ -18,6 +18,7 @@ import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bendezu.tinkofffintech.R
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
 private const val REQUEST_CONTACT_PERMISSION = 213
@@ -33,10 +34,12 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         accountsAdapter = AccountsAdapter(GridLayoutManager(context, 1))
-        recycler.layoutManager = accountsAdapter.layoutManager
-        recycler.adapter = accountsAdapter
-        recycler.addItemDecoration(DividerItemDecoration(context, LinearLayout.HORIZONTAL))
-        recycler.addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
+        recycler.apply {
+            layoutManager = accountsAdapter.layoutManager
+            adapter = accountsAdapter
+            addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
+            addItemDecoration(DividerItemDecoration(context, LinearLayout.HORIZONTAL))
+        }
         checkAndRequestPermission()
     }
 

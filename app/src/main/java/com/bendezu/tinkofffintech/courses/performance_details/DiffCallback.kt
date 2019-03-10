@@ -1,4 +1,4 @@
-package com.bendezu.tinkofffintech
+package com.bendezu.tinkofffintech.courses.performance_details
 
 import androidx.recyclerview.widget.DiffUtil
 

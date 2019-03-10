@@ -1,4 +1,4 @@
-package com.bendezu.tinkofffintech
+package com.bendezu.tinkofffintech.courses.performance_details
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
+import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.courses.CircleImageView
 
 class InitialsCircleView @JvmOverloads constructor(context: Context,
