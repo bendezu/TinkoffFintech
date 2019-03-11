@@ -1,7 +1,6 @@
 package com.bendezu.tinkofffintech.courses.performance_details
 
 import android.Manifest
-import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Bundle
@@ -49,14 +48,14 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
             addItemDecoration(DividerItemDecoration(context, LinearLayout.HORIZONTAL))
         }
-        checkAndRequestPermission()
+        if (savedInstanceState == null)
+            checkAndRequestPermission()
     }
 
     private fun checkAndRequestPermission() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS)
             != PackageManager.PERMISSION_GRANTED
         ) {
-            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
             requestPermissions(
                 arrayOf(Manifest.permission.READ_CONTACTS),
                 REQUEST_CONTACT_PERMISSION
@@ -68,7 +67,6 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
         when (requestCode) {
             REQUEST_CONTACT_PERMISSION -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
