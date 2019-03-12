@@ -8,14 +8,12 @@ import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bendezu.tinkofffintech.R
 import kotlinx.android.synthetic.main.fragment_account_list.*
@@ -45,8 +43,7 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         recycler.apply {
             layoutManager = accountsAdapter?.layoutManager
             adapter = accountsAdapter
-            addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
-            addItemDecoration(DividerItemDecoration(context, LinearLayout.HORIZONTAL))
+            addItemDecoration(ListItemDecoration(context))
         }
         if (savedInstanceState == null)
             checkAndRequestPermission()
@@ -122,10 +119,16 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     fun switchView() {
-        accountsAdapter?.apply {
-            layoutManager.spanCount = if (layoutManager.spanCount == 1) 3 else 1
-            notifyItemRangeChanged(0, itemCount)
+        for (i in recycler.itemDecorationCount - 1 downTo  0)
+            recycler.removeItemDecorationAt(i)
+        if (accountsAdapter?.layoutManager?.spanCount == 1) {
+            accountsAdapter?.layoutManager?.spanCount = 3
+            recycler.addItemDecoration(GridItemDecoration(requireContext(), 3))
+        } else {
+            accountsAdapter?.layoutManager?.spanCount = 1
+            recycler.addItemDecoration(ListItemDecoration(requireContext()))
         }
+        accountsAdapter?.notifyItemRangeChanged(0, accountsAdapter?.itemCount ?: 0)
     }
 
     fun addAccount() {
