@@ -2,7 +2,7 @@ package com.bendezu.tinkofffintech.courses.performance_details
 
 import androidx.recyclerview.widget.DiffUtil
 
-class DiffCallback(val oldList: List<String>, val newList: List<String>) : DiffUtil.Callback() {
+class DiffCallback(private val oldList: List<String>, private val newList: List<String>) : DiffUtil.Callback() {
 
     override fun getOldListSize() = oldList.size
     override fun getNewListSize() = newList.size

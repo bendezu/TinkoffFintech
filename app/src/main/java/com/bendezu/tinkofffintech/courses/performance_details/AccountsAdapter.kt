@@ -18,9 +18,7 @@ class AccountsAdapter(var layoutManager: GridLayoutManager): RecyclerView.Adapte
 
     var data = mutableListOf<String>()
         set(value) {
-            val oldList = field
-            val newList = value
-            val callback = DiffCallback(oldList, newList)
+            val callback = DiffCallback(field, value)
             field = value
             DiffUtil.calculateDiff(callback).dispatchUpdatesTo(this)
         }

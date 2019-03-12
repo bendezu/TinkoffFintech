@@ -44,6 +44,7 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             layoutManager = accountsAdapter?.layoutManager
             adapter = accountsAdapter
             addItemDecoration(ListItemDecoration(context))
+            itemAnimator = PopupItemAnimator()
         }
         if (savedInstanceState == null)
             checkAndRequestPermission()
