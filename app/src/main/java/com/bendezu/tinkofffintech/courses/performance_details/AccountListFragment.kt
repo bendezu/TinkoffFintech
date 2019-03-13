@@ -100,7 +100,7 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
     private fun updateAdapter(cursor: Cursor?) {
         val names = mutableListOf<String>()
-        cursor?.let {
+        cursor?.apply {
             for (i in 0 until cursor.count) {
                 cursor.moveToPosition(i)
                 val name = cursor.getString(
@@ -112,24 +112,22 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             }
         }
         accountsAdapter?.data = names
-        checkTransactionsCount()
-    }
-
-    private fun checkTransactionsCount() {
-        emptyList.visibility = if (accountsAdapter?.itemCount == 0) View.VISIBLE else View.GONE
+        checkAccountsCount()
     }
 
     fun switchView() {
         for (i in recycler.itemDecorationCount - 1 downTo  0)
             recycler.removeItemDecorationAt(i)
-        if (accountsAdapter?.layoutManager?.spanCount == 1) {
-            accountsAdapter?.layoutManager?.spanCount = 3
-            recycler.addItemDecoration(GridItemDecoration(requireContext(), 3))
-        } else {
-            accountsAdapter?.layoutManager?.spanCount = 1
-            recycler.addItemDecoration(ListItemDecoration(requireContext()))
+        accountsAdapter?.apply {
+            if (layoutManager.spanCount == 1) {
+                layoutManager.spanCount = 3
+                recycler.addItemDecoration(GridItemDecoration(requireContext(), 3))
+            } else {
+                layoutManager.spanCount = 1
+                recycler.addItemDecoration(ListItemDecoration(requireContext()))
+            }
+            notifyItemRangeChanged(0, itemCount)
         }
-        accountsAdapter?.notifyItemRangeChanged(0, accountsAdapter?.itemCount ?: 0)
     }
 
     fun addAccount() {
@@ -137,7 +135,7 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             data.add("New Account ${index++}")
             notifyItemInserted(data.size)
         }
-        checkTransactionsCount()
+        checkAccountsCount()
     }
 
     fun removeAccount() {
@@ -147,7 +145,7 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             data.removeAt(index)
             notifyItemRemoved(index)
         }
-        checkTransactionsCount()
+        checkAccountsCount()
     }
 
     fun shuffleAccounts() {
@@ -155,5 +153,9 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             val shuffled = data.toMutableList().apply { shuffle() }
             data = shuffled
         }
+    }
+
+    private fun checkAccountsCount() {
+        emptyList.visibility = if (accountsAdapter?.itemCount == 0) View.VISIBLE else View.GONE
     }
 }

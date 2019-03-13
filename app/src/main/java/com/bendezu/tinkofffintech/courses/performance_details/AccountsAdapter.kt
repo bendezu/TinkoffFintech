@@ -25,10 +25,12 @@ class AccountsAdapter(var layoutManager: GridLayoutManager): RecyclerView.Adapte
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder {
         val view = when (viewType) {
-            LIST_ITEM_TYPE -> { LayoutInflater.from(parent.context).inflate(
-                R.layout.item_account_list, parent, false) }
-            GRID_ITEM_TYPE -> { LayoutInflater.from(parent.context).inflate(
-                R.layout.item_account_grid, parent, false) }
+            LIST_ITEM_TYPE -> {
+                LayoutInflater.from(parent.context).inflate(R.layout.item_account_list, parent, false)
+            }
+            GRID_ITEM_TYPE -> {
+                LayoutInflater.from(parent.context).inflate(R.layout.item_account_grid, parent, false)
+            }
             else -> throw IllegalArgumentException("unknown item ViewType")
         }
         return AccountViewHolder(view, viewType)
@@ -36,15 +38,14 @@ class AccountsAdapter(var layoutManager: GridLayoutManager): RecyclerView.Adapte
 
     override fun getItemCount() = data.size
 
-    override fun getItemViewType(position: Int): Int {
-        return if (layoutManager.spanCount == 1) LIST_ITEM_TYPE else GRID_ITEM_TYPE
-    }
+    override fun getItemViewType(position: Int) = if (layoutManager.spanCount == 1) LIST_ITEM_TYPE else GRID_ITEM_TYPE
 
     override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
         holder.bind(data[position])
     }
 
     class AccountViewHolder(itemView: View, private val viewType: Int): RecyclerView.ViewHolder(itemView) {
+
         fun bind(contact: String) {
             val color = avatarColors[Math.abs(contact.hashCode()) % avatarColors.size]
             val initials = contact.split(" ", limit = 2).map { it.first() }.joinToString("").toUpperCase()
