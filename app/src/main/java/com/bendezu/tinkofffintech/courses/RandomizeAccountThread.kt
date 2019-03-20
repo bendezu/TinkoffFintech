@@ -14,7 +14,6 @@ class RandomizeAccountThread(val fragment: WeakReference<PerformanceFragment>): 
     override fun run() {
         val accounts = fragment.get()?.accounts ?: return
         for (account in accounts) {
-            Thread.sleep(1000)
             account.points = Random.nextInt(0, 11)
         }
         Handler(Looper.getMainLooper()).post {
