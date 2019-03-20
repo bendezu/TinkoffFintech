@@ -33,4 +33,11 @@
     <string name="failed">Не сдан</string>
     <string name="passed_lessons">Прошло</string>
     <string name="left_lessons">Осталось</string>
+
+    <string name="no_contacts_found">Контакты не найдены\n¯\\_(ツ)_/¯</string>
+    <string name="switch_view">Сменить вид</string>
+    <string name="add_account">Добавить контакт</string>
+    <string name="remove_account">Удалить контакт</string>
+    <string name="shuffle_accounts">Перемешать контакты</string>
+    <string name="no_name">Без имени</string>
 </resources>

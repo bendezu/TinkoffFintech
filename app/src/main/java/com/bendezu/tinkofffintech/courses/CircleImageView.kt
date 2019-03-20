@@ -14,14 +14,14 @@ import androidx.annotation.DrawableRes
 import com.bendezu.tinkofffintech.R
 
 
-class CircleImageView @JvmOverloads constructor(context: Context,
-                                                attrs: AttributeSet? = null,
-                                                defStyleAttr: Int = 0
+open class CircleImageView @JvmOverloads constructor(context: Context,
+                                                     attrs: AttributeSet? = null,
+                                                     defStyleAttr: Int = 0
 ) : ImageView(context, attrs, defStyleAttr) {
 
     private val highlightPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val imagePaint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val imageRectF = RectF()
+    protected val imageRectF = RectF()
     private val highlightRectF = RectF()
 
     private var image: Bitmap? = null

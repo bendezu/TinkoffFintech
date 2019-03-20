@@ -29,4 +29,11 @@
     <string name="completed_courses">Completed courses</string>
     <string name="passed">Passed</string>
     <string name="failed">Failed</string>
+
+    <string name="no_contacts_found">No contacts found\n¯\\_(ツ)_/¯</string>
+    <string name="switch_view">Switch view</string>
+    <string name="add_account">Add account</string>
+    <string name="remove_account">Remove account</string>
+    <string name="shuffle_accounts">Shuffle accounts</string>
+    <string name="no_name">No name</string>
 </resources>
