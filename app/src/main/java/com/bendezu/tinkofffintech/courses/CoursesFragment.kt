@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.bendezu.tinkofffintech.R
 import kotlinx.android.synthetic.main.fragment_courses.*
 
-class CoursesFragment: Fragment() {
+class CoursesFragment: Fragment(), AccountsListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_courses, container, false)
@@ -25,8 +25,11 @@ class CoursesFragment: Fragment() {
 
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorSecondAccent)
         swipeRefresh.setOnRefreshListener {
-            performanceFragment.updateAccounts()
-            swipeRefresh.isRefreshing = false
+            performanceFragment.regenerateAccounts()
         }
+    }
+
+    override fun onAccountsUpdated() {
+        swipeRefresh?.isRefreshing = false
     }
 }
