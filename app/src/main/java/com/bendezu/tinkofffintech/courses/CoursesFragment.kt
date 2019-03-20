@@ -17,11 +17,11 @@ class CoursesFragment: Fragment() {
     private val performanceFragment = PerformanceFragment()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        childFragmentManager?.beginTransaction()
-            ?.replace(R.id.performance_container, performanceFragment)
-            ?.replace(R.id.rating_container, RatingFragment())
-            ?.replace(R.id.completed_courses_container, CompletedCoursesFragment())
-            ?.commit()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.performance_container, performanceFragment)
+            .replace(R.id.rating_container, RatingFragment())
+            .replace(R.id.completed_courses_container, CompletedCoursesFragment())
+            .commit()
 
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorSecondAccent)
         swipeRefresh.setOnRefreshListener {

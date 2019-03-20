@@ -34,7 +34,7 @@ class PerformanceFragment: Fragment() {
         setupAccounts()
     }
 
-    fun setupAccounts() {
+    private fun setupAccounts() {
         accounts.sortByDescending { it.points }
         for (i in 0 until accounts.size) {
             val child = accountsLayout.getChildAt(i) as AccountBadgeView
