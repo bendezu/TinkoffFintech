@@ -38,7 +38,7 @@ class AccountsAdapter(var layoutManager: GridLayoutManager): RecyclerView.Adapte
 
     override fun getItemCount() = data.size
 
-    override fun getItemViewType(position: Int) = if (layoutManager.spanCount == 1) LIST_ITEM_TYPE else GRID_ITEM_TYPE
+    override fun getItemViewType(position: Int) = if (layoutManager.spanCount == COLUMNS_LIST) LIST_ITEM_TYPE else GRID_ITEM_TYPE
 
     override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
         holder.bind(data[position])

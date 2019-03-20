@@ -19,6 +19,8 @@ import com.bendezu.tinkofffintech.R
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
 private const val REQUEST_CONTACT_PERMISSION = 213
+const val COLUMNS_LIST = 1
+const val COLUMNS_GRID = 3
 private var index = 1
 
 class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
@@ -36,14 +38,18 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (accountsAdapter == null) {
-            accountsAdapter = AccountsAdapter(GridLayoutManager(context, 1))
+            accountsAdapter = AccountsAdapter(GridLayoutManager(context, COLUMNS_LIST))
         } else {
-            accountsAdapter?.layoutManager = GridLayoutManager(context, accountsAdapter?.layoutManager?.spanCount ?: 1)
+            accountsAdapter?.layoutManager = GridLayoutManager(context,
+                accountsAdapter?.layoutManager?.spanCount ?: COLUMNS_LIST)
         }
         recycler.apply {
             layoutManager = accountsAdapter?.layoutManager
             adapter = accountsAdapter
-            addItemDecoration(ListItemDecoration(context))
+            if (accountsAdapter?.layoutManager?.spanCount == COLUMNS_LIST)
+                addItemDecoration(ListItemDecoration(context))
+            else
+                addItemDecoration(GridItemDecoration(context, COLUMNS_GRID))
             itemAnimator = PopupItemAnimator()
         }
         if (savedInstanceState == null)
@@ -107,7 +113,7 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                     cursor.getColumnIndex(
                         ContactsContract.Contacts.DISPLAY_NAME_PRIMARY
                     )
-                )
+                ) ?: requireContext().getString(R.string.no_name)
                 names.add(name)
             }
         }
@@ -119,11 +125,11 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         for (i in recycler.itemDecorationCount - 1 downTo  0)
             recycler.removeItemDecorationAt(i)
         accountsAdapter?.apply {
-            if (layoutManager.spanCount == 1) {
-                layoutManager.spanCount = 3
-                recycler.addItemDecoration(GridItemDecoration(requireContext(), 3))
+            if (layoutManager.spanCount == COLUMNS_LIST) {
+                layoutManager.spanCount = COLUMNS_GRID
+                recycler.addItemDecoration(GridItemDecoration(requireContext(), COLUMNS_GRID))
             } else {
-                layoutManager.spanCount = 1
+                layoutManager.spanCount = COLUMNS_LIST
                 recycler.addItemDecoration(ListItemDecoration(requireContext()))
             }
             notifyItemRangeChanged(0, itemCount)
