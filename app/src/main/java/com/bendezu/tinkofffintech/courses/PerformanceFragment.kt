@@ -10,12 +10,12 @@ import androidx.fragment.app.Fragment
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.courses.performance_details.PerformanceDetailActivity
 import kotlinx.android.synthetic.main.fragment_performance.*
-import kotlin.random.Random
+import java.lang.ref.WeakReference
 
 class PerformanceFragment: Fragment() {
 
     class AccountBadge(val name: String, var points: Int, @ColorRes val colorRes: Int, val highlighted: Boolean = false)
-    private val accounts = arrayListOf(
+    val accounts = arrayListOf(
         AccountBadge("Андрей", 9, R.color.colorPassed),
         AccountBadge("Вы", 7, R.color.colorPrimary, true),
         AccountBadge("Александр", 10, R.color.colorSecondAccent),
@@ -34,7 +34,7 @@ class PerformanceFragment: Fragment() {
         setupAccounts()
     }
 
-    fun setupAccounts() {
+    private fun setupAccounts() {
         accounts.sortByDescending { it.points }
         for (i in 0 until accounts.size) {
             val child = accountsLayout.getChildAt(i) as AccountBadgeView
@@ -47,10 +47,13 @@ class PerformanceFragment: Fragment() {
         }
     }
 
+    fun regenerateAccounts() {
+        RandomizeAccountThread(WeakReference(this)).start()
+    }
+
     fun updateAccounts() {
-        for (account in accounts) {
-            account.points = Random.nextInt(0, 11)
-        }
-        setupAccounts()
+        (parentFragment as AccountsListener).onAccountsUpdated()
+        if (view != null)
+            setupAccounts()
     }
 }
