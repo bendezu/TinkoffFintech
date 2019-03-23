@@ -20,6 +20,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".auth.AuthorizationActivity"></activity>
+
         <activity android:name=".courses.performance_details.PerformanceDetailActivity"></activity>
 
     </application>
