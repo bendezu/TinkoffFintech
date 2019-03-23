@@ -36,4 +36,8 @@
     <string name="remove_account">Remove account</string>
     <string name="shuffle_accounts">Shuffle accounts</string>
     <string name="no_name">No name</string>
+
+    <string name="log_in">Log In</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 </resources>
