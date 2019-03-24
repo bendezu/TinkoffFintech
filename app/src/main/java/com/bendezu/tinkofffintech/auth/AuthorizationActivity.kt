@@ -9,12 +9,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import com.bendezu.tinkofffintech.*
-import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.User
 import com.bendezu.tinkofffintech.network.UserCredential
 import kotlinx.android.synthetic.main.activity_authorization.*
-import retrofit2.*
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,8 +24,6 @@ class AuthorizationActivity : AppCompatActivity(), Callback<User> {
     companion object {
         const val TAG = "AuthorizationActivity"
     }
-
-    private lateinit var apiService: FintechApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,15 +44,10 @@ class AuthorizationActivity : AppCompatActivity(), Callback<User> {
             }
         }
 
-        apiService = Retrofit.Builder()
-            .baseUrl(FintechApiService.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build().create()
-
         logInButton.setOnClickListener {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
-            apiService.signIn(UserCredential(email, password)).enqueue(this)
+            App.apiService.signIn(UserCredential(email, password)).enqueue(this)
         }
     }
 

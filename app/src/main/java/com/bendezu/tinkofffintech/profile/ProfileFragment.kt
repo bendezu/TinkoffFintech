@@ -14,19 +14,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.bendezu.tinkofffintech.*
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
-import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.User
 import com.bendezu.tinkofffintech.network.UserResponse
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_profile.*
-import retrofit2.*
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 private const val EDIT_PROFILE_FRAGMENT_TAG = "edit_profile_fragment"
 
 class ProfileFragment: Fragment(), Callback<UserResponse> {
 
-    private lateinit var apiService: FintechApiService
     private var preferences: SharedPreferences? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -34,10 +33,6 @@ class ProfileFragment: Fragment(), Callback<UserResponse> {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        apiService = Retrofit.Builder()
-            .baseUrl(FintechApiService.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build().create()
         preferences = activity?.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
         val user = getUserFromPref()
@@ -45,7 +40,7 @@ class ProfileFragment: Fragment(), Callback<UserResponse> {
 
         val cookie = preferences?.getString(PREF_COOKIE, "").orEmpty()
         if (user.firstname.isEmpty() || user.lastname.isEmpty()) {
-            apiService.getUser(cookie).enqueue(this)
+            App.apiService.getUser(cookie).enqueue(this)
         }
 
         editButton.setOnClickListener {
