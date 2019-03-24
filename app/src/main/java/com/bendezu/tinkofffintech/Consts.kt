@@ -6,6 +6,7 @@ const val SHARED_PREFERENCES_NAME = "prefs"
 const val PREF_FIRST_NAME = "first_name"
 const val PREF_SECOND_NAME = "second_name"
 const val PREF_PATRONYMIC = "patronymic"
+const val PREF_AVATAR = "avatar"
 const val PREF_COOKIE = "cookie"
 const val PREF_EXPIRES = "expires"
 

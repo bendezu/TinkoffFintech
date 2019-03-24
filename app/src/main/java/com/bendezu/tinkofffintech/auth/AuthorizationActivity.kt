@@ -25,15 +25,15 @@ class AuthorizationActivity : AppCompatActivity(), Callback<User> {
         const val TAG = "AuthorizationActivity"
     }
 
-    lateinit var apiService: FintechApiService
+    private lateinit var apiService: FintechApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authorization)
 
-        val sharedPrefs = getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-        val cookie = sharedPrefs.getString(PREF_COOKIE, null)
-        val expires = sharedPrefs.getString(PREF_EXPIRES, null)
+        val preferences = getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        val cookie = preferences.getString(PREF_COOKIE, null)
+        val expires = preferences.getString(PREF_EXPIRES, null)
         if (cookie != null && expires != null) {
             try {
                 val expiresDate = parseExpiresDateString(expires)
@@ -46,11 +46,10 @@ class AuthorizationActivity : AppCompatActivity(), Callback<User> {
             }
         }
 
-        val retrofit = Retrofit.Builder()
+        apiService = Retrofit.Builder()
             .baseUrl(FintechApiService.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        apiService = retrofit.create()
+            .build().create()
 
         logInButton.setOnClickListener {
             val email = emailEditText.text.toString()
@@ -75,7 +74,7 @@ class AuthorizationActivity : AppCompatActivity(), Callback<User> {
                 val cookie = set.find { it.startsWith("anygen") }
                 val expires = set.find { it.startsWith("expires") }
                 if (cookie != null && expires != null) {
-                    saveCookieToSharedPref(cookie, expires.substringAfter('='))
+                    saveCookieToPrefs(cookie, expires.substringAfter('='))
                     openMainActivity()
                 }
             }
@@ -84,7 +83,7 @@ class AuthorizationActivity : AppCompatActivity(), Callback<User> {
         }
     }
 
-    private fun saveCookieToSharedPref(cookie: String, expires: String) {
+    private fun saveCookieToPrefs(cookie: String, expires: String) {
         Log.d(TAG, "Cookie: $cookie")
         Log.d(TAG, "Expires: $expires")
         getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
