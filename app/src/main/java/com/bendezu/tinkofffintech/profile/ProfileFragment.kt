@@ -3,6 +3,7 @@ package com.bendezu.tinkofffintech.profile
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.bendezu.tinkofffintech.auth.AuthorizationActivity
 import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.User
 import com.bendezu.tinkofffintech.network.UserResponse
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_profile.*
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
@@ -61,6 +63,8 @@ class ProfileFragment: Fragment(), Callback<UserResponse> {
                 ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 ?.commit()
         }
+
+        logOutButton.setOnClickListener { openAuthorizationActivity() }
     }
 
     override fun onFailure(call: Call<UserResponse>, t: Throwable) {
@@ -83,6 +87,17 @@ class ProfileFragment: Fragment(), Callback<UserResponse> {
         firstNameTextView.text = user.firstname
         secondNameTextView.text = user.lastname
         patronymicTextView.text = user.middlename
+        if (user.avatar == null) {
+            val initials =
+                (user.firstname.firstOrNull()?.toString() ?: "") +
+                (user.lastname.firstOrNull()?.toString() ?: "")
+            val color = avatarColors[Math.abs(initials.hashCode()) % avatarColors.size]
+            avatarImageView.setImageDrawable(ColorDrawable(color))
+            avatarImageView.initials = initials
+        } else {
+            val avatarUrl = "https://fintech.tinkoff.ru${user.avatar}"
+            Glide.with(this).load(avatarUrl).into(avatarImageView)
+        }
     }
 
     private fun saveUserToPrefs(user: User) {
@@ -98,16 +113,12 @@ class ProfileFragment: Fragment(), Callback<UserResponse> {
         val firstName = preferences?.getString(PREF_FIRST_NAME, "").orEmpty()
         val secondName = preferences?.getString(PREF_SECOND_NAME, "").orEmpty()
         val patronymic = preferences?.getString(PREF_PATRONYMIC, "").orEmpty()
-        val avatar = preferences?.getString(PREF_AVATAR, "").orEmpty()
+        val avatar = preferences?.getString(PREF_AVATAR, null)
         return User("", firstName, secondName, patronymic, avatar)
     }
 
     private fun openAuthorizationActivity() {
-        //reset cookie
-        preferences?.edit {
-            putString(PREF_COOKIE, null)
-            putString(PREF_EXPIRES, null)
-        }
+        preferences?.edit()?.clear()?.apply()
         startActivity(Intent(context, AuthorizationActivity::class.java))
         activity?.finish()
     }

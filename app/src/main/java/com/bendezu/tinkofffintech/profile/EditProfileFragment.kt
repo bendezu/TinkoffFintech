@@ -1,6 +1,7 @@
 package com.bendezu.tinkofffintech.profile
 
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.bendezu.tinkofffintech.*
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 
 private const val ARG_FIRST_NAME = "first_name"
@@ -53,6 +55,11 @@ class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener
         initialFirstName = arguments?.getString(ARG_FIRST_NAME).orEmpty()
         initialSecondName = arguments?.getString(ARG_SECOND_NAME).orEmpty()
         initialPatronymic = arguments?.getString(ARG_PATRONYMIC).orEmpty()
+
+        val avatar = context
+            ?.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+            ?.getString(PREF_AVATAR, null)
+        setAvatarImage(avatar)
 
         firstNameEditText.addTextChangedListener(
             TextValidator(
@@ -103,6 +110,20 @@ class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener
 
     override fun onCancel() {
         /* stay and do nothing */
+    }
+
+    private fun setAvatarImage(avatar: String?) {
+        if (avatar == null) {
+            val initials =
+                (initialFirstName.firstOrNull()?.toString() ?: "") +
+                        (initialSecondName.firstOrNull()?.toString() ?: "")
+            val color = avatarColors[Math.abs(initials.hashCode()) % avatarColors.size]
+            avatarImageView.setImageDrawable(ColorDrawable(color))
+            avatarImageView.initials = initials
+        } else {
+            val avatarUrl = "https://fintech.tinkoff.ru$avatar"
+            Glide.with(this).load(avatarUrl).into(avatarImageView)
+        }
     }
 
     private fun hideSoftKeyboard() {
