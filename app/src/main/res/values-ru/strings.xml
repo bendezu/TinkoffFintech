@@ -44,4 +44,6 @@
     <string name="log_in">Войти</string>
     <string name="email">Электронная почта</string>
     <string name="password">Пароль</string>
+    <string name="wrong_email_or_password">Неправильные email или пароль</string>
+    <string name="network_error">Обшибка сети</string>
 </resources>
