@@ -48,18 +48,25 @@ class AuthorizationActivity : AppCompatActivity(), Callback<User> {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
             App.apiService.signIn(UserCredential(email, password)).enqueue(this)
+            setLoading(true)
         }
     }
 
     private fun showErrorMessage() {
-        errorTextView.visibility = View.VISIBLE
+        errorTextView?.visibility = View.VISIBLE
+    }
+    private fun setLoading(isLoading: Boolean) {
+        progressBar?.visibility = if (isLoading) View.VISIBLE else View.INVISIBLE
+        logInButton?.isEnabled = !isLoading
     }
 
     override fun onFailure(call: Call<User>, t: Throwable) {
+        setLoading(false)
         Toast.makeText(this, getString(R.string.network_error), Toast.LENGTH_SHORT).show()
     }
 
     override fun onResponse(call: Call<User>, response: Response<User>) {
+        setLoading(false)
         if (response.isSuccessful) {
             val setCookie = response.headers().get("Set-Cookie")
             if (setCookie != null) {

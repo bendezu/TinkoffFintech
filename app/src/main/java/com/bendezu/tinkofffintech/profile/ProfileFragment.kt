@@ -70,7 +70,7 @@ class ProfileFragment: Fragment(), Callback<UserResponse> {
         if (response.isSuccessful) {
             val user = response.body()?.user
             if (user != null) {
-                setUser(user)
+                if (view != null) setUser(user)
                 saveUserToPrefs(user)
             }
         } else {
