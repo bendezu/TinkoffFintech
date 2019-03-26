@@ -19,7 +19,7 @@ class App: Application() {
         super.onCreate()
 
         val okHttpClient = OkHttpClient.Builder()
-            .addNetworkInterceptor(DelayInterceptor()) //This is used to add NetworkInterceptor.
+            .addNetworkInterceptor(DelayInterceptor())
             .build()
 
         apiService = Retrofit.Builder()
