@@ -46,4 +46,6 @@
     <string name="password">Пароль</string>
     <string name="wrong_email_or_password">Неправильные email или пароль</string>
     <string name="network_error">Обшибка сети</string>
+
+    <string name="no_lectures">ТЫ СВОБОДЕН!</string>
 </resources>
