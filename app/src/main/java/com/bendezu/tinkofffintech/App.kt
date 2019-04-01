@@ -21,7 +21,7 @@ class App: Application() {
 
         val okHttpClient = OkHttpClient.Builder()
             .addNetworkInterceptor(DelayInterceptor())
-            .addNetworkInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+            .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
             .build()
 
         apiService = Retrofit.Builder()
