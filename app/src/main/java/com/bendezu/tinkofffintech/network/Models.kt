@@ -26,3 +26,28 @@ class UserResponse (
     val user: User,
     val status: String
 )
+
+class HomeworksResponse (
+    val homeworks: List<HomeWork>
+)
+
+class HomeWork (
+    val id: Long,
+    val title: String,
+    val tasks: List<Task>
+)
+
+class Task (
+    val id: Long,
+    @SerializedName("task") val taskData: TaskData,
+    val status: String,
+    val mark: String
+)
+
+class TaskData (
+    val id: Long,
+    val title: String,
+    @SerializedName("task_type") val taskType: String,
+    @SerializedName("max_score") val maxScore: String,
+    @SerializedName("deadline_date") val deadlineDate: String?
+)
