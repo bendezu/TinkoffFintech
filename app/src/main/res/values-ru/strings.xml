@@ -31,7 +31,9 @@
     <string name="completed_courses">Пройденные курсы</string>
     <string name="passed">Сдан</string>
     <string name="failed">Не сдан</string>
+    <string name="checking">Проверка</string>
     <string name="passed_lessons">Прошло</string>
+    <string name="noviy">Новый</string>
     <string name="left_lessons">Осталось</string>
 
     <string name="no_contacts_found">Контакты не найдены\n¯\\_(ツ)_/¯</string>
@@ -48,4 +50,5 @@
     <string name="network_error">Обшибка сети</string>
 
     <string name="no_lectures">ТЫ СВОБОДЕН!</string>
+    <string name="deadline">Сдать до %1$s</string>
 </resources>

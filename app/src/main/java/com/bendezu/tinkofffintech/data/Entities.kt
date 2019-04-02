@@ -25,3 +25,9 @@ data class TaskEntity(
     @ColumnInfo(name = "mark") val mark: String,
     @ColumnInfo(name = "lecture_id") val lectureId: Long
 )
+
+object TaskStatus {
+    const val NEW = "new"
+    const val ON_CHECK = "on_check"
+    const val ACCEPTED = "accepted"
+}

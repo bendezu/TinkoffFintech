@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.SHARED_PREFERENCES_NAME
@@ -21,7 +22,11 @@ import kotlinx.android.synthetic.main.fragment_lectures.*
 class LecturesFragment: Fragment() {
 
     private val lecturesAdapter = LecturesAdapter {
-        Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+        fragmentManager?.beginTransaction()
+            ?.replace(R.id.container, TasksFragment.newInstance(it.id))
+            ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            ?.addToBackStack(null)
+            ?.commit()
     }
     private lateinit var preferences: SharedPreferences
     private lateinit var repository: HomeworksRepository
@@ -43,7 +48,6 @@ class LecturesFragment: Fragment() {
         swipeRefresh.apply {
             setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorSecondAccent)
             setOnRefreshListener{ loadData() }
-            isRefreshing = true
         }
         loadData()
     }

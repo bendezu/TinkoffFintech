@@ -3,6 +3,7 @@ package com.bendezu.tinkofffintech
 import android.app.Application
 import com.bendezu.tinkofffintech.network.DelayInterceptor
 import com.bendezu.tinkofffintech.network.FintechApiService
+import com.jakewharton.threetenabp.AndroidThreeTen
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -18,6 +19,8 @@ class App: Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        AndroidThreeTen.init(this)
 
         val okHttpClient = OkHttpClient.Builder()
             .addNetworkInterceptor(DelayInterceptor())

@@ -21,7 +21,11 @@ class RatingDetailsActivity: AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        if (supportFragmentManager.backStackEntryCount > 1) {
+            supportFragmentManager.popBackStack()
+        } else {
+            onBackPressed()
+        }
         return true
     }
 }
