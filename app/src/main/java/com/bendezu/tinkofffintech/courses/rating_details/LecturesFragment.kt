@@ -1,5 +1,8 @@
 package com.bendezu.tinkofffintech.courses.rating_details
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,32 +11,77 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bendezu.tinkofffintech.R
+import com.bendezu.tinkofffintech.SHARED_PREFERENCES_NAME
+import com.bendezu.tinkofffintech.auth.AuthorizationActivity
 import com.bendezu.tinkofffintech.courses.performance_details.ListItemDecoration
+import com.bendezu.tinkofffintech.data.FintechDatabase
 import com.bendezu.tinkofffintech.data.LectureEntity
 import kotlinx.android.synthetic.main.fragment_lectures.*
 
 class LecturesFragment: Fragment() {
+
+    private val lecturesAdapter = LecturesAdapter {
+        Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+    }
+    private lateinit var preferences: SharedPreferences
+    private lateinit var repository: HomeworksRepository
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_lectures, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val lecturesAdapter = LecturesAdapter {
-            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
-        }
-        lecturesAdapter.data = listOf(
-            LectureEntity(1L, "lecture1"),
-            LectureEntity(2L, "lecture2"),
-            LectureEntity(3L, "lecture3")
-        )
+        val db = FintechDatabase.getInstance(requireContext())
+        preferences = requireActivity().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        repository = HomeworksRepository(db.lectureDao(), db.taskDao(), preferences)
+
         recycler.apply {
             adapter = lecturesAdapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(ListItemDecoration(requireContext()).apply { margin = 32 })
         }
-        swipeRefresh.setOnRefreshListener {
-            swipeRefresh.isRefreshing = false
+        swipeRefresh.apply {
+            setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorSecondAccent)
+            setOnRefreshListener{ loadData() }
+            isRefreshing = true
         }
+        loadData()
+    }
+
+    private fun loadData() {
+        repository.callback = object: HomeworksRepository.LecturesCallback {
+            override fun onResult(lectures: List<LectureEntity>, fromNetwork: Boolean) {
+                showLectures(lectures)
+                if (fromNetwork) swipeRefresh.isRefreshing = false
+            }
+            override fun onError(t: Throwable) {
+                when(t) {
+                    is NetworkException -> showNetworkError()
+                    is UnauthorizedException -> openAuthorizationActivity()
+                }
+            }
+        }
+        repository.getLectures()
+    }
+
+    private fun showLectures(lectures: List<LectureEntity>) {
+        lecturesAdapter.data = lectures
+        emptyList.visibility = if (lecturesAdapter.itemCount == 0) View.VISIBLE else View.GONE
+    }
+
+    private fun showNetworkError() {
+        swipeRefresh.isRefreshing = false
+        Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun openAuthorizationActivity() {
+        preferences.edit().clear().apply()
+        startActivity(Intent(context, AuthorizationActivity::class.java))
+        activity?.finish()
+    }
+
+    override fun onDestroyView() {
+        repository.callback = null
+        super.onDestroyView()
     }
 }

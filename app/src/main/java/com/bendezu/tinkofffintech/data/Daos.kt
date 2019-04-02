@@ -13,7 +13,7 @@ interface LectureDao {
     fun getAll(): List<LectureEntity>
 
     @Insert(onConflict = REPLACE)
-    fun insertAll(currencies: List<LectureEntity>)
+    fun insertAll(lectures: List<LectureEntity>)
 
     @Query("DELETE FROM lecture")
     fun deleteAllLectures()
@@ -32,7 +32,7 @@ interface TaskDao {
     fun getByLecture(lectureId: Long): List<TaskEntity>
 
     @Insert(onConflict = REPLACE)
-    fun insertAll(currencies: List<TaskEntity>)
+    fun insertAll(tasks: List<TaskEntity>)
 
     @Query("DELETE FROM task")
     fun deleteAllTasks()
