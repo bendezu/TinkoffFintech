@@ -6,8 +6,7 @@ import java.util.*
 @Entity(tableName = "lecture")
 data class LectureEntity(
     @PrimaryKey val id: Long,
-    @ColumnInfo(name = "title") val title: String,
-    @ColumnInfo(name = "task_id") val taskId: Long
+    @ColumnInfo(name = "title") val title: String
 )
 
 @Entity(tableName = "task", foreignKeys = [

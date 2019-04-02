@@ -14,7 +14,7 @@ class ListItemDecoration(context: Context): RecyclerView.ItemDecoration() {
     private val bounds = Rect()
     private val divider = ColorDrawable(ContextCompat.getColor(context, R.color.colorBackground))
     private val dp = context.resources.displayMetrics.density.toInt()
-    private var margin = 100
+    var margin = 100
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         c.save()
