@@ -10,8 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.data.FintechDatabase
+import com.bendezu.tinkofffintech.data.TaskEntity
 import kotlinx.android.synthetic.main.fragment_tasks.*
-import kotlin.concurrent.thread
+import java.lang.ref.WeakReference
 
 private const val ARG_LECTURE_ID = "lecture_id"
 
@@ -28,25 +29,36 @@ class TasksFragment: Fragment() {
     }
 
     private var lectureId = 0L
-    private val adapter = TasksAdapter()
+    private val tasksAdapter = TasksAdapter()
+    private lateinit var db: FintechDatabase
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_tasks, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        db = FintechDatabase.getInstance(requireContext())
         lectureId = arguments?.getLong(ARG_LECTURE_ID) ?: 0
-        recycler.adapter = adapter
-        recycler.layoutManager = LinearLayoutManager(context)
-        loadData()
+        recycler.apply {
+            adapter = tasksAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
+        TasksThread(WeakReference(this)).start()
     }
 
-    private fun loadData() {
-        thread {
-            val tasks = FintechDatabase.getInstance(requireContext()).taskDao().getByLecture(lectureId)
-            Handler(Looper.getMainLooper()).post {
-                adapter.data = tasks
-                emptyList.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.GONE
+    private fun setData(tasks: List<TaskEntity>) {
+        tasksAdapter.data = tasks
+        emptyList.visibility = if (tasksAdapter.itemCount == 0) View.VISIBLE else View.GONE
+    }
+
+    class TasksThread(private val tasksFragment: WeakReference<TasksFragment>): Thread() {
+        override fun run() {
+            val fragment = tasksFragment.get()
+            if (fragment != null) {
+                val tasks = fragment.db.taskDao().getByLecture(fragment.lectureId)
+                Handler(Looper.getMainLooper()).post {
+                    if (fragment.isResumed) fragment.setData(tasks)
+                }
             }
         }
     }

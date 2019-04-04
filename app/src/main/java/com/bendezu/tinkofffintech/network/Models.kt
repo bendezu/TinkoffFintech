@@ -28,25 +28,25 @@ class UserResponse (
 )
 
 class HomeworksResponse (
-    val homeworks: List<HomeWork>
+    @SerializedName("homeworks") val homeworks: List<HomeWork>
 )
 
 class HomeWork (
-    val id: Long,
-    val title: String,
-    val tasks: List<Task>
+    @SerializedName("id") val id: Long,
+    @SerializedName("title") val title: String,
+    @SerializedName("tasks") val tasks: List<Task>
 )
 
 class Task (
-    val id: Long,
+    @SerializedName("id") val id: Long,
     @SerializedName("task") val taskData: TaskData,
-    val status: String,
-    val mark: String
+    @SerializedName("status") val status: String,
+    @SerializedName("mark") val mark: String
 )
 
 class TaskData (
-    val id: Long,
-    val title: String,
+    @SerializedName("id") val id: Long,
+    @SerializedName("title") val title: String,
     @SerializedName("task_type") val taskType: String,
     @SerializedName("max_score") val maxScore: String,
     @SerializedName("deadline_date") val deadlineDate: String?
