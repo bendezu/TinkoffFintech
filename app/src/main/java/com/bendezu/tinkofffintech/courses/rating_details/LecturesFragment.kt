@@ -22,11 +22,12 @@ import kotlinx.android.synthetic.main.fragment_lectures.*
 class LecturesFragment: Fragment() {
 
     private val lecturesAdapter = LecturesAdapter {
-        fragmentManager?.beginTransaction()
-            ?.replace(R.id.container, TasksFragment.newInstance(it.id))
-            ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            ?.addToBackStack(null)
-            ?.commit()
+        val fm = fragmentManager ?: return@LecturesAdapter
+        fm.beginTransaction()
+            .replace(R.id.container, TasksFragment.newInstance(it.id))
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .addToBackStack(null)
+            .commit()
     }
     private lateinit var preferences: SharedPreferences
     private lateinit var repository: HomeworksRepository
