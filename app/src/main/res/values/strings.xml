@@ -28,6 +28,8 @@
     <string name="left_lessons">Left</string>
     <string name="completed_courses">Completed courses</string>
     <string name="passed">Passed</string>
+    <string name="checking">Checking</string>
+    <string name="noviy">New</string>
     <string name="failed">Failed</string>
 
     <string name="no_contacts_found">No contacts found\n¯\\_(ツ)_/¯</string>
@@ -42,4 +44,8 @@
     <string name="password">Password</string>
     <string name="wrong_email_or_password">Wrong email or password</string>
     <string name="network_error">Network error</string>
+
+    <string name="no_lectures">YOU ARE FREE!</string>
+    <string name="mark" translatable="false">%1$s/%2$s</string>
+    <string name="deadline">Deadline %1$s</string>
 </resources>

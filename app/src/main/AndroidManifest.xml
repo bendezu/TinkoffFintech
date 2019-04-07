@@ -25,7 +25,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".courses.performance_details.PerformanceDetailActivity"></activity>
+        <activity android:name=".courses.performance_details.PerformanceDetailActivity"/>
+        <activity android:name=".courses.rating_details.RatingDetailsActivity"/>
 
     </application>
 
