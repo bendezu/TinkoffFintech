@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bendezu.tinkofffintech.R
-import com.bendezu.tinkofffintech.avatarColors
+import com.bendezu.tinkofffintech.getAvatarColor
+import com.bendezu.tinkofffintech.getInitials
 import kotlinx.android.synthetic.main.item_account_list.view.*
 
 private const val LIST_ITEM_TYPE = 0
@@ -47,11 +48,9 @@ class AccountsAdapter(var layoutManager: GridLayoutManager): RecyclerView.Adapte
     class AccountViewHolder(itemView: View, private val viewType: Int): RecyclerView.ViewHolder(itemView) {
 
         fun bind(contact: String) {
-            val color = avatarColors[Math.abs(contact.hashCode()) % avatarColors.size]
-            val initials = contact.split(" ", limit = 2).map { it.first() }.joinToString("").toUpperCase()
             val points = Math.abs(contact.hashCode()) % 100
-            itemView.avatar.setImageDrawable(ColorDrawable(color))
-            itemView.avatar.initials = initials
+            itemView.avatar.setImageDrawable(ColorDrawable(contact.getAvatarColor()))
+            itemView.avatar.initials = contact.getInitials()
             itemView.name.text = contact
             when(viewType) {
                 LIST_ITEM_TYPE -> {itemView.points.text = itemView.context.resources.getQuantityString(

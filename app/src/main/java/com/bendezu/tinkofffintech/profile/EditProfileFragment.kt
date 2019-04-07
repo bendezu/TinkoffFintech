@@ -1,6 +1,7 @@
 package com.bendezu.tinkofffintech.profile
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
@@ -37,6 +38,8 @@ class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener
     private lateinit var initialSecondName: String
     private lateinit var initialPatronymic: String
 
+    private lateinit var preferences: SharedPreferences
+
     private val saveButtonTextWatcher = object :TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             saveButton.isEnabled = firstNameInputLayout.error.isNullOrEmpty() &&
@@ -56,9 +59,9 @@ class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener
         initialSecondName = arguments?.getString(ARG_SECOND_NAME).orEmpty()
         initialPatronymic = arguments?.getString(ARG_PATRONYMIC).orEmpty()
 
-        val avatar = context
-            ?.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-            ?.getString(PREF_AVATAR, null)
+        preferences = requireContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+
+        val avatar = preferences.getString(PREF_AVATAR, null)
         setAvatarImage(avatar)
 
         firstNameEditText.addTextChangedListener(
@@ -89,8 +92,7 @@ class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener
         patronymicEditText.setText(initialPatronymic)
 
         saveButton.setOnClickListener {
-            activity?.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-                ?.edit(true){
+            preferences.edit {
                     putString(PREF_FIRST_NAME, firstNameEditText.text.toString())
                     putString(PREF_SECOND_NAME, secondNameEditText.text.toString())
                     putString(PREF_PATRONYMIC, patronymicEditText.text.toString())
@@ -114,11 +116,8 @@ class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener
 
     private fun setAvatarImage(avatar: String?) {
         if (avatar == null) {
-            val initials =
-                (initialFirstName.firstOrNull()?.toString() ?: "") +
-                        (initialSecondName.firstOrNull()?.toString() ?: "")
-            val color = avatarColors[Math.abs(initials.hashCode()) % avatarColors.size]
-            avatarImageView.setImageDrawable(ColorDrawable(color))
+            val initials = "$initialFirstName $initialSecondName".getInitials()
+            avatarImageView.setImageDrawable(ColorDrawable(initials.getAvatarColor()))
             avatarImageView.initials = initials
         } else {
             val avatarUrl = "https://fintech.tinkoff.ru$avatar"

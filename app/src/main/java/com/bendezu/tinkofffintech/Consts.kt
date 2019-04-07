@@ -10,6 +10,13 @@ const val PREF_AVATAR = "avatar"
 const val PREF_COOKIE = "cookie"
 const val PREF_EXPIRES = "expires"
 
+const val EXPIRES_DATE_FORMAT = "EEE, dd-MMM-yyyy HH:mm:ss zzz"
+const val GMT_TIME_ZONE = "GMT"
+
+const val COOKIE_HEADER = "Set-Cookie"
+const val COOKIE_ANYGEN = "anygen"
+const val COOKIE_EXPIRES = "expires"
+
 val avatarColors = arrayOf(
     Color.parseColor("#f44336"),
     Color.parseColor("#e91e63"),

@@ -11,17 +11,18 @@ import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.courses.performance_details.PerformanceDetailActivity
 import kotlinx.android.synthetic.main.fragment_performance.*
 import java.lang.ref.WeakReference
+import java.util.*
 
 class PerformanceFragment: Fragment() {
 
     class AccountBadge(val name: String, var points: Int, @ColorRes val colorRes: Int, val highlighted: Boolean = false)
-    val accounts = arrayListOf(
+    val accounts = Collections.synchronizedList(arrayListOf(
         AccountBadge("Андрей", 9, R.color.colorPassed),
         AccountBadge("Вы", 7, R.color.colorPrimary, true),
         AccountBadge("Александр", 10, R.color.colorSecondAccent),
         AccountBadge("Светлана", 0, R.color.colorPrimaryLight),
         AccountBadge("Геннадий", 6, android.R.color.holo_purple)
-    )
+    ))
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_performance, container, false)

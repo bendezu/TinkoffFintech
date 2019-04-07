@@ -10,6 +10,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
+fun String.getAvatarColor() = avatarColors[Math.abs(this.hashCode()) % avatarColors.size]
+
+fun String.getInitials() =
+    this.split(" ", limit = 2).map{ it.firstOrNull() ?: "" }.joinToString("").toUpperCase()
 
 class App: Application() {
 

@@ -10,11 +10,10 @@ import com.bendezu.tinkofffintech.data.LectureEntity
 import com.bendezu.tinkofffintech.data.TaskDao
 import com.bendezu.tinkofffintech.data.TaskEntity
 import com.bendezu.tinkofffintech.network.HomeworksResponse
+import com.bendezu.tinkofffintech.network.NetworkException
+import com.bendezu.tinkofffintech.network.UnauthorizedException
 import java.io.IOException
 import kotlin.concurrent.thread
-
-class NetworkException: RuntimeException()
-class UnauthorizedException: RuntimeException()
 
 class HomeworksRepository(private val lectureDao: LectureDao,
                           private val taskDao: TaskDao,

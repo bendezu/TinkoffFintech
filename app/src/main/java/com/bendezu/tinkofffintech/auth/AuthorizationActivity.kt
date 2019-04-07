@@ -68,11 +68,11 @@ class AuthorizationActivity : AppCompatActivity(), Callback<User> {
     override fun onResponse(call: Call<User>, response: Response<User>) {
         setLoading(false)
         if (response.isSuccessful) {
-            val setCookie = response.headers().get("Set-Cookie")
+            val setCookie = response.headers().get(COOKIE_HEADER)
             if (setCookie != null) {
                 val set = setCookie.split("; ")
-                val cookie = set.find { it.startsWith("anygen") }
-                val expires = set.find { it.startsWith("expires") }
+                val cookie = set.find { it.startsWith(COOKIE_ANYGEN) }
+                val expires = set.find { it.startsWith(COOKIE_EXPIRES) }
                 if (cookie != null && expires != null) {
                     saveCookieToPrefs(cookie, expires.substringAfter('='))
                     openMainActivity()
@@ -99,7 +99,7 @@ class AuthorizationActivity : AppCompatActivity(), Callback<User> {
     }
 
     private fun parseExpiresDateString(dateStr: String): Date =
-        SimpleDateFormat("EEE, dd-MMM-yyyy HH:mm:ss zzz", Locale.US)
-            .apply { timeZone = TimeZone.getTimeZone("GMT") }
+        SimpleDateFormat(EXPIRES_DATE_FORMAT, Locale.US)
+            .apply { timeZone = TimeZone.getTimeZone(GMT_TIME_ZONE) }
             .parse(dateStr) ?: throw ParseException(dateStr, 1)
 }

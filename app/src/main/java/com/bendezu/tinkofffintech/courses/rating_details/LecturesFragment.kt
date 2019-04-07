@@ -17,6 +17,8 @@ import com.bendezu.tinkofffintech.auth.AuthorizationActivity
 import com.bendezu.tinkofffintech.courses.performance_details.ListItemDecoration
 import com.bendezu.tinkofffintech.data.FintechDatabase
 import com.bendezu.tinkofffintech.data.LectureEntity
+import com.bendezu.tinkofffintech.network.NetworkException
+import com.bendezu.tinkofffintech.network.UnauthorizedException
 import kotlinx.android.synthetic.main.fragment_lectures.*
 
 class LecturesFragment: Fragment() {
