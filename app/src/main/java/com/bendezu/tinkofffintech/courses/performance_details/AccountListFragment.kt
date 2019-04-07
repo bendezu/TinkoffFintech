@@ -1,28 +1,29 @@
 package com.bendezu.tinkofffintech.courses.performance_details
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.database.Cursor
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.loader.app.LoaderManager
-import androidx.loader.content.CursorLoader
-import androidx.loader.content.Loader
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bendezu.tinkofffintech.R
+import com.bendezu.tinkofffintech.SHARED_PREFERENCES_NAME
+import com.bendezu.tinkofffintech.auth.AuthorizationActivity
+import com.bendezu.tinkofffintech.data.FintechDatabase
+import com.bendezu.tinkofffintech.data.StudentEntity
+import com.bendezu.tinkofffintech.network.NetworkException
+import com.bendezu.tinkofffintech.network.UnauthorizedException
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
-private const val REQUEST_CONTACT_PERMISSION = 213
-
-class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
+class AccountListFragment : Fragment() {
 
     private var accountsAdapter: AccountsAdapter? = null
+    private lateinit var preferences: SharedPreferences
+    private lateinit var repository: StudentsRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +35,10 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val db = FintechDatabase.getInstance(requireContext())
+        preferences = requireContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        repository = StudentsRepository(db.studentDao(), preferences)
+
         if (accountsAdapter == null) {
             accountsAdapter = AccountsAdapter()
         }
@@ -43,83 +48,51 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             addItemDecoration(ListItemDecoration(context))
             itemAnimator = PopupItemAnimator()
         }
-        if (savedInstanceState == null)
-            checkAndRequestPermission()
+
+        loadData()
     }
 
-    private fun checkAndRequestPermission() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            requestPermissions(
-                arrayOf(Manifest.permission.READ_CONTACTS),
-                REQUEST_CONTACT_PERMISSION
-            )
-        } else {
-            // Permission has already been granted
-            loadContacts()
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when (requestCode) {
-            REQUEST_CONTACT_PERMISSION -> {
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    loadContacts()
-                } else {
-                    Toast.makeText(context, "Permission not granted", Toast.LENGTH_SHORT).show()
-                    activity?.finish()
+    private fun loadData() {
+        repository.callback = object: StudentsRepository.StudentsCallback {
+            override fun onResult(students: List<StudentEntity>, fromNetwork: Boolean) {
+                showStudents(students)
+                if (fromNetwork) swipeRefresh.isRefreshing = false
+            }
+            override fun onError(t: Throwable) {
+                when(t) {
+                    is NetworkException -> showNetworkError()
+                    is UnauthorizedException -> openAuthorizationActivity()
                 }
             }
         }
+        repository.getStudents()
     }
 
-    private fun loadContacts() {
-        LoaderManager.getInstance(this).initLoader(0, null, this)
-    }
-
-    override fun onCreateLoader(id: Int, args: Bundle?) = CursorLoader(
-        requireContext(),
-        ContactsContract.Contacts.CONTENT_URI,
-        arrayOf(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY),
-        null,
-        null,
-        ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " ASC"
-    )
-
-    override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
-        updateAdapter(data)
-    }
-
-    override fun onLoaderReset(loader: Loader<Cursor>) {
-        updateAdapter(null)
-    }
-
-    private fun updateAdapter(cursor: Cursor?) {
-        val names = mutableListOf<String>()
-        cursor?.apply {
-            for (i in 0 until cursor.count) {
-                cursor.moveToPosition(i)
-                val name = cursor.getString(
-                    cursor.getColumnIndex(
-                        ContactsContract.Contacts.DISPLAY_NAME_PRIMARY
-                    )
-                ) ?: requireContext().getString(R.string.no_name)
-                names.add(name)
-            }
-        }
-        accountsAdapter?.data = names
+    private fun showStudents(students: List<StudentEntity>) {
+        accountsAdapter?.data = students
         checkAccountsCount()
+    }
+
+    private fun showNetworkError() {
+        swipeRefresh.isRefreshing = false
+        Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun openAuthorizationActivity() {
+        preferences.edit().clear().apply()
+        startActivity(Intent(context, AuthorizationActivity::class.java))
+        activity?.finish()
     }
 
     fun query(text: String?) {
         accountsAdapter?.apply { filter.filter(text) }
+        checkAccountsCount()
     }
 
     fun sortAlphabetically() {
         accountsAdapter?.apply {
             val sorted = filteredData.toMutableList()
-            sorted.sortBy { it }
+            sorted.sortBy { it.name }
             filteredData = sorted
         }
     }
@@ -127,12 +100,17 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     fun sortByMark() {
         accountsAdapter?.apply {
             val sorted = filteredData.toMutableList()
-            sorted.sortByDescending { it }
+            sorted.sortWith(compareByDescending<StudentEntity>{ it.totalMark }.thenBy { it.name })
             filteredData = sorted
         }
     }
 
     private fun checkAccountsCount() {
         emptyList.visibility = if (accountsAdapter?.itemCount == 0) View.VISIBLE else View.GONE
+    }
+
+    override fun onDestroyView() {
+        repository.callback = null
+        super.onDestroyView()
     }
 }

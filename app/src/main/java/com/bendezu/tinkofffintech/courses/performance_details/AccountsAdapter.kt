@@ -8,32 +8,34 @@ import android.widget.Filter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bendezu.tinkofffintech.R
+import com.bendezu.tinkofffintech.data.StudentEntity
 import com.bendezu.tinkofffintech.getAvatarColor
 import com.bendezu.tinkofffintech.getInitials
 import kotlinx.android.synthetic.main.item_account_list.view.*
+import kotlin.math.floor
 
 class AccountsAdapter: RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>() {
 
-    var filteredData = mutableListOf<String>()
+    var filteredData = mutableListOf<StudentEntity>()
         set(value) {
-            val callback = DiffCallback(field, value)
+            val callback = StudentDiff(field, value)
             field = value
             DiffUtil.calculateDiff(callback).dispatchUpdatesTo(this)
         }
-    var data = mutableListOf<String>()
+    var data = listOf<StudentEntity>()
         set(value) {
             field = value
-            filteredData = data
+            filteredData = data.toMutableList()
         }
 
     val filter = object: Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val pattern = (constraint ?: "").toString().toLowerCase().trim()
-            val filtered = data.filter { it.toLowerCase().contains(pattern) }
+            val filtered = data.filter { it.name.toLowerCase().contains(pattern) }
             return FilterResults().apply { values = filtered }
         }
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            filteredData = results?.values as MutableList<String>
+            filteredData = results?.values as MutableList<StudentEntity>
         }
     }
 
@@ -50,13 +52,13 @@ class AccountsAdapter: RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>()
 
     class AccountViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        fun bind(contact: String) {
-            val points = Math.abs(contact.hashCode()) % 100
-            itemView.avatar.setImageDrawable(ColorDrawable(contact.getAvatarColor()))
-            itemView.avatar.initials = contact.getInitials()
-            itemView.name.text = contact
+        fun bind(student: StudentEntity) {
+            val points = student.totalMark
+            itemView.avatar.setImageDrawable(ColorDrawable(student.name.getAvatarColor()))
+            itemView.avatar.initials = student.name.getInitials()
+            itemView.name.text = student.name
             itemView.points.text = itemView.context.resources.getQuantityString(
-                    R.plurals.points, points, points)
+                    R.plurals.points, floor(points).toInt(), points)
         }
     }
 
