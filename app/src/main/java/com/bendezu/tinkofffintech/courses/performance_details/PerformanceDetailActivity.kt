@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.transition.TransitionManager
 import com.bendezu.tinkofffintech.R
 import kotlinx.android.synthetic.main.activity_performance_detail.*
 
@@ -22,18 +23,22 @@ class PerformanceDetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        searchView.layoutParams = Toolbar.LayoutParams(Gravity.END)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                accountsFragment.query = query
-                return false
+        searchView.apply {
+            layoutParams = Toolbar.LayoutParams(Gravity.END)
+            setOnSearchClickListener {
+                TransitionManager.beginDelayedTransition(searchView)
             }
-            override fun onQueryTextChange(newText: String): Boolean {
-                accountsFragment.query = newText
-                return true
-            }
-        })
-
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    accountsFragment.query = query
+                    return false
+                }
+                override fun onQueryTextChange(newText: String): Boolean {
+                    accountsFragment.query = newText
+                    return true
+                }
+            })
+        }
         if (savedInstanceState == null) {
             accountsFragment = AccountListFragment()
             supportFragmentManager.beginTransaction()
