@@ -43,3 +43,22 @@ interface TaskDao {
         insertAll(tasks)
     }
 }
+
+@Dao
+interface StudentDao {
+
+    @Query("SELECT * FROM student ORDER BY id ASC")
+    fun getAll(): List<StudentEntity>
+
+    @Insert(onConflict = REPLACE)
+    fun insertAll(students: List<StudentEntity>)
+
+    @Query("DELETE FROM student")
+    fun deleteAll()
+
+    @Transaction
+    fun updateData(students: List<StudentEntity>) {
+        deleteAll()
+        insertAll(students)
+    }
+}
