@@ -4,7 +4,6 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bendezu.tinkofffintech.R
@@ -16,27 +15,24 @@ import kotlin.math.floor
 
 class AccountsAdapter: RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>() {
 
-    var filteredData = mutableListOf<StudentEntity>()
+    var filteredData = listOf<StudentEntity>()
         set(value) {
             val callback = StudentDiff(field, value)
             field = value
             DiffUtil.calculateDiff(callback).dispatchUpdatesTo(this)
         }
-    var data = listOf<StudentEntity>()
-        set(value) {
-            field = value
-            filteredData = data.toMutableList()
-        }
 
-    val filter = object: Filter() {
-        override fun performFiltering(constraint: CharSequence?): FilterResults {
-            val pattern = (constraint ?: "").toString().toLowerCase().trim()
-            val filtered = data.filter { it.name.toLowerCase().contains(pattern) }
-            return FilterResults().apply { values = filtered }
-        }
-        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            filteredData = results?.values as MutableList<StudentEntity>
-        }
+    private var data = listOf<StudentEntity>()
+
+    fun setNewData(value: List<StudentEntity>, query: String) {
+        data = value
+        filter(query)
+    }
+
+    fun filter(query: String) {
+        val pattern = query.toLowerCase().trim()
+        val filtered = data.filter { it.name.toLowerCase().contains(pattern) }
+        filteredData = filtered
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder {

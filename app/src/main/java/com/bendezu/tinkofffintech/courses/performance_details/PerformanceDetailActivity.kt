@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_performance_detail.*
 
 class PerformanceDetailActivity : AppCompatActivity() {
 
-    val accountsFragment = AccountListFragment()
+    lateinit var accountsFragment: AccountListFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,20 +24,24 @@ class PerformanceDetailActivity : AppCompatActivity() {
 
         searchView.layoutParams = Toolbar.LayoutParams(Gravity.END)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                accountsFragment.query(query)
+            override fun onQueryTextSubmit(query: String): Boolean {
+                accountsFragment.query = query
                 return false
             }
-            override fun onQueryTextChange(newText: String?): Boolean {
-                accountsFragment.query(newText)
+            override fun onQueryTextChange(newText: String): Boolean {
+                accountsFragment.query = newText
                 return true
             }
         })
 
-        if (savedInstanceState == null)
+        if (savedInstanceState == null) {
+            accountsFragment = AccountListFragment()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, accountsFragment)
                 .commit()
+        } else {
+            accountsFragment = supportFragmentManager.findFragmentById(R.id.container) as AccountListFragment
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

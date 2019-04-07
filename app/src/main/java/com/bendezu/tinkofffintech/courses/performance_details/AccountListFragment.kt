@@ -19,16 +19,20 @@ import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
+private const val STATE_QUERY = "query"
+
 class AccountListFragment : Fragment() {
 
-    private var accountsAdapter: AccountsAdapter? = null
+    private val accountsAdapter = AccountsAdapter()
     private lateinit var preferences: SharedPreferences
     private lateinit var repository: StudentsRepository
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        retainInstance = true
-    }
+    var query: String = ""
+        set(value) {
+            field = value
+            accountsAdapter.filter(value)
+            checkAccountsCount()
+        }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_account_list, container, false)
@@ -39,17 +43,25 @@ class AccountListFragment : Fragment() {
         preferences = requireContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
         repository = StudentsRepository(db.studentDao(), preferences)
 
-        if (accountsAdapter == null) {
-            accountsAdapter = AccountsAdapter()
+        if (savedInstanceState != null) {
+            query = savedInstanceState.getString(STATE_QUERY).orEmpty()
         }
+
         recycler.apply {
             adapter = accountsAdapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(ListItemDecoration(context))
             itemAnimator = PopupItemAnimator()
         }
-
+        swipeRefresh.apply {
+            setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorSecondAccent)
+            setOnRefreshListener{ loadData() }
+        }
         loadData()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(STATE_QUERY, query)
     }
 
     private fun loadData() {
@@ -69,7 +81,7 @@ class AccountListFragment : Fragment() {
     }
 
     private fun showStudents(students: List<StudentEntity>) {
-        accountsAdapter?.data = students
+        accountsAdapter.setNewData(students, query)
         checkAccountsCount()
     }
 
@@ -84,13 +96,8 @@ class AccountListFragment : Fragment() {
         activity?.finish()
     }
 
-    fun query(text: String?) {
-        accountsAdapter?.apply { filter.filter(text) }
-        checkAccountsCount()
-    }
-
     fun sortAlphabetically() {
-        accountsAdapter?.apply {
+        accountsAdapter.apply {
             val sorted = filteredData.toMutableList()
             sorted.sortBy { it.name }
             filteredData = sorted
@@ -98,7 +105,7 @@ class AccountListFragment : Fragment() {
     }
 
     fun sortByMark() {
-        accountsAdapter?.apply {
+        accountsAdapter.apply {
             val sorted = filteredData.toMutableList()
             sorted.sortWith(compareByDescending<StudentEntity>{ it.totalMark }.thenBy { it.name })
             filteredData = sorted
@@ -106,7 +113,7 @@ class AccountListFragment : Fragment() {
     }
 
     private fun checkAccountsCount() {
-        emptyList.visibility = if (accountsAdapter?.itemCount == 0) View.VISIBLE else View.GONE
+        emptyList.visibility = if (accountsAdapter.itemCount == 0) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {
