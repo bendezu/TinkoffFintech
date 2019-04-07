@@ -14,14 +14,11 @@ import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bendezu.tinkofffintech.R
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
 private const val REQUEST_CONTACT_PERMISSION = 213
-const val COLUMNS_LIST = 1
-const val COLUMNS_GRID = 3
-private var index = 1
 
 class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -38,18 +35,12 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (accountsAdapter == null) {
-            accountsAdapter = AccountsAdapter(GridLayoutManager(context, COLUMNS_LIST))
-        } else {
-            accountsAdapter?.layoutManager = GridLayoutManager(context,
-                accountsAdapter?.layoutManager?.spanCount ?: COLUMNS_LIST)
+            accountsAdapter = AccountsAdapter()
         }
         recycler.apply {
-            layoutManager = accountsAdapter?.layoutManager
             adapter = accountsAdapter
-            if (accountsAdapter?.layoutManager?.spanCount == COLUMNS_LIST)
-                addItemDecoration(ListItemDecoration(context))
-            else
-                addItemDecoration(GridItemDecoration(context, COLUMNS_GRID))
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(ListItemDecoration(context))
             itemAnimator = PopupItemAnimator()
         }
         if (savedInstanceState == null)
@@ -121,43 +112,23 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         checkAccountsCount()
     }
 
-    fun switchView() {
-        for (i in recycler.itemDecorationCount - 1 downTo  0)
-            recycler.removeItemDecorationAt(i)
+    fun query(text: String?) {
+        accountsAdapter?.apply { filter.filter(text) }
+    }
+
+    fun sortAlphabetically() {
         accountsAdapter?.apply {
-            if (layoutManager.spanCount == COLUMNS_LIST) {
-                layoutManager.spanCount = COLUMNS_GRID
-                recycler.addItemDecoration(GridItemDecoration(requireContext(), COLUMNS_GRID))
-            } else {
-                layoutManager.spanCount = COLUMNS_LIST
-                recycler.addItemDecoration(ListItemDecoration(requireContext()))
-            }
-            notifyItemRangeChanged(0, itemCount)
+            val sorted = filteredData.toMutableList()
+            sorted.sortBy { it }
+            filteredData = sorted
         }
     }
 
-    fun addAccount() {
+    fun sortByMark() {
         accountsAdapter?.apply {
-            data.add("New Account ${index++}")
-            notifyItemInserted(data.size)
-        }
-        checkAccountsCount()
-    }
-
-    fun removeAccount() {
-        if (accountsAdapter?.itemCount == 0) return
-        accountsAdapter?.apply {
-            val index = data.lastIndex
-            data.removeAt(index)
-            notifyItemRemoved(index)
-        }
-        checkAccountsCount()
-    }
-
-    fun shuffleAccounts() {
-        accountsAdapter?.apply {
-            val shuffled = data.toMutableList().apply { shuffle() }
-            data = shuffled
+            val sorted = filteredData.toMutableList()
+            sorted.sortByDescending { it }
+            filteredData = sorted
         }
     }
 

@@ -37,6 +37,8 @@
     <string name="add_account">Add account</string>
     <string name="remove_account">Remove account</string>
     <string name="shuffle_accounts">Shuffle accounts</string>
+    <string name="sort_alphabetically">Sort alphabetically</string>
+    <string name="sort_by_mark">Sort by mark</string>
     <string name="no_name">No name</string>
 
     <string name="log_in">Log In</string>

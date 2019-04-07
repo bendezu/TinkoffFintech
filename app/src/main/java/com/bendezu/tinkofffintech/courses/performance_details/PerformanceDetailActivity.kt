@@ -1,13 +1,19 @@
 package com.bendezu.tinkofffintech.courses.performance_details
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import com.bendezu.tinkofffintech.R
 import kotlinx.android.synthetic.main.activity_performance_detail.*
 
+
 class PerformanceDetailActivity : AppCompatActivity() {
+
+    val accountsFragment = AccountListFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,9 +22,21 @@ class PerformanceDetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        searchView.layoutParams = Toolbar.LayoutParams(Gravity.END)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                accountsFragment.query(query)
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                accountsFragment.query(newText)
+                return true
+            }
+        })
+
         if (savedInstanceState == null)
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, AccountListFragment())
+                .replace(R.id.container, accountsFragment)
                 .commit()
     }
 
@@ -33,22 +51,13 @@ class PerformanceDetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val accountsFragment = supportFragmentManager.findFragmentById(R.id.container) as AccountListFragment
         when (item?.itemId) {
-            R.id.switch_view -> {
-                accountsFragment.switchView()
+            R.id.action_sort_alphabetically -> {
+                accountsFragment.sortAlphabetically()
                 return true
             }
-            R.id.add_account_action -> {
-                accountsFragment.addAccount()
-                return true
-            }
-            R.id.remove_account_action -> {
-                accountsFragment.removeAccount()
-                return true
-            }
-            R.id.shuffle_accounts_action -> {
-                accountsFragment.shuffleAccounts()
+            R.id.action_sort_by_mark -> {
+                accountsFragment.sortByMark()
                 return true
             }
         }
