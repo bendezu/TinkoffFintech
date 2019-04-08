@@ -68,7 +68,10 @@ class AccountListFragment : Fragment() {
         repository.callback = object: StudentsRepository.StudentsCallback {
             override fun onResult(students: List<StudentEntity>, shouldStopLoading: Boolean) {
                 showStudents(students)
-                if (shouldStopLoading) swipeRefresh.isRefreshing = false
+                if (shouldStopLoading)
+                    swipeRefresh.isRefreshing = false
+                else
+                    if (students.isEmpty()) swipeRefresh.isRefreshing = true
             }
             override fun onError(t: Throwable) {
                 when(t) {
@@ -102,6 +105,7 @@ class AccountListFragment : Fragment() {
             sorted.sortBy { it.name }
             filteredData = sorted
         }
+        recycler.scrollToPosition(0)
     }
 
     fun sortByMark() {
@@ -110,6 +114,7 @@ class AccountListFragment : Fragment() {
             sorted.sortWith(compareByDescending<StudentEntity>{ it.totalMark }.thenBy { it.name })
             filteredData = sorted
         }
+        recycler.scrollToPosition(0)
     }
 
     private fun checkAccountsCount() {
