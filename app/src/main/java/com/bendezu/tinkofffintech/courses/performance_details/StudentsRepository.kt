@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.PREF_COOKIE
+import com.bendezu.tinkofffintech.PREF_RECENT_STUDENTS_UPDATE
 import com.bendezu.tinkofffintech.data.StudentDao
 import com.bendezu.tinkofffintech.data.StudentEntity
 import com.bendezu.tinkofffintech.network.GradesResponse
@@ -13,12 +14,14 @@ import com.bendezu.tinkofffintech.network.UnauthorizedException
 import java.io.IOException
 import kotlin.concurrent.thread
 
+private const val VALID_DURATION_MILLIS = 10_000
+
 class StudentsRepository(private val studentDao: StudentDao,
                          private val sharedPreferences: SharedPreferences,
                          var callback: StudentsCallback? = null) {
 
     interface StudentsCallback {
-        fun onResult(students: List<StudentEntity>, fromNetwork: Boolean = false)
+        fun onResult(students: List<StudentEntity>, shouldStopLoading: Boolean = false)
         fun onError(t: Throwable)
     }
 
@@ -27,7 +30,10 @@ class StudentsRepository(private val studentDao: StudentDao,
     fun getStudents() {
         thread {
             val dbStudents = studentDao.getAll()
-            uiHandler.post{ callback?.onResult(dbStudents) }
+            val prevUpdate = sharedPreferences.getLong(PREF_RECENT_STUDENTS_UPDATE, 0)
+            val isDataValid = System.currentTimeMillis() - prevUpdate < VALID_DURATION_MILLIS
+            uiHandler.post{ callback?.onResult(dbStudents, isDataValid) }
+            if (isDataValid) { return@thread }
 
             val cookie = sharedPreferences.getString(PREF_COOKIE, "").orEmpty()
             try {
@@ -38,8 +44,8 @@ class StudentsRepository(private val studentDao: StudentDao,
                         val netStudents = grades.toEntity()
                         val sortedStudents = netStudents.sortedBy { it.id }
 
+                        sharedPreferences.edit().putLong(PREF_RECENT_STUDENTS_UPDATE, System.currentTimeMillis()).apply()
                         uiHandler.post{ callback?.onResult(sortedStudents, true) }
-
                         studentDao.updateData(netStudents)
                     }
                 } else {

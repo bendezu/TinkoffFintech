@@ -9,6 +9,7 @@ const val PREF_PATRONYMIC = "patronymic"
 const val PREF_AVATAR = "avatar"
 const val PREF_COOKIE = "cookie"
 const val PREF_EXPIRES = "expires"
+const val PREF_RECENT_STUDENTS_UPDATE = "students_update"
 
 const val EXPIRES_DATE_FORMAT = "EEE, dd-MMM-yyyy HH:mm:ss zzz"
 const val GMT_TIME_ZONE = "GMT"

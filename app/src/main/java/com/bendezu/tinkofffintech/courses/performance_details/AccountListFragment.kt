@@ -66,9 +66,9 @@ class AccountListFragment : Fragment() {
 
     private fun loadData() {
         repository.callback = object: StudentsRepository.StudentsCallback {
-            override fun onResult(students: List<StudentEntity>, fromNetwork: Boolean) {
+            override fun onResult(students: List<StudentEntity>, shouldStopLoading: Boolean) {
                 showStudents(students)
-                if (fromNetwork) swipeRefresh.isRefreshing = false
+                if (shouldStopLoading) swipeRefresh.isRefreshing = false
             }
             override fun onError(t: Throwable) {
                 when(t) {
