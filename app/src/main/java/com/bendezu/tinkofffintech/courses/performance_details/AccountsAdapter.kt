@@ -21,18 +21,21 @@ class AccountsAdapter : RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>(
             field = value
             DiffUtil.calculateDiff(callback).dispatchUpdatesTo(this)
         }
-
     private var data = listOf<StudentEntity>()
 
-    fun setNewData(value: List<StudentEntity>, query: String) {
+    fun setNewData(value: List<StudentEntity>, query: String, sort: String) {
         data = value
-        filter(query)
+        filterAndSort(query, sort)
     }
 
-    fun filter(query: String) {
+    fun filterAndSort(query: String, sort: String) {
         val pattern = query.toLowerCase().trim()
-        val filtered = data.filter { it.name.toLowerCase().contains(pattern) }
-        filteredData = filtered
+        val modified = data.filterTo(ArrayList()) { it.name.toLowerCase().contains(pattern) }
+        when (sort) {
+            SortType.ALPHABETICALLY -> modified.sortBy { it.name }
+            SortType.BY_MARK -> modified.sortWith(compareByDescending<StudentEntity> { it.totalMark }.thenBy { it.name })
+        }
+        filteredData = modified
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder {

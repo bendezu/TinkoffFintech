@@ -11,7 +11,6 @@ import androidx.transition.TransitionManager
 import com.bendezu.tinkofffintech.R
 import kotlinx.android.synthetic.main.activity_performance_detail.*
 
-
 class PerformanceDetailActivity : AppCompatActivity() {
 
     lateinit var accountsFragment: AccountListFragment
@@ -62,11 +61,11 @@ class PerformanceDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_sort_alphabetically -> {
-                accountsFragment.sortAlphabetically()
+                accountsFragment.sort = SortType.ALPHABETICALLY
                 return true
             }
             R.id.action_sort_by_mark -> {
-                accountsFragment.sortByMark()
+                accountsFragment.sort = SortType.BY_MARK
                 return true
             }
         }

@@ -21,12 +21,33 @@ import com.bendezu.tinkofffintech.swipeRefreshColors
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
 private const val STATE_QUERY = "query"
+private const val STATE_SORT = "sort"
+
+object SortType {
+    const val NONE = "none"
+    const val ALPHABETICALLY = "alphabetically"
+    const val BY_MARK = "by_mark"
+}
 
 class AccountListFragment : Fragment() {
 
     private val accountsAdapter = AccountsAdapter()
     private lateinit var preferences: SharedPreferences
     private lateinit var repository: StudentsRepository
+
+    var query: String = ""
+        set(value) {
+            field = value
+            accountsAdapter.filterAndSort(value, sort)
+            recycler.scrollToPosition(0)
+            checkAccountsCount()
+        }
+    var sort: String = SortType.NONE
+        set(value) {
+            field = value
+            accountsAdapter.filterAndSort(query, value)
+            recycler.scrollToPosition(0)
+        }
 
     private val callback = object : StudentsRepository.StudentsCallback {
         override fun onResult(students: List<StudentEntity>, shouldStopLoading: Boolean) {
@@ -45,13 +66,6 @@ class AccountListFragment : Fragment() {
         }
     }
 
-    var query: String = ""
-        set(value) {
-            field = value
-            accountsAdapter.filter(value)
-            checkAccountsCount()
-        }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_account_list, container, false)
     }
@@ -63,6 +77,7 @@ class AccountListFragment : Fragment() {
 
         if (savedInstanceState != null) {
             query = savedInstanceState.getString(STATE_QUERY).orEmpty()
+            sort = savedInstanceState.getString(STATE_SORT) ?: SortType.NONE
         }
 
         recycler.apply {
@@ -80,6 +95,7 @@ class AccountListFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(STATE_QUERY, query)
+        outState.putString(STATE_SORT, sort)
     }
 
     private fun loadData() {
@@ -87,7 +103,7 @@ class AccountListFragment : Fragment() {
     }
 
     private fun showStudents(students: List<StudentEntity>) {
-        accountsAdapter.setNewData(students, query)
+        accountsAdapter.setNewData(students, query, sort)
         checkAccountsCount()
     }
 
@@ -100,24 +116,6 @@ class AccountListFragment : Fragment() {
         preferences.edit().clear().apply()
         startActivity(Intent(context, AuthorizationActivity::class.java))
         activity?.finish()
-    }
-
-    fun sortAlphabetically() {
-        accountsAdapter.apply {
-            val sorted = filteredData.toMutableList()
-            sorted.sortBy { it.name }
-            filteredData = sorted
-        }
-        recycler.scrollToPosition(0)
-    }
-
-    fun sortByMark() {
-        accountsAdapter.apply {
-            val sorted = filteredData.toMutableList()
-            sorted.sortWith(compareByDescending<StudentEntity> { it.totalMark }.thenBy { it.name })
-            filteredData = sorted
-        }
-        recycler.scrollToPosition(0)
     }
 
     private fun checkAccountsCount() {
