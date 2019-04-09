@@ -17,6 +17,7 @@ import com.bendezu.tinkofffintech.data.FintechDatabase
 import com.bendezu.tinkofffintech.data.StudentEntity
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
+import com.bendezu.tinkofffintech.swipeRefreshColors
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
 private const val STATE_QUERY = "query"
@@ -26,6 +27,23 @@ class AccountListFragment : Fragment() {
     private val accountsAdapter = AccountsAdapter()
     private lateinit var preferences: SharedPreferences
     private lateinit var repository: StudentsRepository
+
+    private val callback = object : StudentsRepository.StudentsCallback {
+        override fun onResult(students: List<StudentEntity>, shouldStopLoading: Boolean) {
+            showStudents(students)
+            if (shouldStopLoading)
+                swipeRefresh.isRefreshing = false
+            else
+                if (students.isEmpty()) swipeRefresh.isRefreshing = true
+        }
+
+        override fun onError(t: Throwable) {
+            when (t) {
+                is NetworkException -> showNetworkError()
+                is UnauthorizedException -> openAuthorizationActivity()
+            }
+        }
+    }
 
     var query: String = ""
         set(value) {
@@ -41,7 +59,7 @@ class AccountListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val db = FintechDatabase.getInstance(requireContext())
         preferences = requireContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-        repository = StudentsRepository(db.studentDao(), preferences)
+        repository = StudentsRepository(db.studentDao(), preferences, callback)
 
         if (savedInstanceState != null) {
             query = savedInstanceState.getString(STATE_QUERY).orEmpty()
@@ -54,8 +72,8 @@ class AccountListFragment : Fragment() {
             itemAnimator = PopupItemAnimator()
         }
         swipeRefresh.apply {
-            setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorSecondAccent)
-            setOnRefreshListener{ loadData() }
+            setColorSchemeResources(*swipeRefreshColors)
+            setOnRefreshListener { loadData() }
         }
         loadData()
     }
@@ -65,21 +83,6 @@ class AccountListFragment : Fragment() {
     }
 
     private fun loadData() {
-        repository.callback = object: StudentsRepository.StudentsCallback {
-            override fun onResult(students: List<StudentEntity>, shouldStopLoading: Boolean) {
-                showStudents(students)
-                if (shouldStopLoading)
-                    swipeRefresh.isRefreshing = false
-                else
-                    if (students.isEmpty()) swipeRefresh.isRefreshing = true
-            }
-            override fun onError(t: Throwable) {
-                when(t) {
-                    is NetworkException -> showNetworkError()
-                    is UnauthorizedException -> openAuthorizationActivity()
-                }
-            }
-        }
         repository.getStudents()
     }
 
@@ -111,7 +114,7 @@ class AccountListFragment : Fragment() {
     fun sortByMark() {
         accountsAdapter.apply {
             val sorted = filteredData.toMutableList()
-            sorted.sortWith(compareByDescending<StudentEntity>{ it.totalMark }.thenBy { it.name })
+            sorted.sortWith(compareByDescending<StudentEntity> { it.totalMark }.thenBy { it.name })
             filteredData = sorted
         }
         recycler.scrollToPosition(0)

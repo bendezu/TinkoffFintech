@@ -18,6 +18,8 @@ const val COOKIE_HEADER = "Set-Cookie"
 const val COOKIE_ANYGEN = "anygen"
 const val COOKIE_EXPIRES = "expires"
 
+val swipeRefreshColors = intArrayOf(R.color.colorPrimary, R.color.colorAccent, R.color.colorSecondAccent)
+
 val avatarColors = arrayOf(
     Color.parseColor("#f44336"),
     Color.parseColor("#e91e63"),

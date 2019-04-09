@@ -13,7 +13,7 @@ import com.bendezu.tinkofffintech.getInitials
 import kotlinx.android.synthetic.main.item_account_list.view.*
 import kotlin.math.floor
 
-class AccountsAdapter: RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>() {
+class AccountsAdapter : RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>() {
 
     var filteredData = listOf<StudentEntity>()
         set(value) {
@@ -46,7 +46,7 @@ class AccountsAdapter: RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>()
         holder.bind(filteredData[position])
     }
 
-    class AccountViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class AccountViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(student: StudentEntity) {
             val points = student.totalMark
@@ -54,7 +54,8 @@ class AccountsAdapter: RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>()
             itemView.avatar.initials = student.name.getInitials()
             itemView.name.text = student.name
             itemView.points.text = itemView.context.resources.getQuantityString(
-                    R.plurals.points, floor(points).toInt(), points)
+                R.plurals.points, floor(points).toInt(), points
+            )
         }
     }
 

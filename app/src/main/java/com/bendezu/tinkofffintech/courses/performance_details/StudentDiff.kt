@@ -13,7 +13,9 @@ class StudentDiff(private val oldList: List<StudentEntity>, private val newList:
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] == newList[newItemPosition]
+        val first = oldList[oldItemPosition]
+        val second = newList[newItemPosition]
+        return first.name == second.name && first.totalMark == second.totalMark
     }
 
 }

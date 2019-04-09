@@ -33,7 +33,7 @@ class StudentsRepository(private val studentDao: StudentDao,
             val prevUpdate = sharedPreferences.getLong(PREF_RECENT_STUDENTS_UPDATE, 0)
             val isDataValid = System.currentTimeMillis() - prevUpdate < VALID_DURATION_MILLIS
             uiHandler.post{ callback?.onResult(dbStudents, isDataValid) }
-            if (isDataValid) { return@thread }
+            if (isDataValid) return@thread
 
             val cookie = sharedPreferences.getString(PREF_COOKIE, "").orEmpty()
             try {
@@ -45,14 +45,14 @@ class StudentsRepository(private val studentDao: StudentDao,
                         val sortedStudents = netStudents.sortedBy { it.id }
 
                         sharedPreferences.edit().putLong(PREF_RECENT_STUDENTS_UPDATE, System.currentTimeMillis()).apply()
-                        uiHandler.post{ callback?.onResult(sortedStudents, true) }
+                        uiHandler.post { callback?.onResult(sortedStudents, true) }
                         studentDao.updateData(netStudents)
                     }
                 } else {
-                    uiHandler.post{ callback?.onError(UnauthorizedException()) }
+                    uiHandler.post { callback?.onError(UnauthorizedException()) }
                 }
             } catch (e: IOException) {
-                uiHandler.post{ callback?.onError(NetworkException()) }
+                uiHandler.post { callback?.onError(NetworkException()) }
             }
         }
     }
