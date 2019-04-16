@@ -10,9 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.bendezu.tinkofffintech.*
+import com.bendezu.tinkofffintech.network.User
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 
@@ -61,7 +61,7 @@ class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener
 
         preferences = requireContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
-        val avatar = preferences.getString(PREF_AVATAR, null)
+        val avatar = preferences.getAvatar()
         setAvatarImage(avatar)
 
         firstNameEditText.addTextChangedListener(
@@ -92,11 +92,11 @@ class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener
         patronymicEditText.setText(initialPatronymic)
 
         saveButton.setOnClickListener {
-            preferences.edit {
-                    putString(PREF_FIRST_NAME, firstNameEditText.text.toString())
-                    putString(PREF_SECOND_NAME, secondNameEditText.text.toString())
-                    putString(PREF_PATRONYMIC, patronymicEditText.text.toString())
-                }
+            val user = User( "",
+                firstNameEditText.text.toString(),
+                secondNameEditText.text.toString(),
+                patronymicEditText.text.toString())
+            preferences.saveUser(user)
             fragmentManager?.popBackStack()
         }
         cancelButton.setOnClickListener {

@@ -4,11 +4,11 @@ import android.content.SharedPreferences
 import android.os.Handler
 import android.os.Looper
 import com.bendezu.tinkofffintech.App
-import com.bendezu.tinkofffintech.PREF_COOKIE
 import com.bendezu.tinkofffintech.data.LectureDao
 import com.bendezu.tinkofffintech.data.LectureEntity
 import com.bendezu.tinkofffintech.data.TaskDao
 import com.bendezu.tinkofffintech.data.TaskEntity
+import com.bendezu.tinkofffintech.getCookie
 import com.bendezu.tinkofffintech.network.HomeworksResponse
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
@@ -32,7 +32,7 @@ class HomeworksRepository(private val lectureDao: LectureDao,
             val dbLectures = lectureDao.getAll()
             uiHandler.post{ callback?.onResult(dbLectures) }
 
-            val cookie = sharedPreferences.getString(PREF_COOKIE, "").orEmpty()
+            val cookie = sharedPreferences.getCookie()
             try {
                 val response = App.apiService.getHomeworks(cookie).execute()
                 if (response.isSuccessful) {

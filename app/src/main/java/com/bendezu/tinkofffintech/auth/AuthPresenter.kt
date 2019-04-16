@@ -1,8 +1,6 @@
 package com.bendezu.tinkofffintech.auth
 
 import android.content.SharedPreferences
-import android.util.Log
-import androidx.core.content.edit
 import com.bendezu.tinkofffintech.*
 import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.User
@@ -20,9 +18,9 @@ class AuthPresenter(private val preferences: SharedPreferences = App.preferences
     MvpBasePresenter<AuthView>(), Callback<User> {
 
     fun verifyCookie() {
-        val cookie = preferences.getString(PREF_COOKIE, null)
-        val expires = preferences.getString(PREF_EXPIRES, null)
-        if (cookie != null && expires != null) {
+        val cookie = preferences.getCookie()
+        val expires = preferences.getExpires()
+        if (cookie.isNotEmpty() && expires.isNotEmpty()) {
             try {
                 val expiresDate = parseExpiresDateString(expires)
                 val now = Date(System.currentTimeMillis())
@@ -56,21 +54,12 @@ class AuthPresenter(private val preferences: SharedPreferences = App.preferences
                 val cookie = set.find { it.startsWith(COOKIE_ANYGEN) }
                 val expires = set.find { it.startsWith(COOKIE_EXPIRES) }
                 if (cookie != null && expires != null) {
-                    saveCookieToPrefs(cookie, expires.substringAfter('='))
+                    preferences.saveCookie(cookie, expires.substringAfter('='))
                     ifViewAttached { it.openMainActivity() }
                 }
             }
         } else {
             ifViewAttached { it.showErrorMessage() }
-        }
-    }
-
-    private fun saveCookieToPrefs(cookie: String, expires: String) {
-        Log.d(AuthorizationActivity.TAG, "Cookie: $cookie")
-        Log.d(AuthorizationActivity.TAG, "Expires: $expires")
-        preferences.edit {
-            putString(PREF_COOKIE, cookie)
-            putString(PREF_EXPIRES, expires)
         }
     }
 

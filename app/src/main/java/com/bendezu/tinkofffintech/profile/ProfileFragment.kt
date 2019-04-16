@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.bendezu.tinkofffintech.*
@@ -42,7 +41,7 @@ class ProfileFragment: Fragment(), UserResponseListener {
         val user = getUserFromPref()
         setUser(user)
 
-        val cookie = preferences.getString(PREF_COOKIE, "").orEmpty()
+        val cookie = preferences.getCookie()
         if (user.firstname.isEmpty() || user.lastname.isEmpty()) {
             App.apiService.getUser(cookie).enqueue(userResponseCallback)
         }
@@ -67,7 +66,7 @@ class ProfileFragment: Fragment(), UserResponseListener {
     override fun onResponse(response: UserResponse) {
         val user = response.user
         setUser(user)
-        saveUserToPrefs(user)
+        preferences.saveUser(user)
     }
 
     override fun onFailure(t: Throwable) {
@@ -91,20 +90,11 @@ class ProfileFragment: Fragment(), UserResponseListener {
         }
     }
 
-    private fun saveUserToPrefs(user: User) {
-        preferences.edit {
-            putString(PREF_FIRST_NAME, user.firstname)
-            putString(PREF_SECOND_NAME, user.lastname)
-            putString(PREF_PATRONYMIC, user.middlename)
-            putString(PREF_AVATAR, user.avatar)
-        }
-    }
-
     private fun getUserFromPref(): User {
-        val firstName = preferences.getString(PREF_FIRST_NAME, "").orEmpty()
-        val secondName = preferences.getString(PREF_SECOND_NAME, "").orEmpty()
-        val patronymic = preferences.getString(PREF_PATRONYMIC, "").orEmpty()
-        val avatar = preferences.getString(PREF_AVATAR, null)
+        val firstName = preferences.getFirstName()
+        val secondName = preferences.getSecondName()
+        val patronymic = preferences.getPatronymic()
+        val avatar = preferences.getAvatar()
         return User("", firstName, secondName, patronymic, avatar)
     }
 
