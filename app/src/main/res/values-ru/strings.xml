@@ -41,6 +41,8 @@
     <string name="add_account">Добавить контакт</string>
     <string name="remove_account">Удалить контакт</string>
     <string name="shuffle_accounts">Перемешать контакты</string>
+    <string name="sort_alphabetically">Сортировать по имени</string>
+    <string name="sort_by_mark">Сортировать по баллам</string>
     <string name="no_name">Без имени</string>
 
     <string name="log_in">Войти</string>

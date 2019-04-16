@@ -5,11 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [(LectureEntity::class), (TaskEntity::class)], version = 1)
+@Database(entities = [LectureEntity::class, TaskEntity::class, StudentEntity::class], version = 2)
 abstract class FintechDatabase: RoomDatabase() {
 
     abstract fun lectureDao(): LectureDao
     abstract fun taskDao(): TaskDao
+    abstract fun studentDao(): StudentDao
 
     companion object {
         private var INSTANCE: FintechDatabase? = null
@@ -27,6 +28,7 @@ abstract class FintechDatabase: RoomDatabase() {
         private fun buildDatabase(context: Context) : FintechDatabase =
             Room.databaseBuilder(context.applicationContext,
                 FintechDatabase::class.java, "fintech.db")
+                .fallbackToDestructiveMigration()
                 .build()
 
         fun destroyInstance() {

@@ -31,3 +31,10 @@ object TaskStatus {
     const val ON_CHECK = "on_check"
     const val ACCEPTED = "accepted"
 }
+
+@Entity(tableName = "student")
+data class StudentEntity(
+    @PrimaryKey val id: Long,
+    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "total_mark") val totalMark: Float
+)

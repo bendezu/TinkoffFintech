@@ -9,6 +9,7 @@ const val PREF_PATRONYMIC = "patronymic"
 const val PREF_AVATAR = "avatar"
 const val PREF_COOKIE = "cookie"
 const val PREF_EXPIRES = "expires"
+const val PREF_RECENT_STUDENTS_UPDATE = "students_update"
 
 const val EXPIRES_DATE_FORMAT = "EEE, dd-MMM-yyyy HH:mm:ss zzz"
 const val GMT_TIME_ZONE = "GMT"
@@ -16,6 +17,8 @@ const val GMT_TIME_ZONE = "GMT"
 const val COOKIE_HEADER = "Set-Cookie"
 const val COOKIE_ANYGEN = "anygen"
 const val COOKIE_EXPIRES = "expires"
+
+val swipeRefreshColors = intArrayOf(R.color.colorPrimary, R.color.colorAccent, R.color.colorSecondAccent)
 
 val avatarColors = arrayOf(
     Color.parseColor("#f44336"),

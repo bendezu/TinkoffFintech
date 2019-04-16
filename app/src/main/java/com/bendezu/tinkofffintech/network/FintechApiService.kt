@@ -20,4 +20,7 @@ interface FintechApiService {
 
     @GET("api/course/android_spring_2019/homeworks")
     fun getHomeworks(@Header("Cookie") cookie: String): Call<HomeworksResponse>
+
+    @GET("api/course/android_spring_2019/grades")
+    fun getGrades(@Header("Cookie") cookie: String): Call<List<GradesResponse>>
 }

@@ -1,35 +1,70 @@
 package com.bendezu.tinkofffintech.courses.performance_details
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.database.Cursor
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.loader.app.LoaderManager
-import androidx.loader.content.CursorLoader
-import androidx.loader.content.Loader
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bendezu.tinkofffintech.R
+import com.bendezu.tinkofffintech.SHARED_PREFERENCES_NAME
+import com.bendezu.tinkofffintech.auth.AuthorizationActivity
+import com.bendezu.tinkofffintech.data.FintechDatabase
+import com.bendezu.tinkofffintech.data.StudentEntity
+import com.bendezu.tinkofffintech.network.NetworkException
+import com.bendezu.tinkofffintech.network.UnauthorizedException
+import com.bendezu.tinkofffintech.swipeRefreshColors
 import kotlinx.android.synthetic.main.fragment_account_list.*
 
-private const val REQUEST_CONTACT_PERMISSION = 213
-const val COLUMNS_LIST = 1
-const val COLUMNS_GRID = 3
-private var index = 1
+private const val STATE_QUERY = "query"
+private const val STATE_SORT = "sort"
 
-class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
+object SortType {
+    const val NONE = "none"
+    const val ALPHABETICALLY = "alphabetically"
+    const val BY_MARK = "by_mark"
+}
 
-    private var accountsAdapter: AccountsAdapter? = null
+class AccountListFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        retainInstance = true
+    private val accountsAdapter = AccountsAdapter()
+    private lateinit var preferences: SharedPreferences
+    private lateinit var repository: StudentsRepository
+
+    var query: String = ""
+        set(value) {
+            field = value
+            val actualSort = if (sort.isNotEmpty()) SortType.BY_MARK else sort
+            accountsAdapter.filterAndSort(value, actualSort)
+            recycler.scrollToPosition(0)
+            checkAccountsCount()
+        }
+    var sort: String = SortType.NONE
+        set(value) {
+            field = value
+            accountsAdapter.filterAndSort(query, value)
+            recycler.scrollToPosition(0)
+        }
+
+    private val callback = object : StudentsRepository.StudentsCallback {
+        override fun onResult(students: List<StudentEntity>, shouldStopLoading: Boolean) {
+            showStudents(students)
+            if (shouldStopLoading)
+                swipeRefresh.isRefreshing = false
+            else
+                if (students.isEmpty()) swipeRefresh.isRefreshing = true
+        }
+
+        override fun onError(t: Throwable) {
+            when (t) {
+                is NetworkException -> showNetworkError()
+                is UnauthorizedException -> openAuthorizationActivity()
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,131 +72,59 @@ class AccountListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (accountsAdapter == null) {
-            accountsAdapter = AccountsAdapter(GridLayoutManager(context, COLUMNS_LIST))
-        } else {
-            accountsAdapter?.layoutManager = GridLayoutManager(context,
-                accountsAdapter?.layoutManager?.spanCount ?: COLUMNS_LIST)
+        val db = FintechDatabase.getInstance(requireContext())
+        preferences = requireContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        repository = StudentsRepository(db.studentDao(), preferences, callback)
+
+        if (savedInstanceState != null) {
+            query = savedInstanceState.getString(STATE_QUERY).orEmpty()
+            sort = savedInstanceState.getString(STATE_SORT) ?: SortType.NONE
         }
+
         recycler.apply {
-            layoutManager = accountsAdapter?.layoutManager
             adapter = accountsAdapter
-            if (accountsAdapter?.layoutManager?.spanCount == COLUMNS_LIST)
-                addItemDecoration(ListItemDecoration(context))
-            else
-                addItemDecoration(GridItemDecoration(context, COLUMNS_GRID))
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(ListItemDecoration(context))
             itemAnimator = PopupItemAnimator()
         }
-        if (savedInstanceState == null)
-            checkAndRequestPermission()
-    }
-
-    private fun checkAndRequestPermission() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            requestPermissions(
-                arrayOf(Manifest.permission.READ_CONTACTS),
-                REQUEST_CONTACT_PERMISSION
-            )
-        } else {
-            // Permission has already been granted
-            loadContacts()
+        swipeRefresh.apply {
+            setColorSchemeResources(*swipeRefreshColors)
+            setOnRefreshListener { loadData() }
         }
+        loadData()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when (requestCode) {
-            REQUEST_CONTACT_PERMISSION -> {
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    loadContacts()
-                } else {
-                    Toast.makeText(context, "Permission not granted", Toast.LENGTH_SHORT).show()
-                    activity?.finish()
-                }
-            }
-        }
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(STATE_QUERY, query)
+        outState.putString(STATE_SORT, sort)
     }
 
-    private fun loadContacts() {
-        LoaderManager.getInstance(this).initLoader(0, null, this)
+    private fun loadData() {
+        repository.getStudents()
     }
 
-    override fun onCreateLoader(id: Int, args: Bundle?) = CursorLoader(
-        requireContext(),
-        ContactsContract.Contacts.CONTENT_URI,
-        arrayOf(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY),
-        null,
-        null,
-        ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " ASC"
-    )
-
-    override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
-        updateAdapter(data)
-    }
-
-    override fun onLoaderReset(loader: Loader<Cursor>) {
-        updateAdapter(null)
-    }
-
-    private fun updateAdapter(cursor: Cursor?) {
-        val names = mutableListOf<String>()
-        cursor?.apply {
-            for (i in 0 until cursor.count) {
-                cursor.moveToPosition(i)
-                val name = cursor.getString(
-                    cursor.getColumnIndex(
-                        ContactsContract.Contacts.DISPLAY_NAME_PRIMARY
-                    )
-                ) ?: requireContext().getString(R.string.no_name)
-                names.add(name)
-            }
-        }
-        accountsAdapter?.data = names
+    private fun showStudents(students: List<StudentEntity>) {
+        accountsAdapter.setNewData(students, query, sort)
         checkAccountsCount()
     }
 
-    fun switchView() {
-        for (i in recycler.itemDecorationCount - 1 downTo  0)
-            recycler.removeItemDecorationAt(i)
-        accountsAdapter?.apply {
-            if (layoutManager.spanCount == COLUMNS_LIST) {
-                layoutManager.spanCount = COLUMNS_GRID
-                recycler.addItemDecoration(GridItemDecoration(requireContext(), COLUMNS_GRID))
-            } else {
-                layoutManager.spanCount = COLUMNS_LIST
-                recycler.addItemDecoration(ListItemDecoration(requireContext()))
-            }
-            notifyItemRangeChanged(0, itemCount)
-        }
+    private fun showNetworkError() {
+        swipeRefresh.isRefreshing = false
+        Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show()
     }
 
-    fun addAccount() {
-        accountsAdapter?.apply {
-            data.add("New Account ${index++}")
-            notifyItemInserted(data.size)
-        }
-        checkAccountsCount()
-    }
-
-    fun removeAccount() {
-        if (accountsAdapter?.itemCount == 0) return
-        accountsAdapter?.apply {
-            val index = data.lastIndex
-            data.removeAt(index)
-            notifyItemRemoved(index)
-        }
-        checkAccountsCount()
-    }
-
-    fun shuffleAccounts() {
-        accountsAdapter?.apply {
-            val shuffled = data.toMutableList().apply { shuffle() }
-            data = shuffled
-        }
+    private fun openAuthorizationActivity() {
+        preferences.edit().clear().apply()
+        startActivity(Intent(context, AuthorizationActivity::class.java))
+        activity?.finish()
     }
 
     private fun checkAccountsCount() {
-        emptyList.visibility = if (accountsAdapter?.itemCount == 0) View.VISIBLE else View.GONE
+        emptyList.visibility = if (accountsAdapter.itemCount == 0) View.VISIBLE else View.GONE
+    }
+
+    override fun onDestroyView() {
+        repository.callback = null
+        super.onDestroyView()
     }
 }
