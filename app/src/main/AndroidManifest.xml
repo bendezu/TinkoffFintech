@@ -14,10 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.ActivityTheme"/>
 
-        <activity android:name=".auth.AuthorizationActivity">
+        <activity android:name=".auth.AuthorizationActivity"
+            android:theme="@style/AppTheme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,8 +26,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".courses.performance_details.PerformanceDetailActivity"/>
-        <activity android:name=".courses.rating_details.RatingDetailsActivity"/>
+        <activity android:name=".courses.performance_details.PerformanceDetailActivity"
+            android:theme="@style/AppTheme.ActivityTheme"/>
+        <activity android:name=".courses.rating_details.RatingDetailsActivity"
+            android:theme="@style/AppTheme.ActivityTheme"/>
 
     </application>
 

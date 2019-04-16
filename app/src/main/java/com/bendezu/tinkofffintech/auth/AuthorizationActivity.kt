@@ -26,6 +26,7 @@ class AuthorizationActivity : AppCompatActivity(), Callback<User> {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme_ActivityTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authorization)
 

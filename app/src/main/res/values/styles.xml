@@ -11,6 +11,14 @@
         <item name="android:listDivider">@drawable/divider</item>
     </style>
 
+    <style name="AppTheme.SplashTheme">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+    <style name="AppTheme.ActivityTheme">
+        <item name="android:windowBackground">@color/windowBackground</item>
+    </style>
+
+
     <style name="ProfileLabel">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
