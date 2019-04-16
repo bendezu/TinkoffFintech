@@ -38,7 +38,8 @@ class AccountListFragment : Fragment() {
     var query: String = ""
         set(value) {
             field = value
-            accountsAdapter.filterAndSort(value, sort)
+            val actualSort = if (sort.isNotEmpty()) SortType.BY_MARK else sort
+            accountsAdapter.filterAndSort(value, actualSort)
             recycler.scrollToPosition(0)
             checkAccountsCount()
         }
