@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bendezu.tinkofffintech.R
+import com.bendezu.tinkofffintech.swipeRefreshColors
 import kotlinx.android.synthetic.main.fragment_courses.*
 
 class CoursesFragment: Fragment(), AccountsListener {
@@ -23,7 +24,7 @@ class CoursesFragment: Fragment(), AccountsListener {
             .replace(R.id.completed_courses_container, CompletedCoursesFragment())
             .commit()
 
-        swipeRefresh.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorSecondAccent)
+        swipeRefresh.setColorSchemeResources(*swipeRefreshColors)
         swipeRefresh.setOnRefreshListener {
             performanceFragment.regenerateAccounts()
         }
