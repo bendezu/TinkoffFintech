@@ -5,6 +5,7 @@
         <item quantity="one">%s балл</item>
         <item quantity="few">%s балла</item>
         <item quantity="many">%s баллов</item>
+        <item quantity="other">%s баллов</item>
     </plurals>
 
 </resources>
