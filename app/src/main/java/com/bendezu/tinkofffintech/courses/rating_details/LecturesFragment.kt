@@ -14,6 +14,7 @@ import com.bendezu.tinkofffintech.auth.AuthorizationActivity
 import com.bendezu.tinkofffintech.courses.performance_details.ListItemDecoration
 import com.bendezu.tinkofffintech.data.FintechDatabase
 import com.bendezu.tinkofffintech.data.LectureEntity
+import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_lectures.*
 
@@ -54,7 +55,7 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
             addItemDecoration(ListItemDecoration(requireContext()).apply { margin = 32 })
         }
         swipeRefresh.apply {
-            setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorSecondAccent)
+            setColorSchemeResources(*swipeRefreshColors)
             setOnRefreshListener{ presenter.loadData() }
         }
         presenter.loadData()

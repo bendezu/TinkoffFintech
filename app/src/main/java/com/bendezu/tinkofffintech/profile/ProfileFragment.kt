@@ -1,82 +1,70 @@
 package com.bendezu.tinkofffintech.profile
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.bendezu.tinkofffintech.*
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
-import com.bendezu.tinkofffintech.network.NetworkException
-import com.bendezu.tinkofffintech.network.UnauthorizedException
 import com.bendezu.tinkofffintech.network.User
-import com.bendezu.tinkofffintech.network.UserResponse
 import com.bumptech.glide.Glide
+import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_profile.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-private const val EDIT_PROFILE_FRAGMENT_TAG = "edit_profile_fragment"
+class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView {
 
-class ProfileFragment: Fragment(), UserResponseListener {
+    companion object {
+        private const val STATE_LOADING = "loading"
+        private const val AVATAR_URL_BASE = "https://fintech.tinkoff.ru"
+        private const val EDIT_PROFILE_FRAGMENT_TAG = "edit_fragment"
+    }
 
-    private lateinit var preferences: SharedPreferences
-    private val userResponseCallback = UserResponseCallback()
+    override fun createPresenter() = ProfilePresenter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        userResponseCallback.listener = this
-        preferences = requireContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        super.onViewCreated(view, savedInstanceState)
 
-        val user = getUserFromPref()
-        setUser(user)
-
-        val cookie = preferences.getCookie()
-        if (user.firstname.isEmpty() || user.lastname.isEmpty()) {
-            App.apiService.getUser(cookie).enqueue(userResponseCallback)
+        if (savedInstanceState != null) {
+            val wasLoading = savedInstanceState.getBoolean(STATE_LOADING)
+            swipeRefresh.isRefreshing = wasLoading
         }
 
         editButton.setOnClickListener {
-            val editFragment = EditProfileFragment.newInstance(
-                firstNameTextView.text.toString(),
-                secondNameTextView.text.toString(),
-                patronymicTextView.text.toString()
-            )
             val fm = fragmentManager ?: return@setOnClickListener
             fm.beginTransaction()
-                .replace(R.id.container, editFragment, EDIT_PROFILE_FRAGMENT_TAG)
+                .replace(R.id.container, EditProfileFragment(), EDIT_PROFILE_FRAGMENT_TAG)
                 .addToBackStack(null)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit()
         }
 
         logOutButton.setOnClickListener { openAuthorizationActivity() }
-    }
 
-    override fun onResponse(response: UserResponse) {
-        val user = response.user
-        setUser(user)
-        preferences.saveUser(user)
-    }
-
-    override fun onFailure(t: Throwable) {
-        when (t) {
-            is UnauthorizedException -> openAuthorizationActivity()
-            is NetworkException -> Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_SHORT).show()
+        swipeRefresh.apply {
+            setColorSchemeResources(*swipeRefreshColors)
+            setOnRefreshListener{ presenter.loadData() }
         }
+        presenter.loadData()
     }
 
-    private fun setUser(user: User) {
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(STATE_LOADING, swipeRefresh.isRefreshing)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun setLoading(loading: Boolean) {
+        swipeRefresh.isRefreshing = loading
+    }
+
+    override fun showUserProfile(user: User) {
         firstNameTextView.text = user.firstname
         secondNameTextView.text = user.lastname
         patronymicTextView.text = user.middlename
@@ -85,47 +73,18 @@ class ProfileFragment: Fragment(), UserResponseListener {
             avatarImageView.setImageDrawable(ColorDrawable(initials.getAvatarColor()))
             avatarImageView.initials = initials
         } else {
-            val avatarUrl = "https://fintech.tinkoff.ru${user.avatar}"
+            val avatarUrl = AVATAR_URL_BASE + user.avatar
             Glide.with(this).load(avatarUrl).into(avatarImageView)
         }
     }
 
-    private fun getUserFromPref(): User {
-        val firstName = preferences.getFirstName()
-        val secondName = preferences.getSecondName()
-        val patronymic = preferences.getPatronymic()
-        val avatar = preferences.getAvatar()
-        return User("", firstName, secondName, patronymic, avatar)
+    override fun showNetworkError() {
+        Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_SHORT).show()
     }
 
-    private fun openAuthorizationActivity() {
-        preferences.edit().clear().apply()
+    override fun openAuthorizationActivity() {
+        App.preferences.edit().clear().apply()
         startActivity(Intent(context, AuthorizationActivity::class.java))
         activity?.finish()
-    }
-
-    override fun onDestroyView() {
-        userResponseCallback.listener = null
-        super.onDestroyView()
-    }
-}
-
-interface UserResponseListener {
-    fun onResponse(response: UserResponse)
-    fun onFailure(t: Throwable)
-}
-
-class UserResponseCallback(var listener: UserResponseListener? = null): Callback<UserResponse> {
-
-    override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
-        if (response.isSuccessful) {
-            val body = response.body()
-            if (body != null) listener?.onResponse(body)
-        } else {
-            listener?.onFailure(UnauthorizedException())
-        }
-    }
-    override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-        listener?.onFailure(NetworkException())
     }
 }

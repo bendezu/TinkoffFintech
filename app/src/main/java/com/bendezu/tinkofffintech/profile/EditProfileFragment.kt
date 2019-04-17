@@ -1,7 +1,6 @@
 package com.bendezu.tinkofffintech.profile
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
@@ -16,29 +15,9 @@ import com.bendezu.tinkofffintech.network.User
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 
-private const val ARG_FIRST_NAME = "first_name"
-private const val ARG_SECOND_NAME = "second_name"
-private const val ARG_PATRONYMIC = "patronymic"
-
 class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener {
 
-    companion object {
-        fun newInstance(firstName: String, secondName: String, patronymic: String): EditProfileFragment {
-            return EditProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_FIRST_NAME, firstName)
-                    putString(ARG_SECOND_NAME, secondName)
-                    putString(ARG_PATRONYMIC, patronymic)
-                }
-            }
-        }
-    }
-
-    private lateinit var initialFirstName: String
-    private lateinit var initialSecondName: String
-    private lateinit var initialPatronymic: String
-
-    private lateinit var preferences: SharedPreferences
+    private lateinit var initialUser: User
 
     private val saveButtonTextWatcher = object :TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -55,13 +34,11 @@ class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initialFirstName = arguments?.getString(ARG_FIRST_NAME).orEmpty()
-        initialSecondName = arguments?.getString(ARG_SECOND_NAME).orEmpty()
-        initialPatronymic = arguments?.getString(ARG_PATRONYMIC).orEmpty()
+        super.onViewCreated(view, savedInstanceState)
 
-        preferences = requireContext().getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        initialUser = App.preferences.getUser()
 
-        val avatar = preferences.getAvatar()
+        val avatar = initialUser.avatar
         setAvatarImage(avatar)
 
         firstNameEditText.addTextChangedListener(
@@ -87,16 +64,17 @@ class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener
         secondNameEditText.addTextChangedListener(saveButtonTextWatcher)
         patronymicEditText.addTextChangedListener(saveButtonTextWatcher)
 
-        firstNameEditText.setText(initialFirstName)
-        secondNameEditText.setText(initialSecondName)
-        patronymicEditText.setText(initialPatronymic)
+        firstNameEditText.setText(initialUser.firstname)
+        secondNameEditText.setText(initialUser.lastname)
+        patronymicEditText.setText(initialUser.middlename)
 
         saveButton.setOnClickListener {
-            val user = User( "",
+            val user = User( initialUser.email,
                 firstNameEditText.text.toString(),
                 secondNameEditText.text.toString(),
-                patronymicEditText.text.toString())
-            preferences.saveUser(user)
+                patronymicEditText.text.toString(),
+                initialUser.avatar)
+            App.preferences.saveUser(user)
             fragmentManager?.popBackStack()
         }
         cancelButton.setOnClickListener {
@@ -116,7 +94,7 @@ class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener
 
     private fun setAvatarImage(avatar: String?) {
         if (avatar == null) {
-            val initials = "$initialFirstName $initialSecondName".getInitials()
+            val initials = "${initialUser.firstname} ${initialUser.lastname}".getInitials()
             avatarImageView.setImageDrawable(ColorDrawable(initials.getAvatarColor()))
             avatarImageView.initials = initials
         } else {
@@ -132,9 +110,9 @@ class EditProfileFragment : Fragment(), BackButtonListener, ConfirmationListener
     }
 
     override fun onBackPressed() {
-        if (firstNameEditText.text.toString() != initialFirstName ||
-            secondNameEditText.text.toString() != initialSecondName ||
-            patronymicEditText.text.toString() != initialPatronymic) {
+        if (firstNameEditText.text.toString() != initialUser.firstname ||
+            secondNameEditText.text.toString() != initialUser.lastname ||
+            patronymicEditText.text.toString() != initialUser.middlename) {
             ConfirmationDialog().show(childFragmentManager, null)
         } else {
             fragmentManager?.popBackStack()

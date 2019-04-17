@@ -1,0 +1,39 @@
+package com.bendezu.tinkofffintech.profile
+
+import android.content.SharedPreferences
+import com.bendezu.tinkofffintech.App
+import com.bendezu.tinkofffintech.network.NetworkException
+import com.bendezu.tinkofffintech.network.UnauthorizedException
+import com.bendezu.tinkofffintech.network.User
+import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
+
+class ProfilePresenter(preferences: SharedPreferences = App.preferences) :
+    MvpBasePresenter<ProfileView>(), ProfileRepository.ProfileCallback {
+
+    private val profileRepository = ProfileRepository(preferences, this)
+
+    fun loadData() {
+        profileRepository.getUser()
+    }
+
+    override fun onResult(user: User, shouldStopLoading: Boolean) {
+        ifViewAttached {
+            it.showUserProfile(user)
+            if (shouldStopLoading)
+                it.setLoading(false)
+            else
+                if (user.isEmpty()) it.setLoading(true)
+        }
+    }
+
+    override fun onError(t: Throwable) {
+        when (t) {
+            is UnauthorizedException -> ifViewAttached { it.openAuthorizationActivity() }
+            is NetworkException -> ifViewAttached { it.showNetworkError() }
+        }
+    }
+}
+
+private fun User.isEmpty(): Boolean {
+    return this.email.isEmpty()
+}
