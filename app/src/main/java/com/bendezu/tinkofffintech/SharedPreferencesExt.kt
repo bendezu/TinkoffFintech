@@ -28,7 +28,6 @@ fun SharedPreferences.getSecondName() = this.getString(PREF_SECOND_NAME, "").orE
 fun SharedPreferences.getPatronymic() = this.getString(PREF_PATRONYMIC, "").orEmpty()
 fun SharedPreferences.getAvatar() = this.getString(PREF_AVATAR, null)
 
-
 fun SharedPreferences.saveCookie(cookie: String, expires: String) {
     Log.d(TAG, "Cookie: $cookie")
     Log.d(TAG, "Expires: $expires")

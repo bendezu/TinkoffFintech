@@ -21,7 +21,7 @@ class HomeworksRepository(private val lectureDao: LectureDao,
                           var callback: LecturesCallback? = null) {
 
     interface LecturesCallback {
-        fun onResult(lectures: List<LectureEntity>, fromNetwork: Boolean = false)
+        fun onResult(lectures: List<LectureEntity>, shouldStopLoading: Boolean = false)
         fun onError(t: Throwable)
     }
 

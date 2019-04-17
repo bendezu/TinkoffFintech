@@ -21,19 +21,22 @@ class LecturesAdapter(private val listener: (LectureEntity)->Unit): RecyclerView
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LectureViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_lecture, parent, false)
-        return LectureViewHolder(view)
+        return LectureViewHolder(view) { listener(data[it]) }
     }
 
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: LectureViewHolder, position: Int) {
-        holder.bind(data[position], listener)
+        holder.bind(data[position])
     }
 
-    class LectureViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class LectureViewHolder(itemView: View, listener: (Int)->Unit): RecyclerView.ViewHolder(itemView) {
 
-        fun bind(lectureEntity: LectureEntity, listener: (LectureEntity)->Unit) {
-            itemView.setOnClickListener { listener(lectureEntity) }
+        init {
+            itemView.setOnClickListener { listener(adapterPosition) }
+        }
+
+        fun bind(lectureEntity: LectureEntity) {
             itemView.titleTextView.text = lectureEntity.title
         }
     }
