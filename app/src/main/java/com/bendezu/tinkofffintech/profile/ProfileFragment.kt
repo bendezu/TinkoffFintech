@@ -23,7 +23,7 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
         private const val EDIT_PROFILE_FRAGMENT_TAG = "edit_fragment"
     }
 
-    override fun createPresenter() = ProfilePresenter()
+    override fun createPresenter() = ProfilePresenter(ProfileRepository(App.preferences, App.apiService))
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_profile, container, false)

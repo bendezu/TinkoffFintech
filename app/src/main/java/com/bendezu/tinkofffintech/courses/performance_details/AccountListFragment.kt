@@ -49,7 +49,7 @@ class AccountListFragment : MvpFragment<AccountsView, AccountsPresenter>(), Acco
 
     override fun createPresenter(): AccountsPresenter {
         val db = FintechDatabase.getInstance(requireContext())
-        return AccountsPresenter(db.studentDao())
+        return AccountsPresenter(StudentsRepository(db.studentDao(), App.preferences, App.apiService))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

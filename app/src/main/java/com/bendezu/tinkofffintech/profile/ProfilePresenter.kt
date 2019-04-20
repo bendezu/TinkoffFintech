@@ -1,19 +1,19 @@
 package com.bendezu.tinkofffintech.profile
 
-import android.content.SharedPreferences
-import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
 import com.bendezu.tinkofffintech.network.User
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 
-class ProfilePresenter(preferences: SharedPreferences = App.preferences) :
+class ProfilePresenter(private val repository: ProfileRepository) :
     MvpBasePresenter<ProfileView>(), ProfileRepository.ProfileCallback {
 
-    private val profileRepository = ProfileRepository(preferences, this)
+    init {
+        repository.callback = this
+    }
 
     fun loadData() {
-        profileRepository.getUser()
+        repository.getUser()
     }
 
     override fun onResult(user: User, shouldStopLoading: Boolean) {

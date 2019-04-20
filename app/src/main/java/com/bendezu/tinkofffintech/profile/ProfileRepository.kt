@@ -3,9 +3,9 @@ package com.bendezu.tinkofffintech.profile
 import android.content.SharedPreferences
 import android.os.Handler
 import android.os.Looper
-import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.getCookie
 import com.bendezu.tinkofffintech.getUser
+import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
 import com.bendezu.tinkofffintech.network.User
@@ -14,6 +14,7 @@ import java.io.IOException
 import kotlin.concurrent.thread
 
 class ProfileRepository(private val preferences: SharedPreferences,
+                        private val apiService: FintechApiService,
                         var callback: ProfileCallback? = null) {
 
     interface ProfileCallback {
@@ -30,7 +31,7 @@ class ProfileRepository(private val preferences: SharedPreferences,
 
             val cookie = preferences.getCookie()
             try {
-                val response = App.apiService.getUser(cookie).execute()
+                val response = apiService.getUser(cookie).execute()
                 if (response.isSuccessful) {
                     val body = response.body()
                     if (body != null) {

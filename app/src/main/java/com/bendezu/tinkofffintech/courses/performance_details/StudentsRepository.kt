@@ -3,11 +3,11 @@ package com.bendezu.tinkofffintech.courses.performance_details
 import android.content.SharedPreferences
 import android.os.Handler
 import android.os.Looper
-import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.data.StudentDao
 import com.bendezu.tinkofffintech.data.StudentEntity
 import com.bendezu.tinkofffintech.getCookie
 import com.bendezu.tinkofffintech.getRecentStudentUpdate
+import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.GradesResponse
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
@@ -19,6 +19,7 @@ private const val VALID_DURATION_MILLIS = 10_000
 
 class StudentsRepository(private val studentDao: StudentDao,
                          private val sharedPreferences: SharedPreferences,
+                         private val apiService: FintechApiService,
                          var callback: StudentsCallback? = null) {
 
     interface StudentsCallback {
@@ -29,6 +30,7 @@ class StudentsRepository(private val studentDao: StudentDao,
     private val uiHandler = Handler(Looper.getMainLooper())
 
     fun getStudents() {
+
         thread {
             val dbStudents = studentDao.getAll()
             val prevUpdate = sharedPreferences.getRecentStudentUpdate()
@@ -38,7 +40,7 @@ class StudentsRepository(private val studentDao: StudentDao,
 
             val cookie = sharedPreferences.getCookie()
             try {
-                val response = App.apiService.getGrades(cookie).execute()
+                val response = apiService.getGrades(cookie).execute()
                 if (response.isSuccessful) {
                     val grades = response.body()?.get(1)
                     if (grades != null) {

@@ -1,17 +1,16 @@
 package com.bendezu.tinkofffintech.courses.performance_details
 
-import android.content.SharedPreferences
-import com.bendezu.tinkofffintech.App
-import com.bendezu.tinkofffintech.data.StudentDao
 import com.bendezu.tinkofffintech.data.StudentEntity
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 
-class AccountsPresenter(studentDao: StudentDao, preferences: SharedPreferences = App.preferences) : MvpBasePresenter<AccountsView>(),
+class AccountsPresenter(private val repository: StudentsRepository) : MvpBasePresenter<AccountsView>(),
     StudentsRepository.StudentsCallback {
 
-    private val repository = StudentsRepository(studentDao, preferences, this)
+    init {
+        repository.callback = this
+    }
 
     fun loadData() {
         repository.getStudents()

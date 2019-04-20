@@ -1,20 +1,16 @@
 package com.bendezu.tinkofffintech.courses.rating_details
 
-import android.content.SharedPreferences
-import com.bendezu.tinkofffintech.App
-import com.bendezu.tinkofffintech.data.LectureDao
 import com.bendezu.tinkofffintech.data.LectureEntity
-import com.bendezu.tinkofffintech.data.TaskDao
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 
-class LecturesPresenter(lectureDao: LectureDao,
-                        taskDao: TaskDao,
-                        sharedPreferences: SharedPreferences = App.preferences) :
+class LecturesPresenter(private val repository: HomeworksRepository) :
     MvpBasePresenter<LecturesView>(), HomeworksRepository.LecturesCallback {
 
-    private val repository = HomeworksRepository(lectureDao, taskDao, sharedPreferences, this)
+    init {
+        repository.callback = this
+    }
 
     fun loadData() {
         repository.getLectures()

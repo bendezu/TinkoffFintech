@@ -35,7 +35,7 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
 
     override fun createPresenter(): LecturesPresenter {
         val db = FintechDatabase.getInstance(requireContext())
-        return LecturesPresenter(db.lectureDao(), db.taskDao())
+        return LecturesPresenter(HomeworksRepository(db.lectureDao(), db.taskDao(), App.preferences, App.apiService))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
