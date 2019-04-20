@@ -2,7 +2,6 @@ package com.bendezu.tinkofffintech.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.SHARED_PREFERENCES_NAME
 import com.bendezu.tinkofffintech.auth.AuthPresenter
 import com.bendezu.tinkofffintech.courses.performance_details.AccountsPresenter
@@ -24,10 +23,10 @@ import retrofit2.create
 import javax.inject.Singleton
 
 @Module
-class AppModule {
+class AppModule(val context: Context) {
 
     @Singleton @Provides
-    fun provideContext() = App.context
+    fun provideContext() = context
 
     @Singleton @Provides
     fun provideDatabase(context: Context) = FintechDatabase.getInstance(context)
@@ -47,26 +46,39 @@ class AppModule {
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build().create<FintechApiService>()
+}
 
+@Module
+class AuthModule {
     @Singleton @Provides
     fun provideAuthPresenter(preferences: SharedPreferences, apiService: FintechApiService) =
         AuthPresenter(preferences, apiService)
+}
 
+@Module
+class ProfileModule {
     @Singleton @Provides
     fun provideProfileRepository(preferences: SharedPreferences, apiService: FintechApiService) =
         ProfileRepository(preferences, apiService)
 
     @Singleton @Provides
     fun provideProfilePresenter(profileRepository: ProfileRepository) = ProfilePresenter(profileRepository)
+}
 
+@Module
+class StudentsModule {
     @Singleton @Provides
     fun provideStudentsRepository(db: FintechDatabase,
                                   preferences: SharedPreferences,
-                                  apiService: FintechApiService)  = StudentsRepository(db.studentDao(), preferences, apiService)
+                                  apiService: FintechApiService)  =
+        StudentsRepository(db.studentDao(), preferences, apiService)
 
     @Singleton @Provides
     fun provideAccountsPresenter(studentsRepository: StudentsRepository) = AccountsPresenter(studentsRepository)
+}
 
+@Module
+class HomeworksModule {
     @Singleton @Provides
     fun provideHomeworksRepository(db: FintechDatabase,
                                    preferences: SharedPreferences,

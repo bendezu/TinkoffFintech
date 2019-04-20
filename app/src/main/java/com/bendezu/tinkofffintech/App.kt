@@ -1,8 +1,8 @@
 package com.bendezu.tinkofffintech
 
 import android.app.Application
-import android.content.Context
 import com.bendezu.tinkofffintech.di.AppComponent
+import com.bendezu.tinkofffintech.di.AppModule
 import com.bendezu.tinkofffintech.di.DaggerAppComponent
 import com.jakewharton.threetenabp.AndroidThreeTen
 
@@ -14,16 +14,15 @@ fun String.getInitials() =
 class App: Application() {
 
     companion object {
-        lateinit var context: Context
         lateinit var component: AppComponent
     }
 
     override fun onCreate() {
         super.onCreate()
 
-        context = applicationContext
-
-        component = DaggerAppComponent.create()
+        component = DaggerAppComponent.builder()
+            .appModule(AppModule(applicationContext))
+            .build()
 
         AndroidThreeTen.init(this)
     }
