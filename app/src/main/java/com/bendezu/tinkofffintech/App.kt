@@ -1,6 +1,8 @@
 package com.bendezu.tinkofffintech
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import com.bendezu.tinkofffintech.network.DelayInterceptor
 import com.bendezu.tinkofffintech.network.FintechApiService
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -19,6 +21,7 @@ class App: Application() {
 
     companion object {
         lateinit var apiService: FintechApiService
+        lateinit var preferences: SharedPreferences
     }
 
     override fun onCreate() {
@@ -36,5 +39,7 @@ class App: Application() {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build().create()
+
+        preferences = getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
     }
 }

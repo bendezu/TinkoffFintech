@@ -3,12 +3,12 @@ package com.bendezu.tinkofffintech.courses.rating_details
 import android.content.SharedPreferences
 import android.os.Handler
 import android.os.Looper
-import com.bendezu.tinkofffintech.App
-import com.bendezu.tinkofffintech.PREF_COOKIE
 import com.bendezu.tinkofffintech.data.LectureDao
 import com.bendezu.tinkofffintech.data.LectureEntity
 import com.bendezu.tinkofffintech.data.TaskDao
 import com.bendezu.tinkofffintech.data.TaskEntity
+import com.bendezu.tinkofffintech.getCookie
+import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.HomeworksResponse
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
@@ -18,10 +18,11 @@ import kotlin.concurrent.thread
 class HomeworksRepository(private val lectureDao: LectureDao,
                           private val taskDao: TaskDao,
                           private val sharedPreferences: SharedPreferences,
+                          private val apiService: FintechApiService,
                           var callback: LecturesCallback? = null) {
 
     interface LecturesCallback {
-        fun onResult(lectures: List<LectureEntity>, fromNetwork: Boolean = false)
+        fun onResult(lectures: List<LectureEntity>, shouldStopLoading: Boolean = false)
         fun onError(t: Throwable)
     }
 
@@ -32,9 +33,9 @@ class HomeworksRepository(private val lectureDao: LectureDao,
             val dbLectures = lectureDao.getAll()
             uiHandler.post{ callback?.onResult(dbLectures) }
 
-            val cookie = sharedPreferences.getString(PREF_COOKIE, "").orEmpty()
+            val cookie = sharedPreferences.getCookie()
             try {
-                val response = App.apiService.getHomeworks(cookie).execute()
+                val response = apiService.getHomeworks(cookie).execute()
                 if (response.isSuccessful) {
                     val homeworks = response.body()
                     if (homeworks != null) {
