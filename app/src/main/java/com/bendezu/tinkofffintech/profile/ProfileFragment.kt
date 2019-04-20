@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentTransaction
 import com.bendezu.tinkofffintech.*
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
 import com.bendezu.tinkofffintech.network.User
@@ -20,7 +19,6 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
     companion object {
         private const val STATE_LOADING = "loading"
         private const val AVATAR_URL_BASE = "https://fintech.tinkoff.ru"
-        private const val EDIT_PROFILE_FRAGMENT_TAG = "edit_fragment"
     }
 
     override fun createPresenter() = ProfilePresenter(ProfileRepository(App.preferences, App.apiService))
@@ -35,15 +33,6 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
         if (savedInstanceState != null) {
             val wasLoading = savedInstanceState.getBoolean(STATE_LOADING)
             swipeRefresh.isRefreshing = wasLoading
-        }
-
-        editButton.setOnClickListener {
-            val fm = fragmentManager ?: return@setOnClickListener
-            fm.beginTransaction()
-                .replace(R.id.container, EditProfileFragment(), EDIT_PROFILE_FRAGMENT_TAG)
-                .addToBackStack(null)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .commit()
         }
 
         logOutButton.setOnClickListener { openAuthorizationActivity() }
