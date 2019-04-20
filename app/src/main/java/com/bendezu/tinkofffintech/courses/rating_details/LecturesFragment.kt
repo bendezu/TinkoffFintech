@@ -1,6 +1,7 @@
 package com.bendezu.tinkofffintech.courses.rating_details
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +13,11 @@ import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
 import com.bendezu.tinkofffintech.courses.performance_details.ListItemDecoration
-import com.bendezu.tinkofffintech.data.FintechDatabase
 import com.bendezu.tinkofffintech.data.LectureEntity
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_lectures.*
+import javax.inject.Inject
 
 class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), LecturesView {
 
@@ -33,9 +34,13 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
             .commit()
     }
 
-    override fun createPresenter(): LecturesPresenter {
-        val db = FintechDatabase.getInstance(requireContext())
-        return LecturesPresenter(HomeworksRepository(db.lectureDao(), db.taskDao(), App.preferences, App.apiService))
+    @Inject lateinit var preferences: SharedPreferences
+    @Inject lateinit var lecturesPresenter: LecturesPresenter
+    override fun createPresenter() = lecturesPresenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.component.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -81,7 +86,7 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
     }
 
     override fun openAuthorizationActivity() {
-        App.preferences.edit().clear().apply()
+        preferences.edit().clear().apply()
         startActivity(Intent(context, AuthorizationActivity::class.java))
         activity?.finish()
     }

@@ -13,8 +13,8 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AuthPresenter(private val preferences: SharedPreferences = App.preferences,
-                    private val apiService: FintechApiService = App.apiService) :
+class AuthPresenter(private val preferences: SharedPreferences,
+                    private val apiService: FintechApiService) :
     MvpBasePresenter<AuthView>(), Callback<User> {
 
     fun verifyCookie() {

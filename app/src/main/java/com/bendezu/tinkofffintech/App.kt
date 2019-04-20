@@ -2,15 +2,9 @@ package com.bendezu.tinkofffintech
 
 import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
-import com.bendezu.tinkofffintech.network.DelayInterceptor
-import com.bendezu.tinkofffintech.network.FintechApiService
+import com.bendezu.tinkofffintech.di.AppComponent
+import com.bendezu.tinkofffintech.di.DaggerAppComponent
 import com.jakewharton.threetenabp.AndroidThreeTen
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 fun String.getAvatarColor() = avatarColors[Math.abs(this.hashCode()) % avatarColors.size]
 
@@ -20,26 +14,17 @@ fun String.getInitials() =
 class App: Application() {
 
     companion object {
-        lateinit var apiService: FintechApiService
-        lateinit var preferences: SharedPreferences
+        lateinit var context: Context
+        lateinit var component: AppComponent
     }
 
     override fun onCreate() {
         super.onCreate()
 
+        context = applicationContext
+
+        component = DaggerAppComponent.create()
+
         AndroidThreeTen.init(this)
-
-        val okHttpClient = OkHttpClient.Builder()
-            .addNetworkInterceptor(DelayInterceptor())
-            .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
-            .build()
-
-        apiService = Retrofit.Builder()
-            .baseUrl(FintechApiService.BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build().create()
-
-        preferences = getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
     }
 }

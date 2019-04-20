@@ -1,6 +1,7 @@
 package com.bendezu.tinkofffintech.profile
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.bendezu.tinkofffintech.network.User
 import com.bumptech.glide.Glide
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_profile.*
+import javax.inject.Inject
 
 class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView {
 
@@ -21,7 +23,14 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
         private const val AVATAR_URL_BASE = "https://fintech.tinkoff.ru"
     }
 
-    override fun createPresenter() = ProfilePresenter(ProfileRepository(App.preferences, App.apiService))
+    @Inject lateinit var preferences: SharedPreferences
+    @Inject lateinit var profilePresenter: ProfilePresenter
+    override fun createPresenter() = profilePresenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.component.inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_profile, container, false)
@@ -72,7 +81,7 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
     }
 
     override fun openAuthorizationActivity() {
-        App.preferences.edit().clear().apply()
+        preferences.edit().clear().apply()
         startActivity(Intent(context, AuthorizationActivity::class.java))
         activity?.finish()
     }

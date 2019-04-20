@@ -1,6 +1,7 @@
 package com.bendezu.tinkofffintech.courses.performance_details
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
-import com.bendezu.tinkofffintech.data.FintechDatabase
 import com.bendezu.tinkofffintech.data.StudentEntity
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_account_list.*
+import javax.inject.Inject
 
 object SortType {
     const val NONE = "none"
@@ -47,9 +48,13 @@ class AccountListFragment : MvpFragment<AccountsView, AccountsPresenter>(), Acco
             recycler.scrollToPosition(0)
         }
 
-    override fun createPresenter(): AccountsPresenter {
-        val db = FintechDatabase.getInstance(requireContext())
-        return AccountsPresenter(StudentsRepository(db.studentDao(), App.preferences, App.apiService))
+    @Inject lateinit var preferences: SharedPreferences
+    @Inject lateinit var accountsPresenter: AccountsPresenter
+    override fun createPresenter(): AccountsPresenter = accountsPresenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.component.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -104,7 +109,7 @@ class AccountListFragment : MvpFragment<AccountsView, AccountsPresenter>(), Acco
     }
 
     override fun openAuthorizationActivity() {
-        App.preferences.edit().clear().apply()
+        preferences.edit().clear().apply()
         startActivity(Intent(context, AuthorizationActivity::class.java))
         activity?.finish()
     }
