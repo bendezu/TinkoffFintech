@@ -14,6 +14,7 @@ import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
 import com.bendezu.tinkofffintech.courses.performance_details.ListItemDecoration
 import com.bendezu.tinkofffintech.data.LectureEntity
+import com.bendezu.tinkofffintech.di.components.DaggerLecturesFragmentComponent
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_lectures.*
@@ -39,7 +40,10 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
     override fun createPresenter() = lecturesPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.component.inject(this)
+        DaggerLecturesFragmentComponent.builder()
+            .appComponent(App.component)
+            .build().inject(this)
+
         super.onCreate(savedInstanceState)
     }
 

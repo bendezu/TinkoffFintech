@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.bendezu.tinkofffintech.*
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
+import com.bendezu.tinkofffintech.di.components.DaggerProfileFragmentComponent
 import com.bendezu.tinkofffintech.network.User
 import com.bumptech.glide.Glide
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
@@ -28,7 +29,9 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
     override fun createPresenter() = profilePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.component.inject(this)
+        DaggerProfileFragmentComponent.builder()
+            .appComponent(App.component)
+            .build().inject(this)
         super.onCreate(savedInstanceState)
     }
 
