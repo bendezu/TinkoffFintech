@@ -1,5 +1,6 @@
 package com.bendezu.tinkofffintech.courses.rating_details
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -13,13 +14,16 @@ import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
 import com.bendezu.tinkofffintech.courses.performance_details.ListItemDecoration
 import com.bendezu.tinkofffintech.data.LectureEntity
-import com.bendezu.tinkofffintech.di.Injector
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_lectures.*
 import javax.inject.Inject
 
 class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), LecturesView {
+
+    interface InjectorProvider {
+        fun inject(lecturesFragment: LecturesFragment)
+    }
 
     companion object {
         private const val STATE_LOADING = "loading"
@@ -38,9 +42,12 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
     @Inject lateinit var lecturesPresenter: LecturesPresenter
     override fun createPresenter() = lecturesPresenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        Injector.lecturesFragmentComponent().inject(this)
-        super.onCreate(savedInstanceState)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is InjectorProvider)
+            context.inject(this)
+        else
+            throw IllegalStateException("$context must implement InjectorProvider")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

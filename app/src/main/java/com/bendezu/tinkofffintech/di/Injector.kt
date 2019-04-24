@@ -1,7 +1,6 @@
 package com.bendezu.tinkofffintech.di
 
 import android.content.Context
-import com.bendezu.tinkofffintech.di.components.*
 import com.bendezu.tinkofffintech.di.modules.AppModule
 
 object Injector {
@@ -16,9 +15,9 @@ object Injector {
 
     fun authActivityComponent() = DaggerAuthorizationActivityComponent.builder().appComponent(appComponent).build()
 
-    fun profileFragmentComponent() = DaggerProfileFragmentComponent.builder().appComponent(appComponent).build()
+    fun mainActivityComponent() = DaggerMainActivityComponent.builder().appComponent(appComponent).build()
 
-    fun accountListFragmentComponent() = DaggerAccountListFragmentComponent.builder().appComponent(appComponent).build()
+    fun performanceDetailComponent() = DaggerPerformanceDetailComponent.builder().appComponent(appComponent).build()
 
-    fun lecturesFragmentComponent() = DaggerLecturesFragmentComponent.builder().appComponent(appComponent).build()
+    fun ratingDetailsComponent() = DaggerRatingDetailsComponent.builder().appComponent(appComponent).build()
 }

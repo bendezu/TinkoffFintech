@@ -1,5 +1,6 @@
 package com.bendezu.tinkofffintech.courses.performance_details
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -11,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
 import com.bendezu.tinkofffintech.data.StudentEntity
-import com.bendezu.tinkofffintech.di.Injector
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_account_list.*
@@ -24,6 +24,10 @@ object SortType {
 }
 
 class AccountListFragment : MvpFragment<AccountsView, AccountsPresenter>(), AccountsView {
+
+    interface InjectorProvider {
+        fun inject(accountListFragment: AccountListFragment)
+    }
 
     companion object {
         private const val STATE_LOADING = "loading"
@@ -52,9 +56,12 @@ class AccountListFragment : MvpFragment<AccountsView, AccountsPresenter>(), Acco
     @Inject lateinit var accountsPresenter: AccountsPresenter
     override fun createPresenter(): AccountsPresenter = accountsPresenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        Injector.accountListFragmentComponent().inject(this)
-        super.onCreate(savedInstanceState)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is InjectorProvider)
+            context.inject(this)
+        else
+            throw IllegalStateException("$context must implement InjectorProvider")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

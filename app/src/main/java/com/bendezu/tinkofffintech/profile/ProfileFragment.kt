@@ -1,5 +1,6 @@
 package com.bendezu.tinkofffintech.profile
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
@@ -10,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
-import com.bendezu.tinkofffintech.di.Injector
 import com.bendezu.tinkofffintech.getAvatarColor
 import com.bendezu.tinkofffintech.getInitials
 import com.bendezu.tinkofffintech.network.User
@@ -22,6 +22,10 @@ import javax.inject.Inject
 
 class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView {
 
+    interface InjectorProvider {
+        fun inject(profileFragment: ProfileFragment)
+    }
+
     companion object {
         private const val STATE_LOADING = "loading"
         private const val AVATAR_URL_BASE = "https://fintech.tinkoff.ru"
@@ -31,9 +35,12 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
     @Inject lateinit var profilePresenter: ProfilePresenter
     override fun createPresenter() = profilePresenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        Injector.profileFragmentComponent().inject(this)
-        super.onCreate(savedInstanceState)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is InjectorProvider)
+            context.inject(this)
+        else
+            throw IllegalStateException("$context must implement InjectorProvider")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
