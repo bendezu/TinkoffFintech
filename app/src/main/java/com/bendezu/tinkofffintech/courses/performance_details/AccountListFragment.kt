@@ -8,11 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
 import com.bendezu.tinkofffintech.data.StudentEntity
-import com.bendezu.tinkofffintech.di.components.DaggerAccountListFragmentComponent
+import com.bendezu.tinkofffintech.di.Injector
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_account_list.*
@@ -54,10 +53,7 @@ class AccountListFragment : MvpFragment<AccountsView, AccountsPresenter>(), Acco
     override fun createPresenter(): AccountsPresenter = accountsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        DaggerAccountListFragmentComponent.builder()
-            .appComponent(App.component)
-            .build().inject(this)
-
+        Injector.accountListFragmentComponent().inject(this)
         super.onCreate(savedInstanceState)
     }
 

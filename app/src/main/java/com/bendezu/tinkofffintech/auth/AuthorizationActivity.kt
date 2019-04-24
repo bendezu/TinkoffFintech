@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
-import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.MainActivity
 import com.bendezu.tinkofffintech.R
-import com.bendezu.tinkofffintech.di.components.DaggerAuthorizationActivityComponent
+import com.bendezu.tinkofffintech.di.Injector
 import com.hannesdorfmann.mosby3.mvp.MvpActivity
 import kotlinx.android.synthetic.main.activity_authorization.*
 import javax.inject.Inject
@@ -25,10 +24,7 @@ class AuthorizationActivity : MvpActivity<AuthView, AuthPresenter>(), AuthView {
     override fun createPresenter() = authPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        DaggerAuthorizationActivityComponent.builder()
-            .appComponent(App.component)
-            .build().inject(this)
-
+        Injector.authActivityComponent().inject(this)
         setTheme(R.style.AppTheme_ActivityTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authorization)

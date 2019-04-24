@@ -1,9 +1,7 @@
 package com.bendezu.tinkofffintech
 
 import android.app.Application
-import com.bendezu.tinkofffintech.di.components.AppComponent
-import com.bendezu.tinkofffintech.di.components.DaggerAppComponent
-import com.bendezu.tinkofffintech.di.modules.AppModule
+import com.bendezu.tinkofffintech.di.Injector
 import com.jakewharton.threetenabp.AndroidThreeTen
 
 fun String.getAvatarColor() = avatarColors[Math.abs(this.hashCode()) % avatarColors.size]
@@ -13,17 +11,9 @@ fun String.getInitials() =
 
 class App: Application() {
 
-    companion object {
-        lateinit var component: AppComponent
-    }
-
     override fun onCreate() {
         super.onCreate()
-
-        component = DaggerAppComponent.builder()
-            .appModule(AppModule(applicationContext))
-            .build()
-
+        Injector.init(this)
         AndroidThreeTen.init(this)
     }
 }

@@ -8,10 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.bendezu.tinkofffintech.*
+import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
-import com.bendezu.tinkofffintech.di.components.DaggerProfileFragmentComponent
+import com.bendezu.tinkofffintech.di.Injector
+import com.bendezu.tinkofffintech.getAvatarColor
+import com.bendezu.tinkofffintech.getInitials
 import com.bendezu.tinkofffintech.network.User
+import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.bumptech.glide.Glide
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -29,9 +32,7 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
     override fun createPresenter() = profilePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        DaggerProfileFragmentComponent.builder()
-            .appComponent(App.component)
-            .build().inject(this)
+        Injector.profileFragmentComponent().inject(this)
         super.onCreate(savedInstanceState)
     }
 

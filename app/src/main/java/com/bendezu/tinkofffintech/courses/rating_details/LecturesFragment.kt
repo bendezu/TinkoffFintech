@@ -9,12 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
 import com.bendezu.tinkofffintech.courses.performance_details.ListItemDecoration
 import com.bendezu.tinkofffintech.data.LectureEntity
-import com.bendezu.tinkofffintech.di.components.DaggerLecturesFragmentComponent
+import com.bendezu.tinkofffintech.di.Injector
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_lectures.*
@@ -40,10 +39,7 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
     override fun createPresenter() = lecturesPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        DaggerLecturesFragmentComponent.builder()
-            .appComponent(App.component)
-            .build().inject(this)
-
+        Injector.lecturesFragmentComponent().inject(this)
         super.onCreate(savedInstanceState)
     }
 
