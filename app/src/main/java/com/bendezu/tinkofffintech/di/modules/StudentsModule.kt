@@ -1,6 +1,7 @@
 package com.bendezu.tinkofffintech.di.modules
 
 import android.content.SharedPreferences
+import com.bendezu.tinkofffintech.courses.performance_details.AccountsAdapter
 import com.bendezu.tinkofffintech.courses.performance_details.AccountsPresenter
 import com.bendezu.tinkofffintech.courses.performance_details.StudentsRepository
 import com.bendezu.tinkofffintech.data.FintechDatabase
@@ -22,4 +23,8 @@ class StudentsModule {
     @ActivityScope
     @Provides
     fun provideAccountsPresenter(studentsRepository: StudentsRepository) = AccountsPresenter(studentsRepository)
+
+    @ActivityScope
+    @Provides
+    fun provideAccountsAdapter() = AccountsAdapter()
 }

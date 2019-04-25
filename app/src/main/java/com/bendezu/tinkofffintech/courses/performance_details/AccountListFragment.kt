@@ -35,7 +35,7 @@ class AccountListFragment : MvpFragment<AccountsView, AccountsPresenter>(), Acco
         private const val STATE_SORT = "sort"
     }
 
-    private val accountsAdapter = AccountsAdapter()
+    @Inject lateinit var accountsAdapter: AccountsAdapter
 
     var query: String = ""
         set(value) {

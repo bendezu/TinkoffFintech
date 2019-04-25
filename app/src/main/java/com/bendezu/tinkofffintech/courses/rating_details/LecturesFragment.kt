@@ -29,15 +29,7 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
         private const val STATE_LOADING = "loading"
     }
 
-    private val lecturesAdapter = LecturesAdapter {
-        val fm = fragmentManager ?: return@LecturesAdapter
-        fm.beginTransaction()
-            .replace(R.id.container, TasksFragment.newInstance(it.id))
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .addToBackStack(null)
-            .commit()
-    }
-
+    @Inject lateinit var lecturesAdapter: LecturesAdapter
     @Inject lateinit var preferences: SharedPreferences
     @Inject lateinit var lecturesPresenter: LecturesPresenter
     override fun createPresenter() = lecturesPresenter
@@ -59,6 +51,16 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
         if (savedInstanceState != null) {
             val wasLoading = savedInstanceState.getBoolean(STATE_LOADING)
             setLoading(wasLoading)
+        }
+
+        lecturesAdapter.listener = {
+            fragmentManager?.apply {
+                beginTransaction()
+                    .replace(R.id.container, TasksFragment.newInstance(it.id))
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null)
+                    .commit()
+            }
         }
 
         recycler.apply {

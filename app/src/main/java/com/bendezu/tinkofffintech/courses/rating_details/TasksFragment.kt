@@ -35,7 +35,7 @@ class TasksFragment: Fragment() {
     }
 
     private var lectureId = 0L
-    private val tasksAdapter = TasksAdapter()
+    @Inject lateinit var tasksAdapter: TasksAdapter
     @Inject lateinit var db: FintechDatabase
 
     override fun onAttach(context: Context) {
@@ -52,16 +52,14 @@ class TasksFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         lectureId = arguments?.getLong(ARG_LECTURE_ID) ?: 0
-        recycler.apply {
-            adapter = tasksAdapter
-            layoutManager = LinearLayoutManager(context)
-        }
+        recycler.layoutManager = LinearLayoutManager(context)
         TasksThread(WeakReference(this)).start()
     }
 
     private fun setData(tasks: List<TaskEntity>) {
         tasksAdapter.data = tasks
         emptyList.visibility = if (tasksAdapter.itemCount == 0) View.VISIBLE else View.GONE
+        recycler.adapter = tasksAdapter
     }
 
     class TasksThread(private val tasksFragment: WeakReference<TasksFragment>): Thread() {
