@@ -1,7 +1,6 @@
 package com.bendezu.tinkofffintech.di.modules
 
 import android.content.SharedPreferences
-import android.util.Log
 import com.bendezu.tinkofffintech.courses.performance_details.AccountsPresenter
 import com.bendezu.tinkofffintech.courses.performance_details.StudentsRepository
 import com.bendezu.tinkofffintech.data.FintechDatabase
@@ -18,9 +17,9 @@ class StudentsModule {
     fun provideStudentsRepository(db: FintechDatabase,
                                   preferences: SharedPreferences,
                                   apiService: FintechApiService) =
-        StudentsRepository(db.studentDao(), preferences, apiService).apply { Log.d("INJECT", toString()) }
+        StudentsRepository(db.studentDao(), preferences, apiService)
 
     @ActivityScope
     @Provides
-    fun provideAccountsPresenter(studentsRepository: StudentsRepository) = AccountsPresenter(studentsRepository).apply { Log.d("INJECT", toString()) }
+    fun provideAccountsPresenter(studentsRepository: StudentsRepository) = AccountsPresenter(studentsRepository)
 }

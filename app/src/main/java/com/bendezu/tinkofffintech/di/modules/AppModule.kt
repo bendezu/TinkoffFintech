@@ -1,7 +1,6 @@
 package com.bendezu.tinkofffintech.di.modules
 
 import android.content.Context
-import android.util.Log
 import com.bendezu.tinkofffintech.SHARED_PREFERENCES_NAME
 import com.bendezu.tinkofffintech.data.FintechDatabase
 import com.bendezu.tinkofffintech.network.DelayInterceptor
@@ -19,24 +18,24 @@ import javax.inject.Singleton
 class AppModule(val context: Context) {
 
     @Singleton @Provides
-    fun provideContext() = context.apply { Log.d("INJECT", toString()) }
+    fun provideContext() = context
 
     @Singleton @Provides
-    fun provideDatabase(context: Context) = FintechDatabase.getInstance(context).apply { Log.d("INJECT", toString()) }
+    fun provideDatabase(context: Context) = FintechDatabase.getInstance(context)
 
     @Singleton @Provides
-    fun providePreferences(context: Context) = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE).apply { Log.d("INJECT", toString()) }
+    fun providePreferences(context: Context) = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
     @Singleton @Provides
     fun provideOkHttpClient() = OkHttpClient.Builder()
         .addNetworkInterceptor(DelayInterceptor())
         .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
-        .build().apply { Log.d("INJECT", toString()) }
+        .build()
 
     @Singleton @Provides
     fun provideApiService(okHttpClient: OkHttpClient) = Retrofit.Builder()
         .baseUrl(FintechApiService.BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
-        .build().create<FintechApiService>().apply { Log.d("INJECT", toString()) }
+        .build().create<FintechApiService>()
 }
