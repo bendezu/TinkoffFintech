@@ -16,6 +16,11 @@ class StudentsPresenter(private val repository: StudentsRepository) : MvpBasePre
         repository.getStudents()
     }
 
+    override fun destroy() {
+        repository.dispose()
+        super.destroy()
+    }
+
     override fun onResult(students: List<StudentEntity>, shouldStopLoading: Boolean) {
         ifViewAttached {
             it.showStudents(students)
@@ -27,9 +32,12 @@ class StudentsPresenter(private val repository: StudentsRepository) : MvpBasePre
     }
 
     override fun onError(t: Throwable) {
-        when (t) {
-            is NetworkException -> ifViewAttached { it.showNetworkError() }
-            is UnauthorizedException -> ifViewAttached { it.openAuthorizationActivity() }
+        ifViewAttached {
+            it.setLoading(false)
+            when (t) {
+                is NetworkException -> it.showNetworkError()
+                is UnauthorizedException -> it.openAuthorizationActivity()
+            }
         }
     }
 }
