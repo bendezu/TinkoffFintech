@@ -36,6 +36,7 @@ dependencies {
     def glide_version = "4.9.0"
     def threetenabp_version = "1.2.0"
     def mosby_version = "3.1.1"
+    def dagger_version = "2.22.1"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -60,4 +61,7 @@ dependencies {
 
     implementation "com.hannesdorfmann.mosby3:mvp:$mosby_version"
     implementation "com.hannesdorfmann.mosby3:viewstate:$mosby_version"
+
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 }

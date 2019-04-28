@@ -9,10 +9,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.transition.TransitionManager
 import com.bendezu.tinkofffintech.R
+import com.bendezu.tinkofffintech.di.Injector
 import kotlinx.android.synthetic.main.activity_performance_detail.*
 
-class PerformanceDetailActivity : AppCompatActivity() {
+class PerformanceDetailActivity : AppCompatActivity(), AccountListFragment.InjectorProvider {
 
+    private val component = Injector.performanceDetailComponent()
     lateinit var accountsFragment: AccountListFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,5 +72,9 @@ class PerformanceDetailActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun inject(accountListFragment: AccountListFragment) {
+        component.inject(accountListFragment)
     }
 }

@@ -7,8 +7,10 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import com.bendezu.tinkofffintech.MainActivity
 import com.bendezu.tinkofffintech.R
+import com.bendezu.tinkofffintech.di.Injector
 import com.hannesdorfmann.mosby3.mvp.MvpActivity
 import kotlinx.android.synthetic.main.activity_authorization.*
+import javax.inject.Inject
 
 class AuthorizationActivity : MvpActivity<AuthView, AuthPresenter>(), AuthView {
 
@@ -18,9 +20,11 @@ class AuthorizationActivity : MvpActivity<AuthView, AuthPresenter>(), AuthView {
         private const val STATE_LOGIN_ERROR = "error"
     }
 
-    override fun createPresenter() = AuthPresenter()
+    @Inject lateinit var authPresenter: AuthPresenter
+    override fun createPresenter() = authPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Injector.authActivityComponent().inject(this)
         setTheme(R.style.AppTheme_ActivityTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authorization)

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import com.bendezu.tinkofffintech.courses.CoursesFragment
+import com.bendezu.tinkofffintech.di.Injector
 import com.bendezu.tinkofffintech.events.EventsFragment
 import com.bendezu.tinkofffintech.profile.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -14,7 +15,9 @@ interface BackButtonListener {
     fun onBackPressed()
 }
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ProfileFragment.InjectorProvider {
+
+    private val component = Injector.mainActivityComponent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,5 +72,9 @@ class MainActivity : AppCompatActivity() {
             visibleFragment.onBackPressed()
         else
             super.onBackPressed()
+    }
+
+    override fun inject(profileFragment: ProfileFragment) {
+        component.inject(profileFragment)
     }
 }

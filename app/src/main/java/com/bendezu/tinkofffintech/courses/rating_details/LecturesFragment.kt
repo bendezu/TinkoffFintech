@@ -1,6 +1,8 @@
 package com.bendezu.tinkofffintech.courses.rating_details
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,34 +10,36 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
 import com.bendezu.tinkofffintech.courses.performance_details.ListItemDecoration
-import com.bendezu.tinkofffintech.data.FintechDatabase
 import com.bendezu.tinkofffintech.data.LectureEntity
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_lectures.*
+import javax.inject.Inject
 
 class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), LecturesView {
+
+    interface InjectorProvider {
+        fun inject(lecturesFragment: LecturesFragment)
+    }
 
     companion object {
         private const val STATE_LOADING = "loading"
     }
 
-    private val lecturesAdapter = LecturesAdapter {
-        val fm = fragmentManager ?: return@LecturesAdapter
-        fm.beginTransaction()
-            .replace(R.id.container, TasksFragment.newInstance(it.id))
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .addToBackStack(null)
-            .commit()
-    }
+    @Inject lateinit var lecturesAdapter: LecturesAdapter
+    @Inject lateinit var preferences: SharedPreferences
+    @Inject lateinit var lecturesPresenter: LecturesPresenter
+    override fun createPresenter() = lecturesPresenter
 
-    override fun createPresenter(): LecturesPresenter {
-        val db = FintechDatabase.getInstance(requireContext())
-        return LecturesPresenter(HomeworksRepository(db.lectureDao(), db.taskDao(), App.preferences, App.apiService))
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is InjectorProvider)
+            context.inject(this)
+        else
+            throw IllegalStateException("$context must implement InjectorProvider")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,6 +51,16 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
         if (savedInstanceState != null) {
             val wasLoading = savedInstanceState.getBoolean(STATE_LOADING)
             setLoading(wasLoading)
+        }
+
+        lecturesAdapter.listener = {
+            fragmentManager?.apply {
+                beginTransaction()
+                    .replace(R.id.container, TasksFragment.newInstance(it.id))
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null)
+                    .commit()
+            }
         }
 
         recycler.apply {
@@ -81,7 +95,7 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
     }
 
     override fun openAuthorizationActivity() {
-        App.preferences.edit().clear().apply()
+        preferences.edit().clear().apply()
         startActivity(Intent(context, AuthorizationActivity::class.java))
         activity?.finish()
     }

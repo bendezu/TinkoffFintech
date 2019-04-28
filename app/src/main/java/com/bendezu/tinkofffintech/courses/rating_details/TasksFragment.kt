@@ -1,5 +1,6 @@
 package com.bendezu.tinkofffintech.courses.rating_details
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,10 +14,15 @@ import com.bendezu.tinkofffintech.data.FintechDatabase
 import com.bendezu.tinkofffintech.data.TaskEntity
 import kotlinx.android.synthetic.main.fragment_tasks.*
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
 private const val ARG_LECTURE_ID = "lecture_id"
 
 class TasksFragment: Fragment() {
+
+    interface InjectorProvider {
+        fun inject(tasksFragment: TasksFragment)
+    }
 
     companion object {
         fun newInstance(lectureId: Long): TasksFragment {
@@ -29,26 +35,31 @@ class TasksFragment: Fragment() {
     }
 
     private var lectureId = 0L
-    private val tasksAdapter = TasksAdapter()
-    private lateinit var db: FintechDatabase
+    @Inject lateinit var tasksAdapter: TasksAdapter
+    @Inject lateinit var db: FintechDatabase
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is InjectorProvider)
+            context.inject(this)
+        else
+            throw IllegalStateException("$context must implement InjectorProvider")
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_tasks, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        db = FintechDatabase.getInstance(requireContext())
         lectureId = arguments?.getLong(ARG_LECTURE_ID) ?: 0
-        recycler.apply {
-            adapter = tasksAdapter
-            layoutManager = LinearLayoutManager(context)
-        }
+        recycler.layoutManager = LinearLayoutManager(context)
         TasksThread(WeakReference(this)).start()
     }
 
     private fun setData(tasks: List<TaskEntity>) {
         tasksAdapter.data = tasks
         emptyList.visibility = if (tasksAdapter.itemCount == 0) View.VISIBLE else View.GONE
+        recycler.adapter = tasksAdapter
     }
 
     class TasksThread(private val tasksFragment: WeakReference<TasksFragment>): Thread() {

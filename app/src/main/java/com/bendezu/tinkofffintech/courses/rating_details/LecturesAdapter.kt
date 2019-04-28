@@ -10,7 +10,7 @@ import com.bendezu.tinkofffintech.data.LectureEntity
 import kotlinx.android.synthetic.main.item_lecture.view.*
 
 
-class LecturesAdapter(private val listener: (LectureEntity)->Unit): RecyclerView.Adapter<LecturesAdapter.LectureViewHolder>() {
+class LecturesAdapter(var listener: (LectureEntity)->Unit = {}): RecyclerView.Adapter<LecturesAdapter.LectureViewHolder>() {
 
     var data = listOf<LectureEntity>()
         set(value) {
