@@ -9,6 +9,7 @@ import androidx.annotation.ColorRes
 import androidx.fragment.app.Fragment
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.courses.performance_details.PerformanceDetailActivity
+import com.bendezu.tinkofffintech.view.AccountBadgeView
 import kotlinx.android.synthetic.main.fragment_performance.*
 import java.lang.ref.WeakReference
 import java.util.*

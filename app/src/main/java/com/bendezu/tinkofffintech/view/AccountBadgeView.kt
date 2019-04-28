@@ -1,4 +1,4 @@
-package com.bendezu.tinkofffintech.courses
+package com.bendezu.tinkofffintech.view
 
 import android.content.Context
 import android.graphics.Color

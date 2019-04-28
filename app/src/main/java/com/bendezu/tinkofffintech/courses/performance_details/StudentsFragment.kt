@@ -23,10 +23,10 @@ object SortType {
     const val BY_MARK = "by_mark"
 }
 
-class AccountListFragment : MvpFragment<AccountsView, AccountsPresenter>(), AccountsView {
+class StudentsFragment : MvpFragment<StudentsView, StudentsPresenter>(), StudentsView {
 
     interface InjectorProvider {
-        fun inject(accountListFragment: AccountListFragment)
+        fun inject(studentsFragment: StudentsFragment)
     }
 
     companion object {
@@ -35,26 +35,26 @@ class AccountListFragment : MvpFragment<AccountsView, AccountsPresenter>(), Acco
         private const val STATE_SORT = "sort"
     }
 
-    @Inject lateinit var accountsAdapter: AccountsAdapter
+    @Inject lateinit var studentsAdapter: StudentsAdapter
 
     var query: String = ""
         set(value) {
             field = value
             val actualSort = if (sort.isNotEmpty()) SortType.BY_MARK else sort
-            accountsAdapter.filterAndSort(value, actualSort)
+            studentsAdapter.filterAndSort(value, actualSort)
             recycler.scrollToPosition(0)
             checkAccountsCount()
         }
     var sort: String = SortType.NONE
         set(value) {
             field = value
-            accountsAdapter.filterAndSort(query, value)
+            studentsAdapter.filterAndSort(query, value)
             recycler.scrollToPosition(0)
         }
 
     @Inject lateinit var preferences: SharedPreferences
-    @Inject lateinit var accountsPresenter: AccountsPresenter
-    override fun createPresenter(): AccountsPresenter = accountsPresenter
+    @Inject lateinit var studentsPresenter: StudentsPresenter
+    override fun createPresenter(): StudentsPresenter = studentsPresenter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -79,7 +79,7 @@ class AccountListFragment : MvpFragment<AccountsView, AccountsPresenter>(), Acco
         }
 
         recycler.apply {
-            adapter = accountsAdapter
+            adapter = studentsAdapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(ListItemDecoration(context))
             itemAnimator = PopupItemAnimator()
@@ -102,7 +102,7 @@ class AccountListFragment : MvpFragment<AccountsView, AccountsPresenter>(), Acco
     }
 
     override fun showStudents(students: List<StudentEntity>) {
-        accountsAdapter.setNewData(students, query, sort)
+        studentsAdapter.setNewData(students, query, sort)
         checkAccountsCount()
     }
 
@@ -112,7 +112,7 @@ class AccountListFragment : MvpFragment<AccountsView, AccountsPresenter>(), Acco
     }
 
     override fun checkAccountsCount() {
-        emptyList.visibility = if (accountsAdapter.itemCount == 0) View.VISIBLE else View.GONE
+        emptyList.visibility = if (studentsAdapter.itemCount == 0) View.VISIBLE else View.GONE
     }
 
     override fun openAuthorizationActivity() {

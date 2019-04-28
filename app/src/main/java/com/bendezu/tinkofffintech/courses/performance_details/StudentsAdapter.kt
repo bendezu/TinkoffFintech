@@ -13,7 +13,7 @@ import com.bendezu.tinkofffintech.getInitials
 import kotlinx.android.synthetic.main.item_account_list.view.*
 import kotlin.math.floor
 
-class AccountsAdapter : RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>() {
+class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.AccountViewHolder>() {
 
     var filteredData = listOf<StudentEntity>()
         set(value) {

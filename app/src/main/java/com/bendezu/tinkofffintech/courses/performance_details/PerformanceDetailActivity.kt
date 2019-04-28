@@ -12,10 +12,10 @@ import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.di.Injector
 import kotlinx.android.synthetic.main.activity_performance_detail.*
 
-class PerformanceDetailActivity : AppCompatActivity(), AccountListFragment.InjectorProvider {
+class PerformanceDetailActivity : AppCompatActivity(), StudentsFragment.InjectorProvider {
 
     private val component = Injector.performanceDetailComponent()
-    lateinit var accountsFragment: AccountListFragment
+    lateinit var accountsFragment: StudentsFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +41,12 @@ class PerformanceDetailActivity : AppCompatActivity(), AccountListFragment.Injec
             })
         }
         if (savedInstanceState == null) {
-            accountsFragment = AccountListFragment()
+            accountsFragment = StudentsFragment()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, accountsFragment)
                 .commit()
         } else {
-            accountsFragment = supportFragmentManager.findFragmentById(R.id.container) as AccountListFragment
+            accountsFragment = supportFragmentManager.findFragmentById(R.id.container) as StudentsFragment
         }
     }
 
@@ -74,7 +74,7 @@ class PerformanceDetailActivity : AppCompatActivity(), AccountListFragment.Injec
         return super.onOptionsItemSelected(item)
     }
 
-    override fun inject(accountListFragment: AccountListFragment) {
-        component.inject(accountListFragment)
+    override fun inject(studentsFragment: StudentsFragment) {
+        component.inject(studentsFragment)
     }
 }

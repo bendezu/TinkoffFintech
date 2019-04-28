@@ -45,23 +45,23 @@
             android:layout_marginBottom="32dp"
             android:orientation="horizontal">
 
-            <com.bendezu.tinkofffintech.courses.AccountBadgeView
+            <com.bendezu.tinkofffintech.view.AccountBadgeView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <com.bendezu.tinkofffintech.courses.AccountBadgeView
+            <com.bendezu.tinkofffintech.view.AccountBadgeView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <com.bendezu.tinkofffintech.courses.AccountBadgeView
+            <com.bendezu.tinkofffintech.view.AccountBadgeView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <com.bendezu.tinkofffintech.courses.AccountBadgeView
+            <com.bendezu.tinkofffintech.view.AccountBadgeView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <com.bendezu.tinkofffintech.courses.AccountBadgeView
+            <com.bendezu.tinkofffintech.view.AccountBadgeView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

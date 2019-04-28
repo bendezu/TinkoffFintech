@@ -5,7 +5,7 @@ import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 
-class AccountsPresenter(private val repository: StudentsRepository) : MvpBasePresenter<AccountsView>(),
+class StudentsPresenter(private val repository: StudentsRepository) : MvpBasePresenter<StudentsView>(),
     StudentsRepository.StudentsCallback {
 
     init {

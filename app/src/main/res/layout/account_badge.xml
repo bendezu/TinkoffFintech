@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <com.bendezu.tinkofffintech.courses.CircleImageView
+            <com.bendezu.tinkofffintech.view.CircleImageView
                 android:id="@+id/avatarImageView"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
