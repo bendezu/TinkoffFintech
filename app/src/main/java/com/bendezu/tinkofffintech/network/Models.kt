@@ -3,6 +3,7 @@ package com.bendezu.tinkofffintech.network
 import com.google.gson.annotations.SerializedName
 
 class User (
+    @SerializedName("id") val id: Long,
     @SerializedName("email") val email: String,
     @SerializedName("first_name") val firstname: String,
     @SerializedName("last_name") val lastname: String,
