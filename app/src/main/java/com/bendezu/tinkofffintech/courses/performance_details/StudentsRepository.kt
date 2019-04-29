@@ -1,16 +1,14 @@
 package com.bendezu.tinkofffintech.courses.performance_details
 
+import android.content.Context
 import android.content.SharedPreferences
+import com.bendezu.tinkofffintech.*
 import com.bendezu.tinkofffintech.data.StudentDao
 import com.bendezu.tinkofffintech.data.StudentEntity
-import com.bendezu.tinkofffintech.getCookie
-import com.bendezu.tinkofffintech.getRecentStudentUpdate
-import com.bendezu.tinkofffintech.getUser
 import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.GradesResponse
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
-import com.bendezu.tinkofffintech.saveRecentStudentUpdate
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,6 +23,7 @@ private const val VALID_DURATION_MILLIS = 10_000
 class StudentsRepository(private val studentDao: StudentDao,
                          private val sharedPreferences: SharedPreferences,
                          private val apiService: FintechApiService,
+                         private val context: Context,
                          var callback: StudentsCallback? = null) {
 
     interface StudentsCallback {
@@ -56,7 +55,7 @@ class StudentsRepository(private val studentDao: StudentDao,
                 val filtered = mutableListOf<StudentEntity>()
                 for (student in students) {
                     if (student.totalMark < 20) continue
-                    if (student.id == user.id) student.name += " (Вы)"
+                    if (student.id == user.id) student.name = context.getString(R.string.you, student.name)
                     filtered.add(student)
                 }
                 return@map filtered

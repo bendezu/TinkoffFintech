@@ -1,5 +1,6 @@
 package com.bendezu.tinkofffintech.di.modules
 
+import android.content.Context
 import android.content.SharedPreferences
 import com.bendezu.tinkofffintech.courses.performance_details.StudentsAdapter
 import com.bendezu.tinkofffintech.courses.performance_details.StudentsPresenter
@@ -17,8 +18,9 @@ class StudentsModule {
     @Provides
     fun provideStudentsRepository(db: FintechDatabase,
                                   preferences: SharedPreferences,
-                                  apiService: FintechApiService) =
-        StudentsRepository(db.studentDao(), preferences, apiService)
+                                  apiService: FintechApiService,
+                                  context: Context) =
+        StudentsRepository(db.studentDao(), preferences, apiService, context)
 
     @ActivityScope
     @Provides
