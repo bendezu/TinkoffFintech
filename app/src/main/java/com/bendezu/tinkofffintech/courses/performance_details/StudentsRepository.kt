@@ -42,10 +42,10 @@ class StudentsRepository(private val studentDao: StudentDao,
         var studentsSource = studentDao.getAllRx().toFlowable()
         val networkResponse = apiService.getGradesRx(cookie).flatMap { response ->
             val grades = response[1]
-            val netStudents = grades.toEntity()
-            val sortedStudents = netStudents.sortedBy { it.id }
+            val students = grades.toEntity()
+            val sortedStudents = students.sortedBy { it.id }
             sharedPreferences.saveRecentStudentUpdate(System.currentTimeMillis())
-            studentDao.updateData(netStudents)
+            studentDao.updateData(students)
             return@flatMap Single.fromCallable { sortedStudents }
         }
         if (!isDataValid) studentsSource = studentsSource.concatWith(networkResponse)
@@ -53,14 +53,16 @@ class StudentsRepository(private val studentDao: StudentDao,
         disposables += Flowables.combineLatest(Flowable.fromCallable { sharedPreferences.getUser() }, studentsSource)
             .map { pair ->
                 val (user, students) = pair
+                val filtered = mutableListOf<StudentEntity>()
                 for (student in students) {
-                    if (student.id == user.id)
-                        student.name += " (Вы)"
+                    if (student.totalMark < 20) continue
+                    if (student.id == user.id) student.name += " (Вы)"
+                    filtered.add(student)
                 }
-                return@map students
+                return@map filtered
             }
             .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(AndroidSchedulers.mainThread(), true)
             .subscribe({ students ->
                 callback?.onResult(students, isDataValid)
                 isDataValid = true
