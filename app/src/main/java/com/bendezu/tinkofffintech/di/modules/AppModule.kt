@@ -18,22 +18,27 @@ import javax.inject.Singleton
 @Module
 class AppModule(val context: Context) {
 
-    @Singleton @Provides
+    @Provides
+    @Singleton
     fun provideContext() = context
 
-    @Singleton @Provides
+    @Provides
+    @Singleton
     fun provideDatabase(context: Context) = FintechDatabase.getInstance(context)
 
-    @Singleton @Provides
+    @Provides
+    @Singleton
     fun providePreferences(context: Context) = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
-    @Singleton @Provides
+    @Provides
+    @Singleton
     fun provideOkHttpClient() = OkHttpClient.Builder()
         .addNetworkInterceptor(DelayInterceptor())
         .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
         .build()
 
-    @Singleton @Provides
+    @Provides
+    @Singleton
     fun provideApiService(okHttpClient: OkHttpClient) = Retrofit.Builder()
         .baseUrl(FintechApiService.BASE_URL)
         .client(okHttpClient)

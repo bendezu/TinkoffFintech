@@ -11,12 +11,12 @@ import dagger.Provides
 @Module
 class ProfileModule {
 
-    @ActivityScope
     @Provides
+    @ActivityScope
     fun provideProfileRepository(preferences: SharedPreferences, apiService: FintechApiService) =
         ProfileRepository(preferences, apiService)
 
-    @ActivityScope
     @Provides
+    @ActivityScope
     fun provideProfilePresenter(profileRepository: ProfileRepository) = ProfilePresenter(profileRepository)
 }

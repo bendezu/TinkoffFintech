@@ -14,19 +14,19 @@ import dagger.Provides
 @Module
 class StudentsModule {
 
-    @ActivityScope
     @Provides
+    @ActivityScope
     fun provideStudentsRepository(db: FintechDatabase,
                                   preferences: SharedPreferences,
                                   apiService: FintechApiService,
                                   context: Context) =
         StudentsRepository(db.studentDao(), preferences, apiService, context)
 
-    @ActivityScope
     @Provides
+    @ActivityScope
     fun provideAccountsPresenter(studentsRepository: StudentsRepository) = StudentsPresenter(studentsRepository)
 
-    @ActivityScope
     @Provides
+    @ActivityScope
     fun provideAccountsAdapter() = StudentsAdapter()
 }

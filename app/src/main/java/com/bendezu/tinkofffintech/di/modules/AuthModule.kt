@@ -10,8 +10,8 @@ import dagger.Provides
 @Module
 class AuthModule {
 
-    @ActivityScope
     @Provides
+    @ActivityScope
     fun provideAuthPresenter(preferences: SharedPreferences, apiService: FintechApiService) =
         AuthPresenter(preferences, apiService)
 }
