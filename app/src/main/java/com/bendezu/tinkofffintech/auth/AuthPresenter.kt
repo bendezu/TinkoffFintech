@@ -48,6 +48,7 @@ class AuthPresenter(private val preferences: SharedPreferences,
     override fun onResponse(call: Call<User>, response: Response<User>) {
         ifViewAttached { it.setLoading(false) }
         if (response.isSuccessful) {
+            response.body()?.let { preferences.saveUser(it) }
             val setCookie = response.headers().get(COOKIE_HEADER)
             if (setCookie != null) {
                 val set = setCookie.split("; ")

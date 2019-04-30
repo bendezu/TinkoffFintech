@@ -50,4 +50,6 @@
     <string name="no_lectures">YOU ARE FREE!</string>
     <string name="mark" translatable="false">%1$s/%2$s</string>
     <string name="deadline">Deadline %1$s</string>
+
+    <string name="you">%s (You)</string>
 </resources>

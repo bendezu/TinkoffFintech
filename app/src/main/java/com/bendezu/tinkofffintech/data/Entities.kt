@@ -35,6 +35,6 @@ object TaskStatus {
 @Entity(tableName = "student")
 data class StudentEntity(
     @PrimaryKey val id: Long,
-    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "total_mark") val totalMark: Float
 )

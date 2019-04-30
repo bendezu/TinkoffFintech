@@ -53,4 +53,7 @@
 
     <string name="no_lectures">ТЫ СВОБОДЕН!</string>
     <string name="deadline">Сдать до %1$s</string>
+
+    <string name="you">%s (Вы)</string>
+
 </resources>

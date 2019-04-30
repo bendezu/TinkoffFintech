@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Transaction
+import io.reactivex.Single
 
 @Dao
 interface LectureDao {
@@ -49,6 +50,9 @@ interface StudentDao {
 
     @Query("SELECT * FROM student ORDER BY id ASC")
     fun getAll(): List<StudentEntity>
+
+    @Query("SELECT * FROM student ORDER BY id ASC")
+    fun getAllRx(): Single<List<StudentEntity>>
 
     @Insert(onConflict = REPLACE)
     fun insertAll(students: List<StudentEntity>)

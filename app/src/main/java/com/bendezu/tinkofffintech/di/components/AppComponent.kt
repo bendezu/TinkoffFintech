@@ -1,5 +1,6 @@
 package com.bendezu.tinkofffintech.di.components
 
+import android.content.Context
 import android.content.SharedPreferences
 import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.data.FintechDatabase
@@ -11,6 +12,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [AppModule::class])
 interface AppComponent {
+
+    fun context(): Context
 
     fun preferences(): SharedPreferences
 
