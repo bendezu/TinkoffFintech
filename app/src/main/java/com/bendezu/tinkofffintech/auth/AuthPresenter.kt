@@ -2,6 +2,7 @@ package com.bendezu.tinkofffintech.auth
 
 import android.content.SharedPreferences
 import com.bendezu.tinkofffintech.*
+import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.User
 import com.bendezu.tinkofffintech.network.UserCredential
@@ -12,9 +13,11 @@ import retrofit2.Response
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class AuthPresenter(private val preferences: SharedPreferences,
-                    private val apiService: FintechApiService) :
+@ActivityScope
+class AuthPresenter @Inject constructor(private val preferences: SharedPreferences,
+                                        private val apiService: FintechApiService) :
     MvpBasePresenter<AuthView>(), Callback<User> {
 
     fun verifyCookie() {

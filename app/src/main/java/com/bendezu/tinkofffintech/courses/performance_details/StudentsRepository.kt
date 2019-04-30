@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.bendezu.tinkofffintech.*
 import com.bendezu.tinkofffintech.data.StudentDao
 import com.bendezu.tinkofffintech.data.StudentEntity
+import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.GradesResponse
 import com.bendezu.tinkofffintech.network.NetworkException
@@ -17,14 +18,17 @@ import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
+import javax.inject.Inject
 
 private const val VALID_DURATION_MILLIS = 10_000
 
-class StudentsRepository(private val studentDao: StudentDao,
-                         private val sharedPreferences: SharedPreferences,
-                         private val apiService: FintechApiService,
-                         private val context: Context,
-                         var callback: StudentsCallback? = null) {
+@ActivityScope
+class StudentsRepository @Inject constructor(private val studentDao: StudentDao,
+                                             private val sharedPreferences: SharedPreferences,
+                                             private val apiService: FintechApiService,
+                                             private val context: Context) {
+
+    var callback: StudentsCallback? = null
 
     interface StudentsCallback {
         fun onResult(students: List<StudentEntity>, shouldStopLoading: Boolean = false)

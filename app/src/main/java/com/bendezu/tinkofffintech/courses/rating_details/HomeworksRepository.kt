@@ -7,19 +7,23 @@ import com.bendezu.tinkofffintech.data.LectureDao
 import com.bendezu.tinkofffintech.data.LectureEntity
 import com.bendezu.tinkofffintech.data.TaskDao
 import com.bendezu.tinkofffintech.data.TaskEntity
+import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.getCookie
 import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.HomeworksResponse
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
 import java.io.IOException
+import javax.inject.Inject
 import kotlin.concurrent.thread
 
-class HomeworksRepository(private val lectureDao: LectureDao,
+@ActivityScope
+class HomeworksRepository @Inject constructor(private val lectureDao: LectureDao,
                           private val taskDao: TaskDao,
                           private val sharedPreferences: SharedPreferences,
-                          private val apiService: FintechApiService,
-                          var callback: LecturesCallback? = null) {
+                          private val apiService: FintechApiService) {
+
+    var callback: LecturesCallback? = null
 
     interface LecturesCallback {
         fun onResult(lectures: List<LectureEntity>, shouldStopLoading: Boolean = false)

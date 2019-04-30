@@ -28,6 +28,18 @@ class AppModule(val context: Context) {
 
     @Provides
     @Singleton
+    fun provideLectureDao(db: FintechDatabase) = db.lectureDao()
+
+    @Provides
+    @Singleton
+    fun provideTaskDao(db: FintechDatabase) = db.taskDao()
+
+    @Provides
+    @Singleton
+    fun provideStudentDao(db: FintechDatabase) = db.studentDao()
+
+    @Provides
+    @Singleton
     fun providePreferences(context: Context) = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
     @Provides

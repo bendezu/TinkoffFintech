@@ -1,11 +1,14 @@
 package com.bendezu.tinkofffintech.courses.rating_details
 
 import com.bendezu.tinkofffintech.data.LectureEntity
+import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
+import javax.inject.Inject
 
-class LecturesPresenter(private val repository: HomeworksRepository) :
+@ActivityScope
+class LecturesPresenter @Inject constructor(private val repository: HomeworksRepository) :
     MvpBasePresenter<LecturesView>(), HomeworksRepository.LecturesCallback {
 
     init {

@@ -1,11 +1,14 @@
 package com.bendezu.tinkofffintech.courses.performance_details
 
 import com.bendezu.tinkofffintech.data.StudentEntity
+import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
+import javax.inject.Inject
 
-class StudentsPresenter(private val repository: StudentsRepository) : MvpBasePresenter<StudentsView>(),
+@ActivityScope
+class StudentsPresenter @Inject constructor(private val repository: StudentsRepository) : MvpBasePresenter<StudentsView>(),
     StudentsRepository.StudentsCallback {
 
     init {

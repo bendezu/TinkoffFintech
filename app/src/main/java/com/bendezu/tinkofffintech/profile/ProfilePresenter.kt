@@ -1,11 +1,14 @@
 package com.bendezu.tinkofffintech.profile
 
+import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
 import com.bendezu.tinkofffintech.network.User
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
+import javax.inject.Inject
 
-class ProfilePresenter(private val repository: ProfileRepository) :
+@ActivityScope
+class ProfilePresenter @Inject constructor(private val repository: ProfileRepository) :
     MvpBasePresenter<ProfileView>(), ProfileRepository.ProfileCallback {
 
     init {

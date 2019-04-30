@@ -7,10 +7,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.data.LectureEntity
+import com.bendezu.tinkofffintech.di.ActivityScope
 import kotlinx.android.synthetic.main.item_lecture.view.*
+import javax.inject.Inject
 
+@ActivityScope
+class LecturesAdapter @Inject constructor(): RecyclerView.Adapter<LecturesAdapter.LectureViewHolder>() {
 
-class LecturesAdapter(var listener: (LectureEntity)->Unit = {}): RecyclerView.Adapter<LecturesAdapter.LectureViewHolder>() {
+    var listener: (LectureEntity)->Unit = {}
 
     var data = listOf<LectureEntity>()
         set(value) {

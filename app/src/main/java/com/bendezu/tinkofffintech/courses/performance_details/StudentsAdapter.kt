@@ -8,12 +8,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.data.StudentEntity
+import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.getAvatarColor
 import com.bendezu.tinkofffintech.getInitials
 import kotlinx.android.synthetic.main.item_account_list.view.*
+import javax.inject.Inject
 import kotlin.math.floor
 
-class StudentsAdapter : RecyclerView.Adapter<StudentsAdapter.AccountViewHolder>() {
+@ActivityScope
+class StudentsAdapter @Inject constructor() : RecyclerView.Adapter<StudentsAdapter.AccountViewHolder>() {
 
     var filteredData = listOf<StudentEntity>()
         set(value) {

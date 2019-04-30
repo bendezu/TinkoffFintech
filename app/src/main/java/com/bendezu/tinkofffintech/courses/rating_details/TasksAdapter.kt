@@ -10,12 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.data.TaskEntity
 import com.bendezu.tinkofffintech.data.TaskStatus
+import com.bendezu.tinkofffintech.di.ActivityScope
 import kotlinx.android.synthetic.main.item_task.view.*
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
+import javax.inject.Inject
 
-class TasksAdapter: RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
+@ActivityScope
+class TasksAdapter @Inject constructor(): RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
 
     var data = listOf<TaskEntity>()
         set(value) {
