@@ -66,7 +66,6 @@ dependencies {
     implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp_version"
 
     implementation "com.hannesdorfmann.mosby3:mvp:$mosby_version"
-    implementation "com.hannesdorfmann.mosby3:viewstate:$mosby_version"
 
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"

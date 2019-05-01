@@ -45,6 +45,9 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="wrong_email_or_password">Wrong email or password</string>
+    <string name="wrong_email">Wrong email</string>
+    <string name="empty_password">Empty password</string>
+
     <string name="network_error">Network error</string>
 
     <string name="no_lectures">YOU ARE FREE!</string>

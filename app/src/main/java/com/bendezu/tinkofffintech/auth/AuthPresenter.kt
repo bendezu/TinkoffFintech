@@ -1,6 +1,7 @@
 package com.bendezu.tinkofffintech.auth
 
 import android.content.SharedPreferences
+import android.util.Patterns
 import com.bendezu.tinkofffintech.*
 import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.network.FintechApiService
@@ -37,8 +38,14 @@ class AuthPresenter @Inject constructor(private val preferences: SharedPreferenc
     }
 
     fun logIn(email: String, password: String) {
-        apiService.signIn(UserCredential(email, password)).enqueue(this)
-        ifViewAttached { it.setLoading(true) }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            ifViewAttached { it.showWrongEmailMessage() }
+        } else if (password.isEmpty()) {
+            ifViewAttached { it.showEmptyPasswordMessage() }
+        } else {
+            apiService.signIn(UserCredential(email, password)).enqueue(this)
+            ifViewAttached { it.setLoading(true) }
+        }
     }
 
     override fun onFailure(call: Call<User>, t: Throwable) {

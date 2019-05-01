@@ -15,8 +15,8 @@ import javax.inject.Inject
 class AuthorizationActivity : MvpActivity<AuthView, AuthPresenter>(), AuthView {
 
     companion object {
-        const val TAG = "AuthorizationActivity"
         private const val STATE_LOADING = "loading"
+        private const val STATE_LOGIN_ERROR_VISIBILITY = "error_visibility"
         private const val STATE_LOGIN_ERROR = "error"
     }
 
@@ -25,15 +25,18 @@ class AuthorizationActivity : MvpActivity<AuthView, AuthPresenter>(), AuthView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Injector.authActivityComponent().inject(this)
-        setTheme(R.style.AppTheme_ActivityTheme)
+        setTheme(R.style.AppTheme_Activity_AuthTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authorization)
 
         if (savedInstanceState != null) {
             val wasLoading = savedInstanceState.getBoolean(STATE_LOADING)
-            val hadError = savedInstanceState.getBoolean(STATE_LOGIN_ERROR)
+            val hadError = savedInstanceState.getBoolean(STATE_LOGIN_ERROR_VISIBILITY)
             if (wasLoading) setLoading(wasLoading)
-            if (hadError) showErrorMessage()
+            if (hadError) {
+                errorTextView.visibility = View.VISIBLE
+                errorTextView.text = savedInstanceState.getString(STATE_LOGIN_ERROR)
+            }
         }
 
         presenter.verifyCookie()
@@ -46,14 +49,29 @@ class AuthorizationActivity : MvpActivity<AuthView, AuthPresenter>(), AuthView {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(STATE_LOADING, progressBar.isVisible)
-        outState.putBoolean(STATE_LOGIN_ERROR, errorTextView.isVisible)
+        outState.apply {
+            putBoolean(STATE_LOADING, progressBar.isVisible)
+            putBoolean(STATE_LOGIN_ERROR_VISIBILITY, errorTextView.isVisible)
+            putString(STATE_LOGIN_ERROR, errorTextView.text.toString())
+        }
         super.onSaveInstanceState(outState)
     }
 
     override fun showErrorMessage() {
-        errorTextView?.visibility = View.VISIBLE
+        errorTextView.setText(R.string.wrong_email_or_password)
+        errorTextView.visibility = View.VISIBLE
     }
+
+    override fun showWrongEmailMessage() {
+        errorTextView.setText(R.string.wrong_email)
+        errorTextView.visibility = View.VISIBLE
+    }
+
+    override fun showEmptyPasswordMessage() {
+        errorTextView.setText(R.string.empty_password)
+        errorTextView.visibility = View.VISIBLE
+    }
+
     override fun setLoading(loading: Boolean) {
         progressBar?.visibility = if (loading) View.VISIBLE else View.INVISIBLE
         logInButton?.isEnabled = !loading

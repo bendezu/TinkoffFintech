@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="@color/colorSecondAccent">
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,12 +23,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/authorizationInputText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:hint="@string/email"
-            android:textColorHint="@color/colorDivider"
             app:layout_constraintBottom_toTopOf="@+id/passwordInputLayout"
             app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
             app:layout_constraintStart_toStartOf="@+id/leftGuideline"
@@ -37,21 +35,20 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEditText"
-                style="@style/textWhite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="@color/colorTextWhite" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/authorizationInputText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginMedium"
             android:hint="@string/password"
-            android:textColorHint="@color/colorDivider"
             app:layout_constraintBottom_toTopOf="@+id/errorTextView"
             app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
             app:layout_constraintStart_toStartOf="@+id/leftGuideline"
@@ -59,11 +56,11 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEditText"
-                style="@style/textWhite"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:imeOptions="actionDone"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@color/colorTextWhite" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,7 +69,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/wrong_email_or_password"
             android:textColor="@android:color/holo_red_light"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/logInButton"
@@ -80,12 +76,13 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout"
+            tools:text="@string/wrong_email_or_password"
             tools:visibility="visible" />
 
         <Button
             android:id="@+id/logInButton"
             android:layout_width="0dp"
-            android:layout_height="64dp"
+            android:layout_height="56dp"
             android:layout_marginTop="8dp"
             android:text="@string/log_in"
             android:textColor="@color/colorSecondAccent"

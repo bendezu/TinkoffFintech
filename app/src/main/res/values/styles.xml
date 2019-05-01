@@ -8,6 +8,8 @@
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
         <item name="android:listDivider">@drawable/divider</item>
+
+        <item name="colorControlNormal">@color/colorTextWhite</item>
     </style>
 
     <style name="AppTheme.SplashTheme">
@@ -19,8 +21,18 @@
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
     <style name="AppTheme.Activity.AuthTheme">
+        <item name="android:windowBackground">@color/colorSecondAccent</item>
         <item name="android:statusBarColor">@color/colorSecondAccent</item>
         <item name="android:navigationBarColor">@color/colorSecondAccent</item>
+    </style>
+
+
+    <style name="authorizationInputText">
+        <item name="android:textColorHint">@color/colorTextWhite</item>
+        <item name="boxCornerRadiusTopEnd">4dp</item>
+        <item name="boxCornerRadiusTopStart">4dp</item>
+        <item name="boxBackgroundColor">#33FFFFFF</item>
+        <item name="boxBackgroundMode">filled</item>
     </style>
 
 

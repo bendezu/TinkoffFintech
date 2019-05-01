@@ -7,4 +7,6 @@ interface AuthView: MvpView {
     fun openMainActivity()
     fun showErrorMessage()
     fun showNetworkError()
+    fun showWrongEmailMessage()
+    fun showEmptyPasswordMessage()
 }
