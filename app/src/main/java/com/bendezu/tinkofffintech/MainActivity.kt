@@ -9,8 +9,6 @@ import com.bendezu.tinkofffintech.events.EventsFragment
 import com.bendezu.tinkofffintech.profile.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-private const val STATE_TITLE = "title"
-
 interface BackButtonListener {
     fun onBackPressed()
 }
@@ -28,18 +26,9 @@ class MainActivity : AppCompatActivity(), ProfileFragment.InjectorProvider {
                 return@setOnNavigationItemSelectedListener true
 
             val fragment = when (it.itemId) {
-                R.id.action_events -> {
-                    toolbar.setTitle(R.string.events)
-                    EventsFragment()
-                }
-                R.id.action_courses -> {
-                    toolbar.setTitle(R.string.courses)
-                    CoursesFragment()
-                }
-                R.id.action_profile -> {
-                    toolbar.setTitle(R.string.profile)
-                    ProfileFragment()
-                }
+                R.id.action_events -> EventsFragment()
+                R.id.action_courses -> CoursesFragment()
+                R.id.action_profile -> ProfileFragment()
                 else -> throw IllegalArgumentException("Unknown item selected: $it")
             }
             //clear back stack
@@ -50,20 +39,12 @@ class MainActivity : AppCompatActivity(), ProfileFragment.InjectorProvider {
                 .replace(R.id.container, fragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit()
-            true
+            return@setOnNavigationItemSelectedListener true
         }
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, EventsFragment())
                 .commit()
-            toolbar.setTitle(R.string.events)
-        } else
-            toolbar.title = savedInstanceState.getString(STATE_TITLE)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(STATE_TITLE, toolbar.title.toString())
-        super.onSaveInstanceState(outState)
     }
 
     override fun onBackPressed() {

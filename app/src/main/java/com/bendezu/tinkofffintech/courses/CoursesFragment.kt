@@ -24,6 +24,12 @@ class CoursesFragment: Fragment(), AccountsListener {
             .replace(R.id.completed_courses_container, CompletedCoursesFragment())
             .commit()
 
+        view.requestApplyInsets()
+        view.setOnApplyWindowInsetsListener { _, insets ->
+            statusBarBackground.layoutParams.height = insets.systemWindowInsetTop
+            insets.consumeSystemWindowInsets()
+        }
+
         swipeRefresh.setColorSchemeResources(*swipeRefreshColors)
         swipeRefresh.setOnRefreshListener {
             performanceFragment.regenerateAccounts()

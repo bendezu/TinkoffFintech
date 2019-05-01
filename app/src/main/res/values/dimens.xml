@@ -3,4 +3,5 @@
     <dimen name="marginMedium">16dp</dimen>
     <dimen name="toolbar_elevation">4dp</dimen>
     <dimen name="bottom_nav_height">56dp</dimen>
+    <dimen name="avatar_app_bar_height">160dp</dimen>
 </resources>

@@ -47,6 +47,14 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.requestApplyInsets()
+        view.setOnApplyWindowInsetsListener { _, insets ->
+            val appBarHeight = requireContext().resources.getDimension(R.dimen.avatar_app_bar_height).toInt()
+            appBar.layoutParams.height = appBarHeight + insets.systemWindowInsetTop
+            (logOutButton.layoutParams as ViewGroup.MarginLayoutParams).topMargin = insets.systemWindowInsetTop
+            insets.consumeSystemWindowInsets()
+        }
+
         if (savedInstanceState != null) {
             val wasLoading = savedInstanceState.getBoolean(STATE_LOADING)
             swipeRefresh.isRefreshing = wasLoading

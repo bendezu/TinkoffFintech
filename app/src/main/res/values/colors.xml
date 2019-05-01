@@ -21,4 +21,6 @@
     <color name="colorPassed">#6CD6A2</color>
     <color name="colorFailed">#FF5722</color>
 
+    <color name="colorWhiteTranslucent">#33FFFFFF</color>
+
 </resources>

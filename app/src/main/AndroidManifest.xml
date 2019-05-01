@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme.Activity"/>
+            android:theme="@style/AppTheme.Activity.Main"/>
 
         <activity android:name=".auth.AuthorizationActivity"
             android:theme="@style/AppTheme.SplashTheme">
