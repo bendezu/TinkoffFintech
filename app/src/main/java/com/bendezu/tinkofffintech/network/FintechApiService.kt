@@ -31,4 +31,7 @@ interface FintechApiService {
 
     @GET("api/course/android_spring_2019/grades")
     fun getGradesRx(@Header("Cookie") cookie: String): Single<List<GradesResponse>>
+
+    @GET("api/calendar/list/event")
+    fun getEventsRx(): Single<EventsResponse>
 }

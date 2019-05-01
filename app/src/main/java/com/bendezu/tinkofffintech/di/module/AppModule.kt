@@ -40,6 +40,10 @@ class AppModule(val context: Context) {
 
     @Provides
     @Singleton
+    fun provideEventDao(db: FintechDatabase) = db.eventDao()
+
+    @Provides
+    @Singleton
     fun providePreferences(context: Context) = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
     @Provides

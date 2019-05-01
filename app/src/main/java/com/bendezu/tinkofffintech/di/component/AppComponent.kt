@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.data.FintechDatabase
+import com.bendezu.tinkofffintech.data.dao.EventDao
 import com.bendezu.tinkofffintech.data.dao.LectureDao
 import com.bendezu.tinkofffintech.data.dao.StudentDao
 import com.bendezu.tinkofffintech.data.dao.TaskDao
@@ -29,6 +30,8 @@ interface AppComponent {
     fun taskDao(): TaskDao
 
     fun studentDao(): StudentDao
+
+    fun eventDao(): EventDao
 
     fun inject(app: App)
 }
