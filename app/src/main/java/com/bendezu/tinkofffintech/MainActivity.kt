@@ -42,9 +42,7 @@ class MainActivity : AppCompatActivity(), ProfileFragment.InjectorProvider {
             return@setOnNavigationItemSelectedListener true
         }
         if (savedInstanceState == null)
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, EventsFragment())
-                .commit()
+            bottomNavigationView.selectedItemId = R.id.action_courses
     }
 
     override fun onBackPressed() {

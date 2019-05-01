@@ -1,13 +1,13 @@
-package com.bendezu.tinkofffintech.di.components
+package com.bendezu.tinkofffintech.di.component
 
 import android.content.Context
 import android.content.SharedPreferences
 import com.bendezu.tinkofffintech.App
 import com.bendezu.tinkofffintech.data.FintechDatabase
-import com.bendezu.tinkofffintech.data.LectureDao
-import com.bendezu.tinkofffintech.data.StudentDao
-import com.bendezu.tinkofffintech.data.TaskDao
-import com.bendezu.tinkofffintech.di.modules.AppModule
+import com.bendezu.tinkofffintech.data.dao.LectureDao
+import com.bendezu.tinkofffintech.data.dao.StudentDao
+import com.bendezu.tinkofffintech.data.dao.TaskDao
+import com.bendezu.tinkofffintech.di.module.AppModule
 import com.bendezu.tinkofffintech.network.FintechApiService
 import dagger.Component
 import javax.inject.Singleton

@@ -3,13 +3,13 @@ package com.bendezu.tinkofffintech.courses.performance_details
 import android.content.Context
 import android.content.SharedPreferences
 import com.bendezu.tinkofffintech.*
-import com.bendezu.tinkofffintech.data.StudentDao
-import com.bendezu.tinkofffintech.data.StudentEntity
+import com.bendezu.tinkofffintech.data.dao.StudentDao
+import com.bendezu.tinkofffintech.data.entity.StudentEntity
 import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.network.FintechApiService
-import com.bendezu.tinkofffintech.network.GradesResponse
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
+import com.bendezu.tinkofffintech.network.models.GradesResponse
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

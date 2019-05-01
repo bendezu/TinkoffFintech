@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bendezu.tinkofffintech.R
-import com.bendezu.tinkofffintech.data.LectureEntity
+import com.bendezu.tinkofffintech.data.entity.LectureEntity
 import com.bendezu.tinkofffintech.di.ActivityScope
 import kotlinx.android.synthetic.main.item_lecture.view.*
 import javax.inject.Inject

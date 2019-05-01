@@ -1,7 +1,7 @@
 package com.bendezu.tinkofffintech.courses.rating_details
 
 import androidx.recyclerview.widget.DiffUtil
-import com.bendezu.tinkofffintech.data.LectureEntity
+import com.bendezu.tinkofffintech.data.entity.LectureEntity
 
 class LectureDiff(private val oldList: List<LectureEntity>, private val newList: List<LectureEntity>) : DiffUtil.Callback() {
 

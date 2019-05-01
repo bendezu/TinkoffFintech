@@ -3,7 +3,7 @@ package com.bendezu.tinkofffintech
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.core.content.edit
-import com.bendezu.tinkofffintech.network.User
+import com.bendezu.tinkofffintech.network.models.User
 
 private const val TAG = "Preferences"
 
@@ -50,7 +50,7 @@ fun SharedPreferences.saveUser(user: User) {
         putString(PREF_CURRENT_WORK, user.currentWork)
     }
 }
-fun SharedPreferences.getUser() = User (
+fun SharedPreferences.getUser() = User(
     id = getLong(PREF_ID, 0),
     email = getString(PREF_EMAIL, "").orEmpty(),
     firstname = getString(PREF_FIRST_NAME, "").orEmpty(),

@@ -3,25 +3,25 @@ package com.bendezu.tinkofffintech.courses.rating_details
 import android.content.SharedPreferences
 import android.os.Handler
 import android.os.Looper
-import com.bendezu.tinkofffintech.data.LectureDao
-import com.bendezu.tinkofffintech.data.LectureEntity
-import com.bendezu.tinkofffintech.data.TaskDao
-import com.bendezu.tinkofffintech.data.TaskEntity
+import com.bendezu.tinkofffintech.data.dao.LectureDao
+import com.bendezu.tinkofffintech.data.dao.TaskDao
+import com.bendezu.tinkofffintech.data.entity.LectureEntity
+import com.bendezu.tinkofffintech.data.entity.TaskEntity
 import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.getCookie
 import com.bendezu.tinkofffintech.network.FintechApiService
-import com.bendezu.tinkofffintech.network.HomeworksResponse
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
+import com.bendezu.tinkofffintech.network.models.HomeworksResponse
 import java.io.IOException
 import javax.inject.Inject
 import kotlin.concurrent.thread
 
 @ActivityScope
 class HomeworksRepository @Inject constructor(private val lectureDao: LectureDao,
-                          private val taskDao: TaskDao,
-                          private val sharedPreferences: SharedPreferences,
-                          private val apiService: FintechApiService) {
+                                              private val taskDao: TaskDao,
+                                              private val sharedPreferences: SharedPreferences,
+                                              private val apiService: FintechApiService) {
 
     var callback: LecturesCallback? = null
 
@@ -68,15 +68,17 @@ class HomeworksRepository @Inject constructor(private val lectureDao: LectureDao
             lectures.add(LectureEntity(homework.id, homework.title))
             for (task in homework.tasks) {
                 val taskData = task.taskData
-                tasks.add(TaskEntity(
-                    taskData.id,
-                    taskData.title,
-                    taskData.taskType,
-                    taskData.maxScore,
-                    taskData.deadlineDate,
-                    task.status,
-                    task.mark,
-                    homework.id)
+                tasks.add(
+                    TaskEntity(
+                        taskData.id,
+                        taskData.title,
+                        taskData.taskType,
+                        taskData.maxScore,
+                        taskData.deadlineDate,
+                        task.status,
+                        task.mark,
+                        homework.id
+                    )
                 )
             }
         }

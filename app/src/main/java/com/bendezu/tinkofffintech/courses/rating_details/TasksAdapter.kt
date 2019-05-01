@@ -8,8 +8,8 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bendezu.tinkofffintech.R
-import com.bendezu.tinkofffintech.data.TaskEntity
-import com.bendezu.tinkofffintech.data.TaskStatus
+import com.bendezu.tinkofffintech.data.entity.TaskEntity
+import com.bendezu.tinkofffintech.data.entity.TaskStatus
 import com.bendezu.tinkofffintech.di.ActivityScope
 import kotlinx.android.synthetic.main.item_task.view.*
 import org.threeten.bp.Instant

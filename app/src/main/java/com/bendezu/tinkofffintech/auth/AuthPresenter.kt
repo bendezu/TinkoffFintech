@@ -5,8 +5,8 @@ import android.util.Patterns
 import com.bendezu.tinkofffintech.*
 import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.network.FintechApiService
-import com.bendezu.tinkofffintech.network.User
-import com.bendezu.tinkofffintech.network.UserCredential
+import com.bendezu.tinkofffintech.network.models.User
+import com.bendezu.tinkofffintech.network.models.UserCredential
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import retrofit2.Call
 import retrofit2.Callback

@@ -1,6 +1,6 @@
 package com.bendezu.tinkofffintech.courses.rating_details
 
-import com.bendezu.tinkofffintech.data.LectureEntity
+import com.bendezu.tinkofffintech.data.entity.LectureEntity
 import com.hannesdorfmann.mosby3.mvp.MvpView
 
 interface LecturesView: MvpView {

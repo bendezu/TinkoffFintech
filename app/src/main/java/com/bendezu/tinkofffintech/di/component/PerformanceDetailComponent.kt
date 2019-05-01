@@ -1,4 +1,4 @@
-package com.bendezu.tinkofffintech.di.components
+package com.bendezu.tinkofffintech.di.component
 
 import com.bendezu.tinkofffintech.courses.performance_details.PerformanceDetailActivity
 import com.bendezu.tinkofffintech.courses.performance_details.StudentsFragment

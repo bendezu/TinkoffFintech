@@ -1,8 +1,8 @@
 package com.bendezu.tinkofffintech.di
 
 import android.content.Context
-import com.bendezu.tinkofffintech.di.components.*
-import com.bendezu.tinkofffintech.di.modules.AppModule
+import com.bendezu.tinkofffintech.di.component.*
+import com.bendezu.tinkofffintech.di.module.AppModule
 
 object Injector {
 

@@ -52,7 +52,7 @@
     <string name="wrong_email">Неправильный email</string>
     <string name="empty_password">Пустой пароль</string>
 
-    <string name="network_error">Обшибка сети</string>
+    <string name="network_error">Ошибка сети</string>
 
     <string name="no_lectures">ТЫ СВОБОДЕН!</string>
     <string name="deadline">Сдать до %s</string>

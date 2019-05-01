@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.data.FintechDatabase
-import com.bendezu.tinkofffintech.data.TaskEntity
+import com.bendezu.tinkofffintech.data.entity.TaskEntity
 import kotlinx.android.synthetic.main.fragment_tasks.*
 import java.lang.ref.WeakReference
 import javax.inject.Inject

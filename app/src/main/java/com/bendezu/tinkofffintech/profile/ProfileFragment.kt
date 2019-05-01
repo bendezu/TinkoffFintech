@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
-import com.bendezu.tinkofffintech.network.User
+import com.bendezu.tinkofffintech.network.models.User
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.bumptech.glide.Glide
 import com.hannesdorfmann.mosby3.mvp.MvpFragment

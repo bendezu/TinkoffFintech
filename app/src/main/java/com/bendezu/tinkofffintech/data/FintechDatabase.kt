@@ -4,6 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.bendezu.tinkofffintech.data.dao.LectureDao
+import com.bendezu.tinkofffintech.data.dao.StudentDao
+import com.bendezu.tinkofffintech.data.dao.TaskDao
+import com.bendezu.tinkofffintech.data.entity.LectureEntity
+import com.bendezu.tinkofffintech.data.entity.StudentEntity
+import com.bendezu.tinkofffintech.data.entity.TaskEntity
 
 @Database(entities = [LectureEntity::class, TaskEntity::class, StudentEntity::class], version = 2)
 abstract class FintechDatabase: RoomDatabase() {

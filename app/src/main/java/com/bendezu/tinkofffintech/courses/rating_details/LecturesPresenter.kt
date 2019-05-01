@@ -1,6 +1,6 @@
 package com.bendezu.tinkofffintech.courses.rating_details
 
-import com.bendezu.tinkofffintech.data.LectureEntity
+import com.bendezu.tinkofffintech.data.entity.LectureEntity
 import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException

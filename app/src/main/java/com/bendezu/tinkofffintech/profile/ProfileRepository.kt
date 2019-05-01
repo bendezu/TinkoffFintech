@@ -9,7 +9,7 @@ import com.bendezu.tinkofffintech.getUser
 import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
-import com.bendezu.tinkofffintech.network.User
+import com.bendezu.tinkofffintech.network.models.User
 import com.bendezu.tinkofffintech.saveUser
 import java.io.IOException
 import javax.inject.Inject

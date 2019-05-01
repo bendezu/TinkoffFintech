@@ -1,4 +1,4 @@
-package com.bendezu.tinkofffintech.di.modules
+package com.bendezu.tinkofffintech.di.module
 
 import android.content.Context
 import com.bendezu.tinkofffintech.SHARED_PREFERENCES_NAME

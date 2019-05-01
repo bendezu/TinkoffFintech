@@ -1,7 +1,7 @@
 package com.bendezu.tinkofffintech.courses.performance_details
 
 import androidx.recyclerview.widget.DiffUtil
-import com.bendezu.tinkofffintech.data.StudentEntity
+import com.bendezu.tinkofffintech.data.entity.StudentEntity
 
 class StudentDiff(private val oldList: List<StudentEntity>, private val newList: List<StudentEntity>) : DiffUtil.Callback() {
 

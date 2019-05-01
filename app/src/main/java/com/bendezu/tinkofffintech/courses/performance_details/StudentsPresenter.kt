@@ -1,6 +1,6 @@
 package com.bendezu.tinkofffintech.courses.performance_details
 
-import com.bendezu.tinkofffintech.data.StudentEntity
+import com.bendezu.tinkofffintech.data.entity.StudentEntity
 import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException

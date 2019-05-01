@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bendezu.tinkofffintech.R
-import com.bendezu.tinkofffintech.data.StudentEntity
+import com.bendezu.tinkofffintech.data.entity.StudentEntity
 import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.getAvatarColor
 import com.bendezu.tinkofffintech.getInitials

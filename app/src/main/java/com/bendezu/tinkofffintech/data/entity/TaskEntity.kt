@@ -1,19 +1,14 @@
-package com.bendezu.tinkofffintech.data
+package com.bendezu.tinkofffintech.data.entity
 
 import androidx.room.*
-
-@Entity(tableName = "lecture")
-data class LectureEntity(
-    @PrimaryKey val id: Long,
-    @ColumnInfo(name = "title") val title: String
-)
 
 @Entity(tableName = "task", foreignKeys = [
     ForeignKey(
         entity = LectureEntity::class,
         parentColumns = ["id"],
         childColumns = ["lecture_id"],
-        onDelete = ForeignKey.CASCADE)
+        onDelete = ForeignKey.CASCADE
+    )
 ], indices = [Index("lecture_id")])
 data class TaskEntity(
     @PrimaryKey val id: Long,
@@ -31,10 +26,3 @@ object TaskStatus {
     const val ON_CHECK = "on_check"
     const val ACCEPTED = "accepted"
 }
-
-@Entity(tableName = "student")
-data class StudentEntity(
-    @PrimaryKey val id: Long,
-    @ColumnInfo(name = "name") var name: String,
-    @ColumnInfo(name = "total_mark") val totalMark: Float
-)
