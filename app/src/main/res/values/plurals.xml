@@ -6,4 +6,9 @@
         <item quantity="other">%s points</item>
     </plurals>
 
+    <plurals name="nameAge">
+        <item quantity="one">%1$s %2$s, %3$s year</item>
+        <item quantity="other">%1$s %2$s, %3$s years</item>
+    </plurals>
+
 </resources>

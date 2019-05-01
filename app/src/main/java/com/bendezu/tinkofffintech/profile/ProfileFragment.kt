@@ -3,7 +3,6 @@ package com.bendezu.tinkofffintech.profile
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
-import com.bendezu.tinkofffintech.getAvatarColor
-import com.bendezu.tinkofffintech.getInitials
 import com.bendezu.tinkofffintech.network.User
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.bumptech.glide.Glide
@@ -74,17 +71,37 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
     }
 
     override fun showUserProfile(user: User) {
-        firstNameTextView.text = user.firstname
-        secondNameTextView.text = user.lastname
-        patronymicTextView.text = user.middlename
         if (user.avatar == null) {
-            val initials = "${user.firstname} ${user.lastname}".getInitials()
-            avatarImageView.setImageDrawable(ColorDrawable(initials.getAvatarColor()))
-            avatarImageView.initials = initials
+            //placeholder
         } else {
             val avatarUrl = AVATAR_URL_BASE + user.avatar
             Glide.with(this).load(avatarUrl).into(avatarImageView)
         }
+        nameTextView.text = "${user.firstname} ${user.lastname} ${user.middlename}"
+        profileEmailTextView.text = user.email
+
+        if (user.description == null) {
+            descriptionBlock.visibility = View.GONE
+        } else {
+            descriptionTextView.text = user.description
+            val age = presenter.getAgeByBirthday(user.birthday)
+            nameAgeTextView.text = requireContext().resources.getQuantityString(
+                R.plurals.nameAge, age, user.firstname, user.lastname, age)
+        }
+
+        phoneTextView.text = user.phoneNumber
+        emailTextView.text = user.email
+        regionTextView.text = user.region
+
+        schoolTextView.text = user.school
+        if (user.schoolGraduation != null)
+            schoolGraduationTextView.text = requireContext().getString(R.string.graduation_year, user.schoolGraduation)
+        universityTextView.text = user.university
+        if (user.universityGraduation != null)
+            universityGraduationTextView.text = requireContext().getString(R.string.graduation_year, user.universityGraduation)
+        departmentTextView.text = user.department
+
+        currentWorkTextView.text = user.currentWork
     }
 
     override fun showNetworkError() {

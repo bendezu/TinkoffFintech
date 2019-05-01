@@ -12,7 +12,7 @@ import com.bendezu.tinkofffintech.R
 class ListItemDecoration(context: Context): RecyclerView.ItemDecoration() {
 
     private val bounds = Rect()
-    private val divider = ColorDrawable(ContextCompat.getColor(context, R.color.colorBackground))
+    private val divider = ColorDrawable(ContextCompat.getColor(context, R.color.colorDivider))
     private val dp = context.resources.displayMetrics.density.toInt()
     var margin = 100
 

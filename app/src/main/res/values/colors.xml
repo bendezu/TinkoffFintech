@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="windowBackground">#f6f7f8</color>
-    <color name="colorPrimary">#3e4757</color>
+
+    <color name="windowBackground">#F6F7F8</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorDivider">#EAECEE</color>
+
+    <color name="colorTextDark">#333333</color>
+    <color name="colorTextWhite">#FFFFFF</color>
+
+    <color name="colorPrimary">#3E4757</color>
     <color name="colorPrimaryDark">#3c4354</color>
-    <color name="colorAccent">#ffdd2d</color>
+    <color name="colorAccent">#FFDD2D</color>
     <color name="colorAccentDark">#F9A825</color>
+
     <color name="colorSelectedTab">#FFFFFF</color>
-    <color name="colorPrimaryLight">#b2b5bc</color>
+    <color name="colorPrimaryLight">#B2B5BC</color>
     <color name="colorSecondAccent">#458BF6</color>
-    <color name="colorBackground">#EAECEE</color>
+    <color name="colorSecondAccentDark">#376FC4</color>
+
     <color name="colorPassed">#6CD6A2</color>
     <color name="colorFailed">#FF5722</color>
-    <color name="colorDivider">#E2E3E5</color>
+
 </resources>

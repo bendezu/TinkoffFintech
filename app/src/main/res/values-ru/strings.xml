@@ -52,8 +52,23 @@
     <string name="network_error">Обшибка сети</string>
 
     <string name="no_lectures">ТЫ СВОБОДЕН!</string>
-    <string name="deadline">Сдать до %1$s</string>
+    <string name="deadline">Сдать до %s</string>
 
     <string name="you">%s (Вы)</string>
+    <string name="contact_info_label">Контактная информация</string>
+    <string name="mobile_phone_label">Мобильный телефон</string>
+    <string name="email_label">Электроная почта</string>
+    <string name="region_label">Город проживания</string>
+    <string name="education_label">Образование</string>
+    <string name="school_label">Школа</string>
+    <string name="school_graduation_year_label">Год окончания школы</string>
+    <string name="university_label">ВУЗ</string>
+    <string name="faculty_label">Факультет</string>
+    <string name="university_graduation_year_label">Год окончания ВУЗа</string>
+    <string name="department_label">Кафедра</string>
+    <string name="work_label">Работа</string>
+    <string name="current_work_label">Текущее место работы</string>
+    <string name="graduation_year">%s г.</string>
+
 
 </resources>

@@ -8,4 +8,11 @@
         <item quantity="other">%s баллов</item>
     </plurals>
 
+    <plurals name="nameAge">
+        <item quantity="one">%1$s %2$s, %3$s год</item>
+        <item quantity="few">%1$s %2$s, %3$s года</item>
+        <item quantity="many">%1$s %2$s, %3$s лет</item>
+        <item quantity="other">%1$s %2$s, %3$s лет</item>
+    </plurals>
+
 </resources>

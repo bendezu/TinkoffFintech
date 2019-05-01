@@ -49,7 +49,25 @@
 
     <string name="no_lectures">YOU ARE FREE!</string>
     <string name="mark" translatable="false">%1$s/%2$s</string>
-    <string name="deadline">Deadline %1$s</string>
+    <string name="deadline">Deadline %s</string>
 
     <string name="you">%s (You)</string>
+
+    <string name="open_quote" translatable="false">❝</string>
+    <string name="close_quote" translatable="false">❞</string>
+    <string name="contact_info_label">Contact information</string>
+    <string name="mobile_phone_label">Phone number</string>
+    <string name="email_label">Email</string>
+    <string name="region_label">Region</string>
+    <string name="education_label">Education</string>
+    <string name="school_label">School</string>
+    <string name="school_graduation_year_label">School graduation year</string>
+    <string name="university_label">University</string>
+    <string name="faculty_label">Faculty</string>
+    <string name="university_graduation_year_label">University graduation year</string>
+    <string name="department_label">Department</string>
+    <string name="work_label">Work</string>
+    <string name="current_work_label">Current Work</string>
+    <string name="graduation_year">%s year</string>
+
 </resources>

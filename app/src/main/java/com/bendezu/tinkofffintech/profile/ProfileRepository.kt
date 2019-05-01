@@ -38,7 +38,7 @@ class ProfileRepository @Inject constructor(private val preferences: SharedPrefe
                 val response = apiService.getUser(cookie).execute()
                 if (response.isSuccessful) {
                     val body = response.body()
-                    if (body != null) {
+                    if (body != null && body.status == "Ok") {
                         uiHandler.post{ callback?.onResult(body.user, true) }
                         preferences.saveUser(body.user)
                     }
