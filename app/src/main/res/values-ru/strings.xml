@@ -73,4 +73,8 @@
     <string name="current_work_label">Текущее место работы</string>
     <string name="graduation_year">%s г.</string>
 
+    <string name="no_events">Событий нет</string>
+    <string name="active">Актуальное</string>
+    <string name="archived">Прошедшие</string>
+
 </resources>

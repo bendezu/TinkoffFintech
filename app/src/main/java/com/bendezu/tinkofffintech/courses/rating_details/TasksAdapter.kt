@@ -60,7 +60,7 @@ class TasksAdapter @Inject constructor(): RecyclerView.Adapter<TasksAdapter.Task
                 titleTextView.text = task.title
                 statusTextView.setText(statusRes)
                 statusTextView.setTextColor(color)
-                markTextView.text = context.getString(R.string.mark, task.mark, task.maxScore)
+                markTextView.text = context.getString(R.string.progress_numbers, task.mark, task.maxScore)
                 DrawableCompat.setTint(markTextView.background, color)
                 if (task.deadlineDate != null) {
                     val date = formatDate(task.deadlineDate)

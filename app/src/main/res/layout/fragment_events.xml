@@ -41,6 +41,17 @@
                     android:layout_margin="8dp"
                     app:cardCornerRadius="8dp">
 
+                    <TextView
+                        android:id="@+id/emptyActiveList"
+                        style="@style/textLabel.Caps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="64dp"
+                        android:layout_marginBottom="32dp"
+                        android:layout_gravity="center"
+                        android:text="@string/no_events"
+                        android:visibility="gone" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -52,16 +63,16 @@
                             android:layout_height="48dp"
                             android:layout_marginStart="@dimen/marginMedium"
                             android:gravity="center_vertical"
-                            android:text="Актуальное" />
+                            android:text="@string/active" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/activeEventsRecycler"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
+                            android:clipToPadding="false"
                             android:paddingStart="16dp"
                             android:paddingEnd="16dp"
-                            android:clipToPadding="false"
                             tools:layoutManager="LinearLayoutManager"
                             tools:listitem="@layout/item_event_card"
                             tools:orientation="horizontal" />
@@ -76,7 +87,17 @@
                     android:layout_height="48dp"
                     android:layout_marginStart="@dimen/marginMedium"
                     android:gravity="center_vertical"
-                    android:text="Прошедшие" />
+                    android:text="@string/archived" />
+
+                <TextView
+                    android:id="@+id/emptyArchivedList"
+                    style="@style/textLabel.Caps"
+                    android:layout_marginTop="32dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/no_events"
+                    android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/archivedEventsRecycler"
