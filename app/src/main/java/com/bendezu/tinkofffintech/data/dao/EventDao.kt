@@ -7,11 +7,8 @@ import io.reactivex.Single
 @Dao
 interface EventDao {
 
-    @Query("SELECT * FROM event WHERE is_active = 1")
-    fun getAllActiveRx(): Single<List<EventEntity>>
-
-    @Query("SELECT * FROM event WHERE is_active = 0")
-    fun getAllArchivedRx(): Single<List<EventEntity>>
+    @Query("SELECT * FROM event")
+    fun getAllRx(): Single<List<EventEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(events: List<EventEntity>)

@@ -13,7 +13,7 @@ interface BackButtonListener {
     fun onBackPressed()
 }
 
-class MainActivity : AppCompatActivity(), ProfileFragment.InjectorProvider {
+class MainActivity : AppCompatActivity(), ProfileFragment.InjectorProvider, EventsFragment.InjectorProvider {
 
     private val component = Injector.mainActivityComponent()
 
@@ -55,5 +55,9 @@ class MainActivity : AppCompatActivity(), ProfileFragment.InjectorProvider {
 
     override fun inject(profileFragment: ProfileFragment) {
         component.inject(profileFragment)
+    }
+
+    override fun inject(eventsFragment: EventsFragment) {
+        component.inject(eventsFragment)
     }
 }

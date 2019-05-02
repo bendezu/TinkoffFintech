@@ -1,30 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <View
         android:id="@+id/statusBarBackground"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/colorSecondAccent"/>
+        android:background="@color/colorSecondAccent" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        app:title="@string/events"
         android:layout_height="?attr/actionBarSize"
-        android:fitsSystemWindows="true"
         android:background="@color/colorSecondAccent"
+        android:fitsSystemWindows="true"
+        app:title="@string/events"
         app:titleTextColor="@color/colorTextWhite" />
 
-    <ImageView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_event"
-        android:tint="@color/colorPrimary"
-        android:layout_gravity="center"/>
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/textHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="@dimen/marginMedium"
+                            android:gravity="center_vertical"
+                            android:text="Актуальное" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/activeEventsRecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    style="@style/textHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="@dimen/marginMedium"
+                    android:gravity="center_vertical"
+                    android:text="Прошедшие" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/archivedEventsRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

@@ -1,14 +1,45 @@
 package com.bendezu.tinkofffintech.events
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bendezu.tinkofffintech.R
+import com.bendezu.tinkofffintech.auth.AuthorizationActivity
+import com.bendezu.tinkofffintech.data.entity.EventEntity
+import com.bendezu.tinkofffintech.swipeRefreshColors
+import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_events.*
+import javax.inject.Inject
 
-class EventsFragment: Fragment() {
+class EventsFragment: MvpFragment<EventsView, EventsPresenter>(), EventsView {
+
+    interface InjectorProvider {
+        fun inject(eventsFragment: EventsFragment)
+    }
+
+    companion object {
+        private const val STATE_LOADING = "loading"
+    }
+
+    @Inject lateinit var activeEventsAdapter: ActiveEventsAdapter
+    @Inject lateinit var preferences: SharedPreferences
+    @Inject lateinit var eventsPresenter: EventsPresenter
+    override fun createPresenter() = eventsPresenter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is InjectorProvider)
+            context.inject(this)
+        else
+            throw IllegalArgumentException("$context must implement InjectorProvider")
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_events, container, false)
@@ -22,5 +53,47 @@ class EventsFragment: Fragment() {
             statusBarBackground.layoutParams.height = insets.systemWindowInsetTop
             insets.consumeSystemWindowInsets()
         }
+
+        if (savedInstanceState != null) {
+            val wasLoading = savedInstanceState.getBoolean(STATE_LOADING)
+            swipeRefresh.isRefreshing = wasLoading
+        }
+
+        activeEventsRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        activeEventsRecycler.adapter = activeEventsAdapter
+        archivedEventsRecycler.layoutManager = LinearLayoutManager(context)
+
+        swipeRefresh.apply {
+            setColorSchemeResources(*swipeRefreshColors)
+            setOnRefreshListener{ presenter.loadData() }
+        }
+        presenter.loadData()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(STATE_LOADING, swipeRefresh.isRefreshing)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun setLoading(loading: Boolean) {
+        swipeRefresh.isRefreshing = loading
+    }
+
+    override fun showActiveEvents(events: List<EventEntity>) {
+        activeEventsAdapter.data = events
+    }
+
+    override fun showArchivedEvents(events: List<EventEntity>) {
+
+    }
+
+    override fun showNetworkError() {
+        Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun openAuthorizationActivity() {
+        preferences.edit().clear().apply()
+        startActivity(Intent(context, AuthorizationActivity::class.java))
+        activity?.finish()
     }
 }

@@ -78,7 +78,7 @@ class StudentsRepository @Inject constructor(private val studentDao: StudentDao,
     }
 
     fun dispose() {
-        disposables.dispose()
+        disposables.clear()
     }
 
     private fun GradesResponse.toEntity(): List<StudentEntity> {
