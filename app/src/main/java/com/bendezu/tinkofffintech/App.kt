@@ -1,6 +1,8 @@
 package com.bendezu.tinkofffintech
 
 import android.app.Application
+import android.content.Context
+import androidx.core.content.ContextCompat
 import com.bendezu.tinkofffintech.di.Injector
 import com.jakewharton.threetenabp.AndroidThreeTen
 
@@ -8,6 +10,13 @@ fun String.getAvatarColor() = avatarColors[Math.abs(this.hashCode()) % avatarCol
 
 fun String.getInitials() =
     this.split(" ", limit = 2).map{ it.firstOrNull() ?: "" }.joinToString("").toUpperCase()
+
+fun String?.parseColor(context: Context) = when (this) {
+    "purple" -> ContextCompat.getColor(context, R.color.purple)
+    "orange" -> ContextCompat.getColor(context, R.color.orange)
+    "green" -> ContextCompat.getColor(context, R.color.green)
+    else -> ContextCompat.getColor(context, R.color.blue)
+}
 
 class App: Application() {
 

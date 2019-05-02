@@ -21,6 +21,11 @@
     <color name="colorPassed">#6CD6A2</color>
     <color name="colorFailed">#FF5722</color>
 
+    <color name="purple">#b1a5ee</color>
+    <color name="orange">#f79696</color>
+    <color name="green">#6cd6a2</color>
+    <color name="blue">#72c2ff</color>
+
     <color name="colorWhiteTranslucent">#33FFFFFF</color>
 
 </resources>

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
+import com.bendezu.tinkofffintech.courses.performance_details.ListItemDecoration
 import com.bendezu.tinkofffintech.data.entity.EventEntity
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
@@ -60,11 +61,16 @@ class EventsFragment: MvpFragment<EventsView, EventsPresenter>(), EventsView {
             swipeRefresh.isRefreshing = wasLoading
         }
 
-        activeEventsRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        activeEventsRecycler.adapter = activeEventsAdapter
-        archivedEventsRecycler.layoutManager = LinearLayoutManager(context)
-        archivedEventsRecycler.adapter = archivedEventsAdapter
-
+        activeEventsRecycler.apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            adapter = activeEventsAdapter
+        }
+        archivedEventsRecycler.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = archivedEventsAdapter
+            isNestedScrollingEnabled = false
+            addItemDecoration(ListItemDecoration(requireContext()))
+        }
         swipeRefresh.apply {
             setColorSchemeResources(*swipeRefreshColors)
             setOnRefreshListener{ presenter.loadData() }
