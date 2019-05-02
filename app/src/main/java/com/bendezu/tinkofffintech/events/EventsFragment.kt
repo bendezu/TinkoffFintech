@@ -29,6 +29,7 @@ class EventsFragment: MvpFragment<EventsView, EventsPresenter>(), EventsView {
     }
 
     @Inject lateinit var activeEventsAdapter: ActiveEventsAdapter
+    @Inject lateinit var archivedEventsAdapter: ArchivedEventsAdapter
     @Inject lateinit var preferences: SharedPreferences
     @Inject lateinit var eventsPresenter: EventsPresenter
     override fun createPresenter() = eventsPresenter
@@ -62,6 +63,7 @@ class EventsFragment: MvpFragment<EventsView, EventsPresenter>(), EventsView {
         activeEventsRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         activeEventsRecycler.adapter = activeEventsAdapter
         archivedEventsRecycler.layoutManager = LinearLayoutManager(context)
+        archivedEventsRecycler.adapter = archivedEventsAdapter
 
         swipeRefresh.apply {
             setColorSchemeResources(*swipeRefreshColors)
@@ -84,7 +86,7 @@ class EventsFragment: MvpFragment<EventsView, EventsPresenter>(), EventsView {
     }
 
     override fun showArchivedEvents(events: List<EventEntity>) {
-
+        archivedEventsAdapter.data = events
     }
 
     override fun showNetworkError() {

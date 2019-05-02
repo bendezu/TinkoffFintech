@@ -50,6 +50,8 @@
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:fontFamily="sans-serif-medium"
+        android:maxLines="3"
+        android:ellipsize="end"
         android:textColor="#333333"
         tools:text="Осенние стажировки" />
 
