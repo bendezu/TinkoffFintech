@@ -3,6 +3,7 @@ package com.bendezu.tinkofffintech.view
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
@@ -29,6 +30,16 @@ class AccountBadgeView @JvmOverloads constructor(context: Context,
         set(@DrawableRes value) {
             field = value
             avatarImageView.setImageResource(value)
+        }
+    var avatarBackground: Drawable
+        get() = avatarImageView.drawable
+        set(value) {
+            avatarImageView.setImageDrawable(value)
+        }
+    var initials: String
+        get() = avatarImageView.initials
+        set(value) {
+            avatarImageView.initials = value
         }
     var highlighted: Boolean = false
         set(value) {

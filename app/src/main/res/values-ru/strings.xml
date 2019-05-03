@@ -57,7 +57,7 @@
     <string name="no_lectures">ТЫ СВОБОДЕН!</string>
     <string name="deadline">Сдать до %s</string>
 
-    <string name="you">%s (Вы)</string>
+    <string name="you_with_name">%s (Вы)</string>
     <string name="contact_info_label">Контактная информация</string>
     <string name="mobile_phone_label">Мобильный телефон</string>
     <string name="email_label">Электроная почта</string>
@@ -76,5 +76,8 @@
     <string name="no_events">Событий нет</string>
     <string name="active">Актуальное</string>
     <string name="archived">Прошедшие</string>
+
+    <string name="no_students">Нет студентов</string>
+    <string name="you">Вы</string>
 
 </resources>

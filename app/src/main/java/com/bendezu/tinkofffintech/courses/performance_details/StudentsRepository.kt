@@ -59,7 +59,7 @@ class StudentsRepository @Inject constructor(private val studentDao: StudentDao,
                 val filtered = mutableListOf<StudentEntity>()
                 for (student in students) {
                     if (student.totalMark < 20) continue
-                    if (student.id == user.id) student.name = context.getString(R.string.you, student.name)
+                    if (student.id == user.id) student.name = context.getString(R.string.you_with_name, student.name)
                     filtered.add(student)
                 }
                 return@map filtered

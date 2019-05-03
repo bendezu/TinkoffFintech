@@ -5,7 +5,7 @@ class RatingStats (
     val maxTotalPoints: Double,
     val totalLectures: Int,
 
-    val myPosition: Int,
+    val userPosition: Int,
     val totalStudents: Int,
 
     val acceptedTests: Int,

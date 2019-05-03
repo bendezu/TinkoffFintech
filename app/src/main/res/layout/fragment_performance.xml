@@ -35,37 +35,28 @@
 
         </FrameLayout>
 
-        <LinearLayout
-            android:id="@+id/accountsLayout"
+        <TextView
+            android:id="@+id/emptyList"
+            style="@style/textLabel.Caps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="@dimen/marginMedium"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="64dp"
             android:layout_marginBottom="32dp"
-            android:orientation="horizontal">
+            android:layout_gravity="center"
+            android:text="@string/no_students"
+            android:visibility="gone" />
 
-            <com.bendezu.tinkofffintech.view.AccountBadgeView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/marginMedium"
+            android:paddingEnd="@dimen/marginMedium"
+            android:clipToPadding="false"
+            android:layout_marginTop="@dimen/marginMedium"
+            android:layout_marginBottom="32dp">
 
-            <com.bendezu.tinkofffintech.view.AccountBadgeView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.bendezu.tinkofffintech.view.AccountBadgeView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.bendezu.tinkofffintech.view.AccountBadgeView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.bendezu.tinkofffintech.view.AccountBadgeView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

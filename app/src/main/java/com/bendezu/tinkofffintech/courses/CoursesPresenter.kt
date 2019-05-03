@@ -55,8 +55,13 @@ class CoursesPresenter @Inject constructor(private val repository: CoursesReposi
     }
 
     private fun setTopStudents(students: List<StudentEntity>) {
-        val top = students.sortedByDescending { it.totalMark }.take(TOP_STUDENTS)
-        ifViewAttached { it.setTopStudents(top) }
+        val userId = sharedPreferences.getUser().id
+        val badges = students
+            .sortedByDescending { it.totalMark }
+            .take(TOP_STUDENTS)
+            .map { StudentBadge(it.id, it.name, it.totalMark, it.id == userId) }
+
+        ifViewAttached { it.setTopStudents(badges) }
     }
 
     private fun setRatingStats(tasks: List<TaskEntity>, lectures: List<LectureEntity>, students: List<StudentEntity>) {
@@ -67,7 +72,7 @@ class CoursesPresenter @Inject constructor(private val repository: CoursesReposi
         val maxTotalPoints = tasks.sumByDouble { it.maxScore.toDouble() }
         val totalLectures = lectures.size
 
-        val myPosition = sortedStudents.indexOfFirst { it.id == userId }
+        val userPosition = sortedStudents.indexOfFirst { it.id == userId }
         val totalStudents = students.size
 
         val tests = tasks.filter { it.taskType == "test_during_lecture" }
@@ -78,11 +83,10 @@ class CoursesPresenter @Inject constructor(private val repository: CoursesReposi
         val totalHomeworks = homeworks.size
         val acceptedHomeworks = homeworks.filter { it.status == TaskStatus.ACCEPTED }.size
 
-        ifViewAttached { it.setRatingStats(
-            RatingStats(
+        ifViewAttached { it.setRatingStats(RatingStats(
             totalPoints, maxTotalPoints,
             totalLectures,
-            myPosition, totalStudents,
+            userPosition, totalStudents,
             acceptedTests, totalTests,
             acceptedHomeworks, totalHomeworks)
         ) }

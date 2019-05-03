@@ -121,6 +121,9 @@
         <item name="android:textColor">@color/colorTextDark</item>
         <item name="android:textSize">14sp</item>
     </style>
+    <style name="textRegular.Small">
+        <item name="android:textSize">12sp</item>
+    </style>
     <style name="textRegular.Body">
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">2</item>

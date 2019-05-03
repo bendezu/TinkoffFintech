@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
-import com.bendezu.tinkofffintech.data.entity.StudentEntity
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_courses.*
@@ -85,9 +84,13 @@ class CoursesFragment: MvpFragment<CoursesView, CoursesPresenter>(), CoursesView
         toolbar.title = title
     }
 
-    override fun setTopStudents(students: List<StudentEntity>) {}
+    override fun setTopStudents(students: List<StudentBadge>) {
+        performanceFragment.setTopStudents(students)
+    }
 
-    override fun setRatingStats(stats: RatingStats) {}
+    override fun setRatingStats(stats: RatingStats) {
+        //ratingFragment.setRatingStats(stats)
+    }
 
     override fun showNetworkError() {
         Toast.makeText(requireContext(), getString(R.string.network_error), Toast.LENGTH_SHORT).show()
