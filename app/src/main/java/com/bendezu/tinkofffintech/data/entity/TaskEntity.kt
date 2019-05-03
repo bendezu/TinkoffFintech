@@ -26,3 +26,8 @@ object TaskStatus {
     const val ON_CHECK = "on_check"
     const val ACCEPTED = "accepted"
 }
+
+object TaskType {
+    const val TEST = "test_during_lecture"
+    const val HOMEWORK = "full"
+}

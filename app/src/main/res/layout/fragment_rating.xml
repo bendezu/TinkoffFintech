@@ -41,30 +41,38 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp">
 
+            <com.bendezu.tinkofffintech.view.CircularProgressBar
+                android:id="@+id/circularProgressBar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:thickness="8dp"
+                tools:progress="30"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/points"
                 style="@style/textValue.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                tools:text="182"
                 app:layout_constraintBottom_toTopOf="@+id/pointsLabel"
-                app:layout_constraintEnd_toStartOf="@+id/hwsCompletedLabel"
-                app:layout_constraintHorizontal_bias="0.3"
-                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-                app:layout_constraintTop_toTopOf="@+id/totalRatingLabel"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintEnd_toEndOf="@+id/circularProgressBar"
+                app:layout_constraintStart_toStartOf="@+id/circularProgressBar"
+                app:layout_constraintTop_toTopOf="@+id/circularProgressBar"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="182" />
 
             <TextView
                 android:id="@+id/pointsLabel"
                 style="@style/textLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="@string/points"
-                app:layout_constraintBottom_toBottomOf="@+id/hwsCompletedLabel"
+                app:layout_constraintBottom_toBottomOf="@+id/circularProgressBar"
                 app:layout_constraintEnd_toEndOf="@+id/points"
                 app:layout_constraintStart_toStartOf="@+id/points"
-                app:layout_constraintTop_toBottomOf="@+id/points" />
+                app:layout_constraintTop_toBottomOf="@+id/points"
+                tools:text="@string/points" />
 
             <TextView
                 android:id="@+id/totalRatingLabel"
@@ -139,9 +147,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                tools:text="20 занятий"
                 app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-                app:layout_constraintTop_toBottomOf="@+id/hwsCompletedLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/circularProgressBar"
+                tools:text="20 занятий" />
 
             <ProgressBar
                 android:id="@+id/progressBar"

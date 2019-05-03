@@ -39,6 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
+                    android:animateLayoutChanges="true"
                     app:cardCornerRadius="8dp">
 
                     <TextView
@@ -46,9 +47,9 @@
                         style="@style/textLabel.Caps"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginTop="64dp"
                         android:layout_marginBottom="32dp"
-                        android:layout_gravity="center"
                         android:text="@string/no_events"
                         android:visibility="gone" />
 
@@ -92,10 +93,10 @@
                 <TextView
                     android:id="@+id/emptyArchivedList"
                     style="@style/textLabel.Caps"
-                    android:layout_marginTop="32dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="32dp"
                     android:text="@string/no_events"
                     android:visibility="gone" />
 

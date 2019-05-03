@@ -1,10 +1,7 @@
 package com.bendezu.tinkofffintech.courses
 
 import android.content.SharedPreferences
-import com.bendezu.tinkofffintech.data.entity.LectureEntity
-import com.bendezu.tinkofffintech.data.entity.StudentEntity
-import com.bendezu.tinkofffintech.data.entity.TaskEntity
-import com.bendezu.tinkofffintech.data.entity.TaskStatus
+import com.bendezu.tinkofffintech.data.entity.*
 import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.getUser
 import com.bendezu.tinkofffintech.network.models.Course
@@ -29,7 +26,7 @@ class CoursesPresenter @Inject constructor(private val repository: CoursesReposi
         var shouldStopLoading = false
         disposables += repository.getData()
             .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(AndroidSchedulers.mainThread(), true)
             .subscribe({ data ->
                 ifViewAttached {
                     onResult(data, shouldStopLoading)
@@ -75,11 +72,11 @@ class CoursesPresenter @Inject constructor(private val repository: CoursesReposi
         val userPosition = sortedStudents.indexOfFirst { it.id == userId } + 1
         val totalStudents = students.size
 
-        val tests = tasks.filter { it.taskType == "test_during_lecture" }
+        val tests = tasks.filter { it.taskType == TaskType.TEST }
         val totalTests = tests.size
         val acceptedTests = tests.filter { it.status == TaskStatus.ACCEPTED }.size
 
-        val homeworks = tasks.filter { it.taskType == "full" }
+        val homeworks = tasks.filter { it.taskType == TaskType.HOMEWORK }
         val totalHomeworks = homeworks.size
         val acceptedHomeworks = homeworks.filter { it.status == TaskStatus.ACCEPTED }.size
 

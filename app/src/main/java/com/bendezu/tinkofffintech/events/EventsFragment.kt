@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionManager
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
 import com.bendezu.tinkofffintech.courses.performance_details.ListItemDecoration
@@ -89,8 +88,6 @@ class EventsFragment: MvpFragment<EventsView, EventsPresenter>(), EventsView {
     }
 
     override fun showActiveEvents(events: List<EventEntity>) {
-        if (activeEventsAdapter.itemCount == 0)
-            TransitionManager.beginDelayedTransition(activeEventsRecycler)
         activeEventsAdapter.data = events
         emptyActiveList.visibility = if (activeEventsAdapter.itemCount == 0) View.VISIBLE else View.GONE
     }

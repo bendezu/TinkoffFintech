@@ -3,11 +3,14 @@ package com.bendezu.tinkofffintech.auth
 import android.content.SharedPreferences
 import android.util.Patterns
 import com.bendezu.tinkofffintech.*
+import com.bendezu.tinkofffintech.data.FintechDatabase
 import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.models.User
 import com.bendezu.tinkofffintech.network.models.UserCredential
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
+import io.reactivex.Completable
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,7 +21,8 @@ import javax.inject.Inject
 
 @ActivityScope
 class AuthPresenter @Inject constructor(private val preferences: SharedPreferences,
-                                        private val apiService: FintechApiService) :
+                                        private val apiService: FintechApiService,
+                                        private val db: FintechDatabase) :
     MvpBasePresenter<AuthView>(), Callback<User> {
 
     fun verifyCookie() {
@@ -30,11 +34,13 @@ class AuthPresenter @Inject constructor(private val preferences: SharedPreferenc
                 val now = Date(System.currentTimeMillis())
                 if (now < expiresDate) {
                     ifViewAttached { it.openMainActivity() }
+                    return
                 }
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
         }
+        Completable.fromAction { db.clearAllTables() }.subscribeOn(Schedulers.io()).subscribe()
     }
 
     fun logIn(email: String, password: String) {

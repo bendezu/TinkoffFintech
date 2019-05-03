@@ -1,5 +1,6 @@
 package com.bendezu.tinkofffintech.courses
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.courses.rating_details.RatingDetailsActivity
 import kotlinx.android.synthetic.main.fragment_rating.*
 import kotlin.math.floor
+import kotlin.math.roundToInt
 
 class RatingFragment: Fragment() {
 
@@ -25,6 +27,9 @@ class RatingFragment: Fragment() {
 
     fun setRatingStats(stats: RatingStats) {
         points.text = stats.totalPoints.toString()
+        circularProgressBar.max = stats.maxTotalPoints.roundToInt()
+        ObjectAnimator.ofInt(circularProgressBar, "progress",
+            circularProgressBar.progress, stats.totalPoints.roundToInt()).start()
         pointsLabel.text = requireContext().resources.getQuantityString(
             R.plurals.points, floor(stats.totalPoints).toInt()
         )

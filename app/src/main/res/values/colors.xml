@@ -16,6 +16,7 @@
     <color name="colorSelectedTab">#FFFFFF</color>
     <color name="colorPrimaryLight">#B2B5BC</color>
     <color name="colorSecondAccent">#458BF6</color>
+    <color name="colorSecondAccentLight">#72c2ff</color>
     <color name="colorSecondAccentDark">#376FC4</color>
 
     <color name="colorPassed">#6CD6A2</color>

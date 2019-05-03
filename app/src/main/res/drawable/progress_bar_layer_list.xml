@@ -14,9 +14,10 @@
             <shape
                 android:shape="rectangle">
                 <corners android:radius="4dp"/>
-                <solid
-                    android:color="@color/colorSecondAccent"
-                    />
+                <gradient
+                    android:type="linear"
+                    android:startColor="@color/colorSecondAccent"
+                    android:endColor="@color/colorSecondAccentLight" />
             </shape>
         </scale>
     </item>

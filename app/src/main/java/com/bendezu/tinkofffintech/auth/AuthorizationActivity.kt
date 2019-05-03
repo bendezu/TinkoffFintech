@@ -2,6 +2,7 @@ package com.bendezu.tinkofffintech.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -73,6 +74,7 @@ class AuthorizationActivity : MvpActivity<AuthView, AuthPresenter>(), AuthView {
     }
 
     override fun setLoading(loading: Boolean) {
+        TransitionManager.beginDelayedTransition(root)
         progressBar?.visibility = if (loading) View.VISIBLE else View.INVISIBLE
         logInButton?.isEnabled = !loading
     }

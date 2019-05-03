@@ -16,4 +16,8 @@
         <attr name="initials" format="string"/>
         <attr name="initialsColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="CircularProgressBar">
+        <attr name="thickness" format="dimension"/>
+    </declare-styleable>
 </resources>
