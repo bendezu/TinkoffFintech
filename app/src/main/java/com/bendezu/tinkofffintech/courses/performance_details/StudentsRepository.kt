@@ -9,7 +9,7 @@ import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
-import com.bendezu.tinkofffintech.network.models.GradesResponse
+import com.bendezu.tinkofffintech.network.models.toEntity
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -80,14 +80,4 @@ class StudentsRepository @Inject constructor(private val studentDao: StudentDao,
     fun dispose() {
         disposables.clear()
     }
-
-    private fun GradesResponse.toEntity(): List<StudentEntity> {
-        val students = mutableListOf<StudentEntity>()
-        for (student in this.grades) {
-            val total = student.grades.last().mark.toFloat()
-            students.add(StudentEntity(student.id, student.name, total))
-        }
-        return students
-    }
-
 }

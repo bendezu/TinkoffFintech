@@ -3,10 +3,7 @@ package com.bendezu.tinkofffintech.network
 import com.bendezu.tinkofffintech.network.models.*
 import io.reactivex.Single
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface FintechApiService {
 
@@ -23,15 +20,21 @@ interface FintechApiService {
     @GET("api/user")
     fun getUserRx(@Header("Cookie") cookie: String) : Single<UserResponse>
 
-    @GET("api/course/android_spring_2019/homeworks")
-    fun getHomeworks(@Header("Cookie") cookie: String): Call<HomeworksResponse>
+    @GET("api/course/{course}/homeworks")
+    fun getHomeworks(@Header("Cookie") cookie: String,
+                     @Path("course") course: String = "android_spring_2019"): Call<HomeworksResponse>
 
-    @GET("api/course/android_spring_2019/grades")
-    fun getGrades(@Header("Cookie") cookie: String): Call<List<GradesResponse>>
+    @GET("api/course/{course}/homeworks")
+    fun getHomeworksRx(@Header("Cookie") cookie: String,
+                       @Path("course") course: String = "android_spring_2019"): Single<HomeworksResponse>
 
-    @GET("api/course/android_spring_2019/grades")
-    fun getGradesRx(@Header("Cookie") cookie: String): Single<List<GradesResponse>>
+    @GET("api/course/{course}/grades")
+    fun getGradesRx(@Header("Cookie") cookie: String,
+                    @Path("course") course: String = "android_spring_2019"): Single<List<GradesResponse>>
 
     @GET("api/calendar/list/event")
     fun getEventsRx(): Single<EventsResponse>
+
+    @GET("api/connections")
+    fun getConnectionsRx(@Header("Cookie") cookie: String): Single<ConnectionsResponse>
 }

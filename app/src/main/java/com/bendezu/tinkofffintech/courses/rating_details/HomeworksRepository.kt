@@ -6,13 +6,12 @@ import android.os.Looper
 import com.bendezu.tinkofffintech.data.dao.LectureDao
 import com.bendezu.tinkofffintech.data.dao.TaskDao
 import com.bendezu.tinkofffintech.data.entity.LectureEntity
-import com.bendezu.tinkofffintech.data.entity.TaskEntity
 import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.getCookie
 import com.bendezu.tinkofffintech.network.FintechApiService
 import com.bendezu.tinkofffintech.network.NetworkException
 import com.bendezu.tinkofffintech.network.UnauthorizedException
-import com.bendezu.tinkofffintech.network.models.HomeworksResponse
+import com.bendezu.tinkofffintech.network.models.toEntities
 import java.io.IOException
 import javax.inject.Inject
 import kotlin.concurrent.thread
@@ -59,30 +58,4 @@ class HomeworksRepository @Inject constructor(private val lectureDao: LectureDao
             }
         }
     }
-
-    private fun HomeworksResponse.toEntities(): Pair<List<LectureEntity>, List<TaskEntity>> {
-        val homeworks = this.homeworks
-        val lectures = mutableListOf<LectureEntity>()
-        val tasks = mutableListOf<TaskEntity>()
-        for (homework in homeworks) {
-            lectures.add(LectureEntity(homework.id, homework.title))
-            for (task in homework.tasks) {
-                val taskData = task.taskData
-                tasks.add(
-                    TaskEntity(
-                        taskData.id,
-                        taskData.title,
-                        taskData.taskType,
-                        taskData.maxScore,
-                        taskData.deadlineDate,
-                        task.status,
-                        task.mark,
-                        homework.id
-                    )
-                )
-            }
-        }
-        return lectures to tasks
-    }
-
 }

@@ -1,5 +1,7 @@
 package com.bendezu.tinkofffintech.network.models
 
+import com.bendezu.tinkofffintech.data.entity.LectureEntity
+import com.bendezu.tinkofffintech.data.entity.TaskEntity
 import com.google.gson.annotations.SerializedName
 
 class HomeworksResponse (
@@ -26,3 +28,28 @@ class TaskData (
     @SerializedName("max_score") val maxScore: String,
     @SerializedName("deadline_date") val deadlineDate: String?
 )
+
+fun HomeworksResponse.toEntities(): Pair<List<LectureEntity>, List<TaskEntity>> {
+    val homeworks = this.homeworks
+    val lectures = mutableListOf<LectureEntity>()
+    val tasks = mutableListOf<TaskEntity>()
+    for (homework in homeworks) {
+        lectures.add(LectureEntity(homework.id, homework.title))
+        for (task in homework.tasks) {
+            val taskData = task.taskData
+            tasks.add(
+                TaskEntity(
+                    taskData.id,
+                    taskData.title,
+                    taskData.taskType,
+                    taskData.maxScore,
+                    taskData.deadlineDate,
+                    task.status,
+                    task.mark,
+                    homework.id
+                )
+            )
+        }
+    }
+    return lectures to tasks
+}

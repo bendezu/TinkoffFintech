@@ -11,7 +11,6 @@ import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.courses.performance_details.PerformanceDetailActivity
 import com.bendezu.tinkofffintech.view.AccountBadgeView
 import kotlinx.android.synthetic.main.fragment_performance.*
-import java.lang.ref.WeakReference
 import java.util.*
 
 class PerformanceFragment: Fragment() {
@@ -47,15 +46,5 @@ class PerformanceFragment: Fragment() {
             child.highlighted = data.highlighted
             child.bagdeVisibility = if (data.points == 0) View.GONE else View.VISIBLE
         }
-    }
-
-    fun regenerateAccounts() {
-        RandomizeAccountThread(WeakReference(this)).start()
-    }
-
-    fun updateAccounts() {
-        (parentFragment as AccountsListener).onAccountsUpdated()
-        if (view != null)
-            setupAccounts()
     }
 }

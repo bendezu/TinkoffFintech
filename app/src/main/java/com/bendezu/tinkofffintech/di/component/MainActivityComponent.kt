@@ -1,6 +1,7 @@
 package com.bendezu.tinkofffintech.di.component
 
 import com.bendezu.tinkofffintech.MainActivity
+import com.bendezu.tinkofffintech.courses.CoursesFragment
 import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.events.EventsFragment
 import com.bendezu.tinkofffintech.profile.ProfileFragment
@@ -15,4 +16,6 @@ interface  MainActivityComponent {
     fun inject(profileFragment: ProfileFragment)
 
     fun inject(eventsFragment: EventsFragment)
+
+    fun inject(coursesFragment: CoursesFragment)
 }

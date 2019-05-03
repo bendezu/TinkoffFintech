@@ -3,6 +3,7 @@ package com.bendezu.tinkofffintech
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.core.content.edit
+import com.bendezu.tinkofffintech.network.models.Course
 import com.bendezu.tinkofffintech.network.models.User
 
 private const val TAG = "Preferences"
@@ -24,6 +25,9 @@ private const val PREF_FACULTY = "faculty"
 private const val PREF_UNIVERSITY_GRADUATION = "university_graduation"
 private const val PREF_DEPARTMENT = "department"
 private const val PREF_CURRENT_WORK = "current_work"
+
+private const val PREF_COURSE_TITLE = "course_name"
+private const val PREF_COURSE_URL = "course_url"
 
 private const val PREF_COOKIE = "cookie"
 private const val PREF_EXPIRES = "expires"
@@ -50,6 +54,7 @@ fun SharedPreferences.saveUser(user: User) {
         putString(PREF_CURRENT_WORK, user.currentWork)
     }
 }
+
 fun SharedPreferences.getUser() = User(
     id = getLong(PREF_ID, 0),
     email = getString(PREF_EMAIL, "").orEmpty(),
@@ -70,6 +75,18 @@ fun SharedPreferences.getUser() = User(
     currentWork = getString(PREF_CURRENT_WORK, null)
 )
 
+fun SharedPreferences.saveCourse(course: Course) {
+    edit {
+        putString(PREF_COURSE_TITLE, course.title)
+        putString(PREF_COURSE_URL, course.url)
+    }
+}
+
+fun SharedPreferences.getCourse() = Course(
+    title = getString(PREF_COURSE_TITLE, "").orEmpty(),
+    url = getString(PREF_COURSE_URL, "").orEmpty()
+)
+
 fun SharedPreferences.saveCookie(cookie: String, expires: String) {
     Log.d(TAG, "Cookie: $cookie")
     Log.d(TAG, "Expires: $expires")
@@ -78,10 +95,12 @@ fun SharedPreferences.saveCookie(cookie: String, expires: String) {
         putString(PREF_EXPIRES, expires)
     }
 }
+
 fun SharedPreferences.getCookie() = this.getString(PREF_COOKIE, null).orEmpty()
 fun SharedPreferences.getExpires() = this.getString(PREF_EXPIRES, null).orEmpty()
 
 fun SharedPreferences.saveRecentStudentUpdate(millis: Long) {
     this.edit().putLong(PREF_RECENT_STUDENTS_UPDATE, millis).apply()
 }
+
 fun SharedPreferences.getRecentStudentUpdate() = this.getLong(PREF_RECENT_STUDENTS_UPDATE, 0)

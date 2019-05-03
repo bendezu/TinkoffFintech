@@ -46,23 +46,14 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    style="@style/textHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/marginMedium"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="@dimen/marginMedium"
-                    android:text="@string/completed_courses" />
-
-                <View
+                    android:id="@+id/courseDetails"
+                    style="@style/textDetails"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorDivider" />
-
-                <FrameLayout
-                    android:id="@+id/completed_courses_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:background="@drawable/ripple_details"
+                    android:text="@string/details" />
 
             </LinearLayout>
 
