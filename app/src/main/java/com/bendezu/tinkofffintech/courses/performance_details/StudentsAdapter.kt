@@ -60,7 +60,7 @@ class StudentsAdapter @Inject constructor() : RecyclerView.Adapter<StudentsAdapt
             itemView.avatar.initials = student.name.getInitials()
             itemView.name.text = student.name
             itemView.points.text = itemView.context.resources.getQuantityString(
-                R.plurals.points, floor(points).toInt(), points
+                R.plurals.points_and_value, floor(points).toInt(), points
             )
         }
     }

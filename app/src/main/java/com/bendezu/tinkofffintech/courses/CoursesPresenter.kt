@@ -72,7 +72,7 @@ class CoursesPresenter @Inject constructor(private val repository: CoursesReposi
         val maxTotalPoints = tasks.sumByDouble { it.maxScore.toDouble() }
         val totalLectures = lectures.size
 
-        val userPosition = sortedStudents.indexOfFirst { it.id == userId }
+        val userPosition = sortedStudents.indexOfFirst { it.id == userId } + 1
         val totalStudents = students.size
 
         val tests = tasks.filter { it.taskType == "test_during_lecture" }

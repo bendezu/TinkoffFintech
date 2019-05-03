@@ -89,7 +89,7 @@ class CoursesFragment: MvpFragment<CoursesView, CoursesPresenter>(), CoursesView
     }
 
     override fun setRatingStats(stats: RatingStats) {
-        //ratingFragment.setRatingStats(stats)
+        ratingFragment.setRatingStats(stats)
     }
 
     override fun showNetworkError() {

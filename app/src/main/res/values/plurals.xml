@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <plurals name="points">
+    <plurals name="points_and_value">
         <item quantity="one">%s point</item>
         <item quantity="other">%s points</item>
+    </plurals>
+
+    <plurals name="points">
+        <item quantity="one">point</item>
+        <item quantity="other">points</item>
+    </plurals>
+
+    <plurals name="lessons_and_value">
+        <item quantity="one">%s lesson</item>
+        <item quantity="other">%s lessons</item>
     </plurals>
 
     <plurals name="nameAge">

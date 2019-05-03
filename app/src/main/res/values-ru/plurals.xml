@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <plurals name="points">
+    <plurals name="points_and_value">
         <item quantity="one">%s балл</item>
         <item quantity="few">%s балла</item>
         <item quantity="many">%s баллов</item>
         <item quantity="other">%s баллов</item>
+    </plurals>
+
+    <plurals name="points">
+        <item quantity="one">балл</item>
+        <item quantity="few">балла</item>
+        <item quantity="many">баллов</item>
+        <item quantity="other">баллов</item>
+    </plurals>
+
+    <plurals name="lessons_and_value">
+        <item quantity="one">%s занятие</item>
+        <item quantity="few">%s занятия</item>
+        <item quantity="many">%s занятий</item>
+        <item quantity="other">%s занятий</item>
     </plurals>
 
     <plurals name="nameAge">
