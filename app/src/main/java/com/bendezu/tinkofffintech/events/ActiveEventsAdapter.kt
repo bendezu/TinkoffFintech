@@ -1,5 +1,8 @@
 package com.bendezu.tinkofffintech.events
 
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +20,7 @@ import org.threeten.bp.ZoneId
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import kotlin.random.Random
 
 
 @ActivityScope
@@ -49,15 +53,27 @@ class ActiveEventsAdapter @Inject constructor(): RecyclerView.Adapter<ActiveEven
         }
 
         fun bind(event: EventEntity) {
+            itemView.card.background = generateBackground()
             itemView.titleTextView.text = event.title
-            if (event.typeName != null && event.typeColor != null) {
-                itemView.typeNameTextView.text = event.typeName
-                val color = event.typeColor.parseColor(itemView.context)
-                DrawableCompat.setTint(itemView.typeNameTextView.background, color)
-            } else {
-                itemView.typeNameTextView.visibility = View.GONE
-            }
+            val name = event.typeName ?: itemView.context.getString(R.string.event)
+            val color = event.typeColor.parseColor(itemView.context)
+            itemView.typeNameTextView.text = name
+            DrawableCompat.setTint(itemView.typeNameTextView.background, color)
             itemView.dateTextView.text = formatPeriod(event.startDate, event.endDate)
+        }
+
+        private fun generateBackground(): Drawable {
+            val orientations = GradientDrawable.Orientation.values()
+            val orientation = orientations[Random.nextInt(0, orientations.size)]
+            val startHue = Random.nextInt(360).toFloat()
+            val endHue = (startHue + 40 + Random.nextInt(30)) % 360
+            val saturation = 0.6f
+            val brightness = 0.8f
+            val startColor = Color.HSVToColor(floatArrayOf(startHue, saturation, brightness))
+            val endColor = Color.HSVToColor(floatArrayOf(endHue, saturation, brightness))
+            val drawable = GradientDrawable(orientation, intArrayOf(startColor, endColor))
+            drawable.cornerRadius = itemView.context.resources.getDimension(R.dimen.event_card_corner_radius)
+            return drawable
         }
 
         private fun formatPeriod(startDateStr: String, endDateStr: String): String {

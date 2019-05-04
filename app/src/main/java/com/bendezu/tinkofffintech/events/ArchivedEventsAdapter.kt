@@ -1,6 +1,5 @@
 package com.bendezu.tinkofffintech.events
 
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.data.entity.EventEntity
 import com.bendezu.tinkofffintech.di.ActivityScope
-import com.bendezu.tinkofffintech.parseColor
+import com.bendezu.tinkofffintech.getColoredEventIcon
 import kotlinx.android.synthetic.main.item_event_list.view.*
 import javax.inject.Inject
 
@@ -44,8 +43,8 @@ class ArchivedEventsAdapter @Inject constructor(): RecyclerView.Adapter<Archived
 
         fun bind(event: EventEntity) {
             itemView.titleTextView.text = event.title
-            val color = event.typeColor.parseColor(itemView.context)
-            itemView.typeImageView.setImageDrawable(ColorDrawable(color))
+            val icon = event.typeColor.getColoredEventIcon(itemView.context)
+            itemView.typeImageView.setImageDrawable(icon)
             if (event.typeName != null && event.typeColor != null) {
                 itemView.typeNameTextView.text = event.typeName
             } else {

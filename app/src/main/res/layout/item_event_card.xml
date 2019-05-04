@@ -4,15 +4,12 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="4dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="4dp"
+        <FrameLayout
+            android:id="@+id/card"
             android:layout_width="120dp"
-            android:layout_height="160dp"
-            app:cardBackgroundColor="@color/colorSecondAccent"
-            android:scaleType="centerCrop">
+            android:layout_height="160dp">
 
             <TextView
                 android:id="@+id/typeNameTextView"
@@ -29,10 +26,10 @@
                 android:textColor="#ffffff"
                 android:textAllCaps="true"
                 tools:text="Спецкурс"
-                android:background="@drawable/passed_background"
+                android:background="@drawable/background_status"
                 />
 
-        </androidx.cardview.widget.CardView>
+        </FrameLayout>
 
     <TextView
         android:id="@+id/dateTextView"

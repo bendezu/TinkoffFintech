@@ -80,5 +80,6 @@
     <string name="no_students">Нет студентов</string>
     <string name="you">Вы</string>
     <string name="lectures">Лекции</string>
+    <string name="event">Мероприятие</string>
 
 </resources>

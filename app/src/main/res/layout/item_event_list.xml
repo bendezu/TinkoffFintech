@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.bendezu.tinkofffintech.view.CircleImageView
+    <ImageView
         android:id="@+id/typeImageView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/list_icon_size"
+        android:layout_height="@dimen/list_icon_size"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_event_blue"/>
 
     <TextView
         android:id="@+id/typeNameTextView"

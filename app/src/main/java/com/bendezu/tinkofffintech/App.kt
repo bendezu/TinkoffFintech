@@ -18,6 +18,13 @@ fun String?.parseColor(context: Context) = when (this) {
     else -> ContextCompat.getColor(context, R.color.blue)
 }
 
+fun String?.getColoredEventIcon(context: Context) = when (this) {
+    "purple" -> context.getDrawable(R.drawable.ic_event_purple)
+    "orange" -> context.getDrawable(R.drawable.ic_event_orange)
+    "green" -> context.getDrawable(R.drawable.ic_event_green)
+    else -> context.getDrawable(R.drawable.ic_event_blue)
+}
+
 class App: Application() {
 
     override fun onCreate() {
