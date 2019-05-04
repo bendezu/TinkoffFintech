@@ -33,6 +33,9 @@ class RatingFragment: Fragment() {
         pointsLabel.text = requireContext().resources.getQuantityString(
             R.plurals.points, floor(stats.totalPoints).toInt()
         )
+
+        val medal = getMedalByPlace(stats.userPosition)
+        totalRatingLabel.text = requireContext().getString(R.string.total_rating, medal)
         totalRating.text = requireContext().getString(R.string.progress_numbers,
             stats.userPosition.toString(), stats.totalStudents.toString())
         testsCompleted.text = requireContext().getString(R.string.progress_numbers,
@@ -42,5 +45,12 @@ class RatingFragment: Fragment() {
         totalLessons.text = requireContext().resources.getQuantityString(
             R.plurals.lessons_and_value, stats.totalLectures, stats.totalLectures
         )
+    }
+
+    private fun getMedalByPlace(place: Int) = when (place) {
+        1 -> "🥇"
+        2 -> "🥈"
+        3 -> "🥉"
+        else -> "🏆"
     }
 }

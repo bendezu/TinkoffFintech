@@ -79,7 +79,6 @@
                 style="@style/textLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_stars"
                 android:drawablePadding="4dp"
                 android:text="@string/total_rating"
                 app:layout_constraintBaseline_toBaselineOf="@+id/totalRating"

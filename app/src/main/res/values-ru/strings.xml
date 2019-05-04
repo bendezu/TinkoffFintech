@@ -25,7 +25,7 @@
     <string name="details">Детали</string>
     <string name="rating">Рейтинг</string>
     <string name="points">балла</string>
-    <string name="total_rating">Общий рейтинг</string>
+    <string name="total_rating">Общий рейтинг %s</string>
     <string name="tests_passed">Пройдено тестов</string>
     <string name="homeworks_completed">Выполнено домашек</string>
     <string name="completed_courses">Пройденные курсы</string>

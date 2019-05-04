@@ -21,7 +21,7 @@
     <string name="details">Details</string>
     <string name="rating">Rating</string>
     <string name="points">points</string>
-    <string name="total_rating">Total rating</string>
+    <string name="total_rating">Total rating %s</string>
     <string name="tests_passed">Tests passed</string>
     <string name="homeworks_completed">Homeworks completed</string>
     <string name="passed_lessons">Passed</string>
