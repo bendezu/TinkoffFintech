@@ -43,14 +43,16 @@ class StudentsRepository @Inject constructor(private val studentDao: StudentDao,
         val prevUpdate = sharedPreferences.getRecentStudentUpdate()
         var isDataValid = System.currentTimeMillis() - prevUpdate < VALID_DURATION_MILLIS
         var studentsSource = studentDao.getAllRx().toFlowable()
-        val networkResponse = apiService.getGradesRx(cookie).flatMap { response ->
-            val grades = response[1]
-            val students = grades.toEntity()
-            val sortedStudents = students.sortedBy { it.id }
-            sharedPreferences.saveRecentStudentUpdate(System.currentTimeMillis())
-            studentDao.updateData(students)
-            return@flatMap Single.fromCallable { sortedStudents }
-        }
+        val networkResponse = apiService.getConnectionsRx(cookie)
+            .flatMap { apiService.getGradesRx(cookie, it.courses[0].url)}
+            .flatMap { response ->
+                val grades = response[1]
+                val students = grades.toEntity()
+                val sortedStudents = students.sortedBy { it.id }
+                sharedPreferences.saveRecentStudentUpdate(System.currentTimeMillis())
+                studentDao.updateData(students)
+                return@flatMap Single.fromCallable { sortedStudents }
+            }
         if (!isDataValid) studentsSource = studentsSource.concatWith(networkResponse)
 
         disposables += Flowables.combineLatest(Flowable.fromCallable { sharedPreferences.getUser() }, studentsSource)

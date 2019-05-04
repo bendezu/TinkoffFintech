@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.core.content.edit
 import com.bendezu.tinkofffintech.network.models.Course
+import com.bendezu.tinkofffintech.network.models.CourseDetails
 import com.bendezu.tinkofffintech.network.models.User
 
 private const val TAG = "Preferences"
@@ -27,7 +28,10 @@ private const val PREF_DEPARTMENT = "department"
 private const val PREF_CURRENT_WORK = "current_work"
 
 private const val PREF_COURSE_TITLE = "course_name"
-private const val PREF_COURSE_URL = "course_url"
+const val PREF_COURSE_URL = "course_url"
+
+private const val PREF_ABOUT_TITLE = "about_title"
+private const val PREF_ABOUT_HTML = "about_html"
 
 private const val PREF_COOKIE = "cookie"
 private const val PREF_EXPIRES = "expires"
@@ -85,6 +89,18 @@ fun SharedPreferences.saveCourse(course: Course) {
 fun SharedPreferences.getCourse() = Course(
     title = getString(PREF_COURSE_TITLE, "").orEmpty(),
     url = getString(PREF_COURSE_URL, "").orEmpty()
+)
+
+fun SharedPreferences.saveCourseDetails(course: CourseDetails) {
+    edit {
+        putString(PREF_ABOUT_TITLE, course.title)
+        putString(PREF_ABOUT_HTML, course.html)
+    }
+}
+
+fun SharedPreferences.getCourseDetails() = CourseDetails(
+    title = getString(PREF_ABOUT_TITLE, "").orEmpty(),
+    html = getString(PREF_ABOUT_HTML, "").orEmpty()
 )
 
 fun SharedPreferences.saveCookie(cookie: String, expires: String) {

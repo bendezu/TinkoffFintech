@@ -38,7 +38,7 @@ class HomeworksRepository @Inject constructor(private val lectureDao: LectureDao
 
             val cookie = sharedPreferences.getCookie()
             try {
-                val response = apiService.getHomeworks(cookie).execute()
+                val response = apiService.getHomeworks(cookie, "android_spring_2019").execute()
                 if (response.isSuccessful) {
                     val homeworks = response.body()
                     if (homeworks != null) {

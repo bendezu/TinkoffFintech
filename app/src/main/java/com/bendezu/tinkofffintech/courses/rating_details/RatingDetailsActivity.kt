@@ -17,6 +17,11 @@ class RatingDetailsActivity: AppCompatActivity(), LecturesFragment.InjectorProvi
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        toolbar.setOnApplyWindowInsetsListener { _, insets ->
+            statusBarBackground.layoutParams.height = insets.systemWindowInsetTop
+            insets.consumeSystemWindowInsets()
+        }
+
         if (savedInstanceState == null)
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, LecturesFragment())

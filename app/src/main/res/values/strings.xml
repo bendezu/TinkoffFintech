@@ -77,7 +77,8 @@
     <string name="active">Active</string>
     <string name="archived">Archived</string>
 
-    <string name="no_students">Нет студентов</string>
+    <string name="no_students">No students</string>
     <string name="you">you</string>
+    <string name="lectures">Lectures</string>
 
 </resources>

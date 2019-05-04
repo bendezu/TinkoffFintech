@@ -21,4 +21,6 @@ object Injector {
     fun performanceDetailComponent() = DaggerPerformanceDetailComponent.builder().appComponent(appComponent).build()
 
     fun ratingDetailsComponent() = DaggerRatingDetailsComponent.builder().appComponent(appComponent).build()
+
+    fun courseDetailComponent() = DaggerCourseDetailComponent.builder().appComponent(appComponent).build()
 }

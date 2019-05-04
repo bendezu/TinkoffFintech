@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
+import com.bendezu.tinkofffintech.courses.course_details.CourseDetailActivity
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.hannesdorfmann.mosby3.mvp.MvpFragment
 import kotlinx.android.synthetic.main.fragment_courses.*
@@ -62,7 +63,9 @@ class CoursesFragment: MvpFragment<CoursesView, CoursesPresenter>(), CoursesView
             setLoading(wasLoading)
         }
 
-        courseDetails.setOnClickListener {  }
+        courseDetails.setOnClickListener {
+            startActivity(Intent(context, CourseDetailActivity::class.java))
+        }
 
         swipeRefresh.setColorSchemeResources(*swipeRefreshColors)
         swipeRefresh.setOnRefreshListener {

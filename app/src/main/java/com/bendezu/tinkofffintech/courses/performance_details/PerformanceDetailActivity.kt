@@ -24,6 +24,11 @@ class PerformanceDetailActivity : AppCompatActivity(), StudentsFragment.Injector
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        toolbar.setOnApplyWindowInsetsListener { _, insets ->
+            statusBarBackground.layoutParams.height = insets.systemWindowInsetTop
+            insets.consumeSystemWindowInsets()
+        }
+
         searchView.apply {
             layoutParams = Toolbar.LayoutParams(Gravity.END)
             setOnSearchClickListener {

@@ -18,15 +18,14 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
     <style name="AppTheme.Activity">
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
     <style name="AppTheme.Activity.AuthTheme">
+        <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowBackground">@color/colorSecondAccent</item>
         <item name="android:statusBarColor">@color/colorSecondAccent</item>
         <item name="android:navigationBarColor">@color/colorSecondAccent</item>
-    </style>
-    <style name="AppTheme.Activity.Main">
-        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
 

@@ -22,19 +22,23 @@ interface FintechApiService {
 
     @GET("api/course/{course}/homeworks")
     fun getHomeworks(@Header("Cookie") cookie: String,
-                     @Path("course") course: String = "android_spring_2019"): Call<HomeworksResponse>
+                     @Path("course") course: String): Call<HomeworksResponse>
 
     @GET("api/course/{course}/homeworks")
     fun getHomeworksRx(@Header("Cookie") cookie: String,
-                       @Path("course") course: String = "android_spring_2019"): Single<HomeworksResponse>
+                       @Path("course") course: String): Single<HomeworksResponse>
 
     @GET("api/course/{course}/grades")
     fun getGradesRx(@Header("Cookie") cookie: String,
-                    @Path("course") course: String = "android_spring_2019"): Single<List<GradesResponse>>
+                    @Path("course") course: String): Single<List<GradesResponse>>
 
     @GET("api/calendar/list/event")
     fun getEventsRx(): Single<EventsResponse>
 
     @GET("api/connections")
     fun getConnectionsRx(@Header("Cookie") cookie: String): Single<ConnectionsResponse>
+
+    @GET("https://fintech.tinkoff.ru/api/course/{course}/about")
+    fun getCourseDetailsRx(@Header("Cookie") cookie: String,
+                           @Path("course") course: String): Single<CourseDetails>
 }

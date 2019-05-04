@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme.Activity.Main"/>
+            android:theme="@style/AppTheme.Activity"/>
 
         <activity android:name=".auth.AuthorizationActivity"
             android:theme="@style/AppTheme.SplashTheme">
@@ -27,7 +27,11 @@
 
         <activity android:name=".courses.performance_details.PerformanceDetailActivity"
             android:theme="@style/AppTheme.Activity"/>
+
         <activity android:name=".courses.rating_details.RatingDetailsActivity"
+            android:theme="@style/AppTheme.Activity"/>
+
+        <activity android:name=".courses.course_details.CourseDetailActivity"
             android:theme="@style/AppTheme.Activity"/>
 
     </application>
