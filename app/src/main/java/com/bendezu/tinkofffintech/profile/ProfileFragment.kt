@@ -79,14 +79,14 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
     }
 
     override fun showUserProfile(user: User) {
-        if (user.avatar == null) {
-            //placeholder
-        } else {
+        if (user.avatar != null) {
             val avatarUrl = BASE_URL_CONCAT + user.avatar.trimStart('/')
             Glide.with(this).load(avatarUrl).into(avatarImageView)
         }
         nameTextView.text = "${user.firstname} ${user.lastname} ${user.middlename}"
         profileEmailTextView.text = user.email
+
+        if (user.isClient) tinkoffImageView.visibility = View.VISIBLE
 
         if (user.description == null) {
             descriptionBlock.visibility = View.GONE

@@ -11,6 +11,7 @@ private const val TAG = "Preferences"
 
 private const val PREF_ID = "id"
 private const val PREF_EMAIL = "email"
+private const val PREF_IS_CLIENT = "is_client"
 private const val PREF_FIRST_NAME = "first_name"
 private const val PREF_SECOND_NAME = "second_name"
 private const val PREF_PATRONYMIC = "patronymic"
@@ -41,6 +42,7 @@ fun SharedPreferences.saveUser(user: User) {
     edit {
         putLong(PREF_ID, user.id)
         putString(PREF_EMAIL, user.email)
+        putBoolean(PREF_IS_CLIENT, user.isClient)
         putString(PREF_FIRST_NAME, user.firstname)
         putString(PREF_SECOND_NAME, user.lastname)
         putString(PREF_PATRONYMIC, user.middlename)
@@ -62,6 +64,7 @@ fun SharedPreferences.saveUser(user: User) {
 fun SharedPreferences.getUser() = User(
     id = getLong(PREF_ID, 0),
     email = getString(PREF_EMAIL, "").orEmpty(),
+    isClient = getBoolean(PREF_IS_CLIENT, false),
     firstname = getString(PREF_FIRST_NAME, "").orEmpty(),
     lastname = getString(PREF_SECOND_NAME, "").orEmpty(),
     middlename = getString(PREF_PATRONYMIC, "").orEmpty(),
