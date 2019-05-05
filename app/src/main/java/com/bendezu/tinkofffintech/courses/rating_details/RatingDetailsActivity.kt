@@ -6,7 +6,11 @@ import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.di.Injector
 import kotlinx.android.synthetic.main.activity_rating_detail.*
 
-class RatingDetailsActivity: AppCompatActivity(), LecturesFragment.InjectorProvider, TasksFragment.InjectorProvider {
+class RatingDetailsActivity: AppCompatActivity(), LecturesFragment.Listener, TasksFragment.InjectorProvider {
+
+    companion object {
+        private const val STATE_TITLE = "title"
+    }
 
     private val component = Injector.ratingDetailsComponent()
 
@@ -26,15 +30,22 @@ class RatingDetailsActivity: AppCompatActivity(), LecturesFragment.InjectorProvi
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, LecturesFragment())
                 .commit()
+        else
+            toolbar.title = savedInstanceState.getString(STATE_TITLE)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putString(STATE_TITLE, toolbar.title.toString())
+        super.onSaveInstanceState(outState)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        if (supportFragmentManager.backStackEntryCount > 1) {
-            supportFragmentManager.popBackStack()
-        } else {
-            onBackPressed()
-        }
+        onBackPressed()
         return true
+    }
+
+    override fun setToolbarTitle(title: String) {
+        toolbar.title = title
     }
 
     override fun inject(lecturesFragment: LecturesFragment) {

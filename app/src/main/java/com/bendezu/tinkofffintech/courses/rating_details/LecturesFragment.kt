@@ -21,8 +21,9 @@ import javax.inject.Inject
 
 class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), LecturesView {
 
-    interface InjectorProvider {
+    interface Listener {
         fun inject(lecturesFragment: LecturesFragment)
+        fun setToolbarTitle(title: String)
     }
 
     companion object {
@@ -36,9 +37,9 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is InjectorProvider)
+        if (context is Listener) {
             context.inject(this)
-        else
+        } else
             throw IllegalStateException("$context must implement InjectorProvider")
     }
 
@@ -48,12 +49,14 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         if (savedInstanceState != null) {
             val wasLoading = savedInstanceState.getBoolean(STATE_LOADING)
             setLoading(wasLoading)
         }
 
         lecturesAdapter.listener = {
+            (activity as Listener).setToolbarTitle(it.title)
             fragmentManager?.apply {
                 beginTransaction()
                     .replace(R.id.container, TasksFragment.newInstance(it.id))
@@ -75,8 +78,14 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
         presenter.loadData()
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as Listener).setToolbarTitle(requireContext().getString(R.string.lectures))
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(STATE_LOADING, swipeRefresh.isRefreshing)
+        if (isAdded)
+            outState.putBoolean(STATE_LOADING, swipeRefresh.isRefreshing)
         super.onSaveInstanceState(outState)
     }
 
