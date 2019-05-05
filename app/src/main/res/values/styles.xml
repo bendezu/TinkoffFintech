@@ -7,6 +7,7 @@
 
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
         <item name="android:listDivider">@drawable/divider</item>
 
         <item name="colorControlNormal">@color/colorTextWhite</item>
@@ -28,6 +29,14 @@
         <item name="android:navigationBarColor">@color/colorSecondAccent</item>
     </style>
 
+    <style name="BottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+    <style name="BottomSheetStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_bottom_sheet</item>
+    </style>
 
     <style name="authorizationInputText">
         <item name="android:textColorHint">@color/colorTextWhite</item>

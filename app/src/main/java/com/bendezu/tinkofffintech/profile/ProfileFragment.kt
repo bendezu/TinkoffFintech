@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.bendezu.tinkofffintech.R
 import com.bendezu.tinkofffintech.auth.AuthorizationActivity
+import com.bendezu.tinkofffintech.network.FintechApiService.Companion.BASE_URL_CONCAT
 import com.bendezu.tinkofffintech.network.models.User
 import com.bendezu.tinkofffintech.swipeRefreshColors
 import com.bumptech.glide.Glide
@@ -25,7 +26,6 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
 
     companion object {
         private const val STATE_LOADING = "loading"
-        private const val AVATAR_URL_BASE = "https://fintech.tinkoff.ru"
     }
 
     @Inject lateinit var preferences: SharedPreferences
@@ -82,7 +82,7 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
         if (user.avatar == null) {
             //placeholder
         } else {
-            val avatarUrl = AVATAR_URL_BASE + user.avatar
+            val avatarUrl = BASE_URL_CONCAT + user.avatar
             Glide.with(this).load(avatarUrl).into(avatarImageView)
         }
         nameTextView.text = "${user.firstname} ${user.lastname} ${user.middlename}"

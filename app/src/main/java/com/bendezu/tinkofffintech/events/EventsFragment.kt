@@ -61,6 +61,9 @@ class EventsFragment: MvpFragment<EventsView, EventsPresenter>(), EventsView {
             swipeRefresh.isRefreshing = wasLoading
         }
 
+        activeEventsAdapter.listener = this@EventsFragment::onEventClicked
+        archivedEventsAdapter.listener = this@EventsFragment::onEventClicked
+
         activeEventsRecycler.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             adapter = activeEventsAdapter
@@ -76,6 +79,11 @@ class EventsFragment: MvpFragment<EventsView, EventsPresenter>(), EventsView {
             setOnRefreshListener{ presenter.loadData() }
         }
         presenter.loadData()
+    }
+
+    private fun onEventClicked(event: EventEntity) {
+        val bottomSheet = EventDetailFragment.newInstance(event)
+        bottomSheet.show(fragmentManager, bottomSheet.tag)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

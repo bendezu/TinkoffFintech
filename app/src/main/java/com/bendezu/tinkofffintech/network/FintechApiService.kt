@@ -8,7 +8,8 @@ import retrofit2.http.*
 interface FintechApiService {
 
     companion object {
-        const val BASE_URL = "https://fintech.tinkoff.ru/"
+        const val BASE_URL_CONCAT = "https://fintech.tinkoff.ru"
+        const val BASE_URL = "$BASE_URL_CONCAT/"
     }
 
     @POST("api/signin")
