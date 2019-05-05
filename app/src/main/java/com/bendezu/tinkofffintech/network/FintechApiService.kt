@@ -8,8 +8,8 @@ import retrofit2.http.*
 interface FintechApiService {
 
     companion object {
-        const val BASE_URL_CONCAT = "https://fintech.tinkoff.ru"
-        const val BASE_URL = "$BASE_URL_CONCAT/"
+        const val BASE_URL_CONCAT = "https://fintech.tinkoff.ru/"
+        const val BASE_URL = "https://fintech.tinkoff.ru/"//"http://tfs.devindi.com/"
     }
 
     @POST("api/signin")
@@ -39,7 +39,7 @@ interface FintechApiService {
     @GET("api/connections")
     fun getConnectionsRx(@Header("Cookie") cookie: String): Single<ConnectionsResponse>
 
-    @GET("https://fintech.tinkoff.ru/api/course/{course}/about")
+    @GET("api/course/{course}/about")
     fun getCourseDetailsRx(@Header("Cookie") cookie: String,
                            @Path("course") course: String): Single<CourseDetails>
 }

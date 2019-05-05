@@ -57,7 +57,7 @@ class EventDetailFragment : BottomSheetDialogFragment() {
         descriptionTextView.text = event.description
         linkTextView.text = event.urlText
         linkTextView.setOnClickListener {
-            val url = if (event.isUrlExternal) event.url else BASE_URL_CONCAT + event.url
+            val url = if (event.isUrlExternal) event.url else BASE_URL_CONCAT + event.url.trimStart('/')
             openUrl(url)
         }
     }

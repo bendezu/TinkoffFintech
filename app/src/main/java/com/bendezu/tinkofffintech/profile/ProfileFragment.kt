@@ -82,7 +82,7 @@ class ProfileFragment: MvpFragment<ProfileView, ProfilePresenter>(), ProfileView
         if (user.avatar == null) {
             //placeholder
         } else {
-            val avatarUrl = BASE_URL_CONCAT + user.avatar
+            val avatarUrl = BASE_URL_CONCAT + user.avatar.trimStart('/')
             Glide.with(this).load(avatarUrl).into(avatarImageView)
         }
         nameTextView.text = "${user.firstname} ${user.lastname} ${user.middlename}"

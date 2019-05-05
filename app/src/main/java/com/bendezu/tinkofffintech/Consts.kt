@@ -5,6 +5,7 @@ import android.graphics.Color
 const val SHARED_PREFERENCES_NAME = "prefs"
 
 const val EXPIRES_DATE_FORMAT = "EEE, dd-MMM-yyyy HH:mm:ss zzz"
+const val ANOTHER_EXPIRES_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz"
 const val GMT_TIME_ZONE = "GMT"
 
 const val COOKIE_HEADER = "Set-Cookie"

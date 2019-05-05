@@ -26,7 +26,8 @@ class RatingFragment: Fragment() {
     }
 
     fun setRatingStats(stats: RatingStats) {
-        points.text = stats.totalPoints.toString()
+        val total = if (stats.totalPoints == 0f) "-" else stats.totalPoints.toString()
+        points.text = total
         circularProgressBar.max = stats.maxTotalPoints.roundToInt()
         ObjectAnimator.ofInt(circularProgressBar, "progress",
             circularProgressBar.progress, stats.totalPoints.roundToInt()).start()
@@ -36,8 +37,11 @@ class RatingFragment: Fragment() {
 
         val medal = getMedalByPlace(stats.userPosition)
         totalRatingLabel.text = requireContext().getString(R.string.total_rating, medal)
+
+        val position = if (stats.userPosition == 0) "-" else stats.userPosition.toString()
         totalRating.text = requireContext().getString(R.string.progress_numbers,
-            stats.userPosition.toString(), stats.totalStudents.toString())
+            position, stats.totalStudents.toString())
+
         testsCompleted.text = requireContext().getString(R.string.progress_numbers,
             stats.acceptedTests.toString(), stats.totalTests.toString())
         hwsCompleted.text = requireContext().getString(R.string.progress_numbers,

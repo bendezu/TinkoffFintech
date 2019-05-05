@@ -68,8 +68,8 @@ class AuthPresenter @Inject constructor(private val preferences: SharedPreferenc
             val setCookie = response.headers().get(COOKIE_HEADER)
             if (setCookie != null) {
                 val set = setCookie.split("; ")
-                val cookie = set.find { it.startsWith(COOKIE_ANYGEN) }
-                val expires = set.find { it.startsWith(COOKIE_EXPIRES) }
+                val cookie = set.find { it.startsWith(COOKIE_ANYGEN, true) }
+                val expires = set.find { it.startsWith(COOKIE_EXPIRES, true) }
                 if (cookie != null && expires != null) {
                     preferences.saveCookie(cookie, expires.substringAfter('='))
                     ifViewAttached { it.openMainActivity() }
@@ -80,8 +80,17 @@ class AuthPresenter @Inject constructor(private val preferences: SharedPreferenc
         }
     }
 
-    private fun parseExpiresDateString(dateStr: String) =
-        SimpleDateFormat(EXPIRES_DATE_FORMAT, Locale.US)
-            .apply { timeZone = TimeZone.getTimeZone(GMT_TIME_ZONE) }
-            .parse(dateStr) ?: throw ParseException(dateStr, 1)
+    private fun parseExpiresDateString(dateStr: String): Date {
+        var date: Date?
+        try {
+           date =  SimpleDateFormat(EXPIRES_DATE_FORMAT, Locale.US)
+               .apply { timeZone = TimeZone.getTimeZone(GMT_TIME_ZONE) }
+               .parse(dateStr)
+        } catch (e: ParseException) {
+            date =  SimpleDateFormat(ANOTHER_EXPIRES_FORMAT, Locale.US)
+                .apply { timeZone = TimeZone.getTimeZone(GMT_TIME_ZONE) }
+                .parse(dateStr)
+        }
+        return date ?: throw ParseException(dateStr, 1)
+    }
 }
