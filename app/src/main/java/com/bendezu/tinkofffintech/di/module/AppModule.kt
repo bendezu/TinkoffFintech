@@ -3,7 +3,6 @@ package com.bendezu.tinkofffintech.di.module
 import android.content.Context
 import com.bendezu.tinkofffintech.SHARED_PREFERENCES_NAME
 import com.bendezu.tinkofffintech.data.FintechDatabase
-import com.bendezu.tinkofffintech.network.DelayInterceptor
 import com.bendezu.tinkofffintech.network.FintechApiService
 import dagger.Module
 import dagger.Provides
@@ -49,7 +48,6 @@ class AppModule(val context: Context) {
     @Provides
     @Singleton
     fun provideOkHttpClient() = OkHttpClient.Builder()
-        .addNetworkInterceptor(DelayInterceptor())
         .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
         .build()
 
