@@ -72,8 +72,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
                             android:clipToPadding="false"
-                            android:paddingStart="16dp"
-                            android:paddingEnd="16dp"
+                            android:paddingStart="@dimen/marginMedium"
+                            android:paddingEnd="@dimen/marginMedium"
                             tools:layoutManager="LinearLayoutManager"
                             tools:listitem="@layout/item_event_card"
                             tools:orientation="horizontal" />

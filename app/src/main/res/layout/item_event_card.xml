@@ -48,7 +48,7 @@
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:maxLines="3"
-        android:textColor="#333333"
+        android:textColor="@color/colorTextDark"
         android:textSize="14sp"
         tools:text="Осенние стажировки" />
 
