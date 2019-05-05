@@ -42,8 +42,19 @@ class RatingFragment: Fragment() {
             stats.acceptedTests.toString(), stats.totalTests.toString())
         hwsCompleted.text = requireContext().getString(R.string.progress_numbers,
             stats.acceptedHomeworks.toString(), stats.totalHomeworks.toString())
+
         totalLessons.text = requireContext().resources.getQuantityString(
             R.plurals.lessons_and_value, stats.totalLectures, stats.totalLectures
+        )
+        progressBar.max = stats.totalLectures
+        ObjectAnimator.ofInt(progressBar, "progress",
+            progressBar.progress, stats.passedLectures).start()
+        lessonsPassed.text = requireContext().resources.getQuantityString(
+            R.plurals.lessons_and_value, stats.passedLectures, stats.passedLectures
+        )
+        val left = stats.totalLectures - stats.passedLectures
+        lessonsLeft.text = requireContext().resources.getQuantityString(
+            R.plurals.lessons_and_value, left, left
         )
     }
 

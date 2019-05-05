@@ -10,6 +10,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -80,9 +83,16 @@ class CoursesPresenter @Inject constructor(private val repository: CoursesReposi
         val totalHomeworks = homeworks.size
         val acceptedHomeworks = homeworks.filter { it.status == TaskStatus.ACCEPTED }.size
 
+        val passedLectures = tasks
+            .filter { it.deadlineDate != null }
+            .map { it.lectureId to Instant.parse(it.deadlineDate).atZone(ZoneId.systemDefault()).toLocalDateTime() }
+            .filter { LocalDateTime.now().isAfter(it.second) }
+            .distinctBy { it.first }
+            .size
+
         ifViewAttached { it.setRatingStats(RatingStats(
             totalPoints, maxTotalPoints,
-            totalLectures,
+            passedLectures, totalLectures,
             userPosition, totalStudents,
             acceptedTests, totalTests,
             acceptedHomeworks, totalHomeworks)
