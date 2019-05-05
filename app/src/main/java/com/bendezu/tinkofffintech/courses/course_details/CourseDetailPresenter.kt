@@ -48,7 +48,6 @@ class CourseDetailPresenter @Inject constructor(private val repository: CourseDe
     }
 
     private fun onError(t: Throwable) {
-        t.printStackTrace()
         ifViewAttached {
             it.setLoading(false)
             when (t) {

@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import com.bendezu.tinkofffintech.data.entity.*
 import com.bendezu.tinkofffintech.di.ActivityScope
 import com.bendezu.tinkofffintech.getUser
-import com.bendezu.tinkofffintech.network.models.Course
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -26,32 +25,18 @@ class CoursesPresenter @Inject constructor(private val repository: CoursesReposi
     private val disposables = CompositeDisposable()
 
     fun loadData() {
-        var shouldStopLoading = false
         disposables += repository.getData()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread(), true)
-            .subscribe({ data ->
-                ifViewAttached {
-                    onResult(data, shouldStopLoading)
-                    shouldStopLoading = true
-                }
-            }, this::onError)
+            .subscribe(::onResult, ::onError) { ifViewAttached { it.setLoading(false) } }
     }
 
-    private fun onResult(data: CoursesData, shouldStopLoading: Boolean) {
-        setToolbar(data.course)
+    private fun onResult(data: CoursesData) {
+        ifViewAttached { it.setToolbarTitle(data.course.title) }
         setTopStudents(data.students)
         setRatingStats(data.tasks, data.lectures, data.students)
-        ifViewAttached {
-            if (shouldStopLoading)
-                it.setLoading(false)
-            else
-                if (data.course.title.isEmpty()) it.setLoading(true)
-        }
-    }
-
-    private fun setToolbar(course: Course) {
-        ifViewAttached { it.setToolbarTitle(course.title) }
+        if (data.course.title.isEmpty())
+            ifViewAttached { it.setLoading(true) }
     }
 
     private fun setTopStudents(students: List<StudentEntity>) {

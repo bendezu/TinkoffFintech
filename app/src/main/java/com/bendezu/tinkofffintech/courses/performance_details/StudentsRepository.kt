@@ -1,23 +1,19 @@
 package com.bendezu.tinkofffintech.courses.performance_details
 
-import android.content.Context
 import android.content.SharedPreferences
-import com.bendezu.tinkofffintech.*
 import com.bendezu.tinkofffintech.data.dao.StudentDao
 import com.bendezu.tinkofffintech.data.entity.StudentEntity
 import com.bendezu.tinkofffintech.di.ActivityScope
+import com.bendezu.tinkofffintech.getCookie
+import com.bendezu.tinkofffintech.getRecentStudentUpdate
+import com.bendezu.tinkofffintech.getUser
 import com.bendezu.tinkofffintech.network.FintechApiService
-import com.bendezu.tinkofffintech.network.NetworkException
-import com.bendezu.tinkofffintech.network.UnauthorizedException
+import com.bendezu.tinkofffintech.network.models.User
 import com.bendezu.tinkofffintech.network.models.toEntity
+import com.bendezu.tinkofffintech.saveRecentStudentUpdate
 import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.Flowables
-import io.reactivex.rxkotlin.plusAssign
-import io.reactivex.schedulers.Schedulers
-import retrofit2.HttpException
 import javax.inject.Inject
 
 private const val VALID_DURATION_MILLIS = 10_000
@@ -25,23 +21,13 @@ private const val VALID_DURATION_MILLIS = 10_000
 @ActivityScope
 class StudentsRepository @Inject constructor(private val studentDao: StudentDao,
                                              private val sharedPreferences: SharedPreferences,
-                                             private val apiService: FintechApiService,
-                                             private val context: Context) {
+                                             private val apiService: FintechApiService) {
 
-    var callback: StudentsCallback? = null
-
-    interface StudentsCallback {
-        fun onResult(students: List<StudentEntity>, shouldStopLoading: Boolean = false)
-        fun onError(t: Throwable)
-    }
-
-    private val disposables = CompositeDisposable()
-
-    fun getStudents() {
+    fun getStudents(): Flowable<Pair<User, List<StudentEntity>>> {
 
         val cookie = sharedPreferences.getCookie()
         val prevUpdate = sharedPreferences.getRecentStudentUpdate()
-        var isDataValid = System.currentTimeMillis() - prevUpdate < VALID_DURATION_MILLIS
+        val isDataValid = System.currentTimeMillis() - prevUpdate < VALID_DURATION_MILLIS
         var studentsSource = studentDao.getAllRx().toFlowable()
         val networkResponse = apiService.getConnectionsRx(cookie)
             .flatMap { apiService.getGradesRx(cookie, it.courses[0].url)}
@@ -55,31 +41,6 @@ class StudentsRepository @Inject constructor(private val studentDao: StudentDao,
             }
         if (!isDataValid) studentsSource = studentsSource.concatWith(networkResponse)
 
-        disposables += Flowables.combineLatest(Flowable.fromCallable { sharedPreferences.getUser() }, studentsSource)
-            .map { pair ->
-                val (user, students) = pair
-                val filtered = mutableListOf<StudentEntity>()
-                for (student in students) {
-                    if (student.totalMark < 20) continue
-                    if (student.id == user.id) student.name = context.getString(R.string.you_with_name, student.name)
-                    filtered.add(student)
-                }
-                return@map filtered
-            }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread(), true)
-            .subscribe({ students ->
-                callback?.onResult(students, isDataValid)
-                isDataValid = true
-            }, { t ->
-                when (t) {
-                    is HttpException -> if (t.code() == 403) callback?.onError(UnauthorizedException())
-                    else -> callback?.onError(NetworkException())
-                }
-            })
-    }
-
-    fun dispose() {
-        disposables.clear()
+        return Flowables.combineLatest(Flowable.fromCallable { sharedPreferences.getUser() }, studentsSource)
     }
 }

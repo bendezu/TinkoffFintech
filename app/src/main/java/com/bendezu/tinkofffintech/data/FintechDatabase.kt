@@ -22,6 +22,7 @@ abstract class FintechDatabase: RoomDatabase() {
     abstract fun eventDao(): EventDao
 
     companion object {
+        private const val DB_NAME = "fintech.db"
         private var INSTANCE: FintechDatabase? = null
 
         fun getInstance(context: Context): FintechDatabase {
@@ -36,7 +37,7 @@ abstract class FintechDatabase: RoomDatabase() {
 
         private fun buildDatabase(context: Context) : FintechDatabase =
             Room.databaseBuilder(context.applicationContext,
-                FintechDatabase::class.java, "fintech.db")
+                FintechDatabase::class.java, DB_NAME)
                 .fallbackToDestructiveMigration()
                 .build()
     }

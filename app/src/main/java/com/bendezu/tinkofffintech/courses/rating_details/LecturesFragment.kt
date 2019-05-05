@@ -99,7 +99,6 @@ class LecturesFragment: MvpFragment<LecturesView, LecturesPresenter>(), Lectures
     }
 
     override fun showNetworkError() {
-        setLoading(false)
         Toast.makeText(context, R.string.network_error, Toast.LENGTH_SHORT).show()
     }
 

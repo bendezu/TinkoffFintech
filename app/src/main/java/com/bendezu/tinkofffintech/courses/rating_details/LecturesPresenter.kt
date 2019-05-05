@@ -2,37 +2,46 @@ package com.bendezu.tinkofffintech.courses.rating_details
 
 import com.bendezu.tinkofffintech.data.entity.LectureEntity
 import com.bendezu.tinkofffintech.di.ActivityScope
-import com.bendezu.tinkofffintech.network.NetworkException
-import com.bendezu.tinkofffintech.network.UnauthorizedException
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
 import javax.inject.Inject
 
 @ActivityScope
 class LecturesPresenter @Inject constructor(private val repository: HomeworksRepository) :
-    MvpBasePresenter<LecturesView>(), HomeworksRepository.LecturesCallback {
+    MvpBasePresenter<LecturesView>() {
 
-    init {
-        repository.callback = this
-    }
+    private val disposables = CompositeDisposable()
 
     fun loadData() {
-        repository.getLectures()
+        disposables += repository.getLectures()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread(), true)
+            .subscribe(::onResult, ::onError) { ifViewAttached { it.setLoading(false) } }
     }
 
-    override fun onResult(lectures: List<LectureEntity>, shouldStopLoading: Boolean) {
+    private fun onResult(lectures: List<LectureEntity>) {
         ifViewAttached {
             it.showLectures(lectures)
-            if (shouldStopLoading)
-                it.setLoading(false)
-            else
-                if (lectures.isEmpty()) it.setLoading(true)
+            if (lectures.isEmpty()) it.setLoading(true)
         }
     }
 
-    override fun onError(t: Throwable) {
-        when(t) {
-            is NetworkException -> ifViewAttached { it.showNetworkError() }
-            is UnauthorizedException -> ifViewAttached { it.openAuthorizationActivity() }
+    private fun onError(t: Throwable) {
+        ifViewAttached {
+            it.setLoading(false)
+            when (t) {
+                is HttpException -> if (t.code() == 403) it.openAuthorizationActivity()
+                else -> it.showNetworkError()
+            }
         }
+    }
+
+    override fun destroy() {
+        disposables.clear()
+        super.destroy()
     }
 }

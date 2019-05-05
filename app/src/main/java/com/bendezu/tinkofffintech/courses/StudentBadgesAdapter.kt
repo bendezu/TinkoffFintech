@@ -42,7 +42,7 @@ class StudentBadgesAdapter : RecyclerView.Adapter<StudentBadgesAdapter.StudentBa
             view.initials = student.name.getInitials()
             view.avatarBackground = ColorDrawable(student.name.getAvatarColor())
             view.points = student.points.roundToInt().toString()
-            if (student.points == 0F) view.visibility = View.INVISIBLE
+            if (student.points == 0F) view.badgeVisibility = View.INVISIBLE
             view.highlighted = student.highlighted
 
             val name = student.name.split(" ").getOrNull(1) ?: student.name

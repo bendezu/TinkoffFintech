@@ -1,5 +1,6 @@
 package com.bendezu.tinkofffintech.network.models
 
+import com.bendezu.tinkofffintech.data.entity.EventEntity
 import com.google.gson.annotations.SerializedName
 
 class EventsResponse (
@@ -24,4 +25,9 @@ class Event (
 class EventType (
     @SerializedName("name") val name: String,
     @SerializedName("color") val color: String
+)
+
+fun Event.toEntity(isActive: Boolean) = EventEntity (
+    isActive, title, startDate, endDate, customDate, place,
+    url, isUrlExternal, shouldDisplayButton, urlText, description, eventType?.name, eventType?.color
 )

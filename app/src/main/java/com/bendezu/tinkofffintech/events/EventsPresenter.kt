@@ -2,45 +2,45 @@ package com.bendezu.tinkofffintech.events
 
 import com.bendezu.tinkofffintech.data.entity.EventEntity
 import com.bendezu.tinkofffintech.di.ActivityScope
-import com.bendezu.tinkofffintech.network.NetworkException
-import com.bendezu.tinkofffintech.network.UnauthorizedException
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
 import javax.inject.Inject
 
 @ActivityScope
-class EventsPresenter @Inject constructor(private val repository: EventsRepository) : MvpBasePresenter<EventsView>(),
-    EventsRepository.EventsCallback {
+class EventsPresenter @Inject constructor(private val repository: EventsRepository) : MvpBasePresenter<EventsView>() {
 
-    init {
-        repository.callback = this
-    }
+    private val disposables = CompositeDisposable()
 
     fun loadData() {
-        repository.getEvents()
+        disposables += repository.getEvents()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread(), true)
+            .subscribe(::onResult, ::onError) { ifViewAttached { it.setLoading(false) } }
     }
 
     override fun destroy() {
-        repository.dispose()
+        disposables.clear()
         super.destroy()
     }
 
-    override fun onResult(events: List<EventEntity>, shouldStopLoading: Boolean) {
+    private fun onResult(events: List<EventEntity>) {
         ifViewAttached { view ->
             view.showActiveEvents(events.filter { it.isActive })
             view.showArchivedEvents(events.filter { !it.isActive })
-            if (shouldStopLoading)
-                view.setLoading(false)
-            else
-                if (events.isEmpty()) view.setLoading(true)
+            if (events.isEmpty()) view.setLoading(true)
         }
     }
 
-    override fun onError(t: Throwable) {
+    private fun onError(t: Throwable) {
         ifViewAttached {
             it.setLoading(false)
             when (t) {
-                is NetworkException -> it.showNetworkError()
-                is UnauthorizedException -> it.openAuthorizationActivity()
+                is HttpException -> if (t.code() == 403) it.openAuthorizationActivity()
+                else -> it.showNetworkError()
             }
         }
     }
